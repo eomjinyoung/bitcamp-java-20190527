@@ -14,14 +14,20 @@ public class App {
     keyScan = new Scanner(keyboard);
     
     Lesson[] lessons = new Lesson[100];
+    int lessonsSize = 0;
     
-    int i = 0;
-    for ( ; i < lessons.length; i++) {
+    Member[] members = new Member[100];
+    int membersSize = 0;
+    
+    while (true) {
       
       System.out.print("명령> ");
       String command = keyScan.nextLine();
       
-      if (command.equals("/lesson/add")) {
+      if (command.equals("quit")) {
+        break;
+        
+      } else if (command.equals("/lesson/add")) {
         // 수업 데이터를 저장할 메모리를 Lesson 설계도에 따라 만든다.
         Lesson lesson = new Lesson();
         
@@ -35,19 +41,42 @@ public class App {
         lesson.dayHours = getIntValue("일수업시간? ");
         
         // 수업 데이터를 저장하고 있는 인스턴스의 주소를 레퍼런스 배열에 저장한다.
-        lessons[i] = lesson;
+        lessons[lessonsSize++] = lesson;
+        
+        System.out.println("저장하였습니다.");
         
       } else if (command.equals("/lesson/list")) {
-        for (int i2 = 0; i2 <= i; i2++) {
-          Lesson lesson = lessons[i2];
+        for (int i = 0; i < lessonsSize; i++) {
+          Lesson lesson = lessons[i];
           System.out.printf("%s, %s, %s ~ %s, %s\n", 
               lesson.no, lesson.title, 
               lesson.startDate, lesson.endDate, lesson.totalHours);
+        }
+      } else if (command.equals("/member/add")) {
+        Member member = new Member();
+        member.no = getIntValue("번호? ");
+        member.name = getStringValue("이름? ");
+        member.email = getStringValue("이메일? ");
+        member.password = getStringValue("암호? ");
+        member.photo = getStringValue("사진? ");
+        member.tel = getStringValue("전화? ");
+        member.registeredDate = new Date(System.currentTimeMillis()); 
+          
+        members[membersSize++] = member;
+      
+      } else if (command.equals("/member/list")) {
+        for (int i = 0; i < membersSize; i++) {
+          Member member = members[i];
+          System.out.printf("%s, %s, %s, %s, %s\n", 
+              member.no, member.name, member.email, 
+              member.tel, member.registeredDate);
         }
         
       } else {
         System.out.println("해당 명령을 지원하지 않습니다!");
       }
+      
+      System.out.println();
     }
   }
   
