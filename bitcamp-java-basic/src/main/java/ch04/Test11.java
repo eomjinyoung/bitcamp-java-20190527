@@ -22,9 +22,11 @@ public class Test11 {
     int b = 0x66; // 0000 0000 0000 0000 0000 0000 0110 0110
     System.out.println(a & b); // 0x42 = 66
                   // 0000 0000 0000 0000 0000 0000 0100 0010
+    //System.out.println(a && b); // 컴파일 오류!
     
     System.out.println(a | b); // 0xee = 238
                   // 0000 0000 0000 0000 0000 0000 1110 1110
+    //System.out.println(a || b); // 컴파일 오류!
   }
 }
 

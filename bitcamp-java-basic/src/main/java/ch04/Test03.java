@@ -35,6 +35,7 @@ public class Test03 {
     
     byte b1 = 20;
     byte b2 = 30;
+    byte bb = 20 + 30;
     //byte b3 = b1 + b2; // 암시적 형변환에 의해 b1, b2의 값은 int 타입의 임시 메모리에 저장.
                        // 그런 후 계산된다. int와 int의 계산 결과는 당연히 int 이다.
                        // 그래서 컴파일 오류인 것이다.
@@ -42,11 +43,16 @@ public class Test03 {
     
     short s1 = 20;
     short s2 = 30;
+    short s3 = -32768;
+    short s4 = 32767;
     //short s3 = s1 + s2; // 위와 같다. 계산하기 전에 int 임시 메모리에 값이 저장된다.
     int x2 = s1 + s2; // OK!
     
+    char cc = 'A'; //'문자' 의 의미? 해당 문자의 유니코드 값을 리턴하라!
     char c1 = 20;
     char c2 = 30;
+    char c3 = 0;
+    char c4 = 65535;
     //char c3 = c1 + c2; // 컴파일 오류!
     int x3 = c1 + c2; // OK!
     

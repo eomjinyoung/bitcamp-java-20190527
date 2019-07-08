@@ -7,11 +7,12 @@ public class Test04 {
     short s = 1; // switch 조건으로 OK!
     char c = 1; // switch 조건으로 OK!
     int i = 1; // switch 조건으로 OK!
+    String str = "ok"; // switch 조건으로 OK!
     long l = 1L; // switch 조건으로 사용할 수 없다.
     float f = 1.0f;// switch 조건으로 사용할 수 없다.
     double d = 1.0;// switch 조건으로 사용할 수 없다.
     
-    switch (b) {
+    switch (i) {
       case 1:
         System.out.println("11");
         System.out.println("1111");
