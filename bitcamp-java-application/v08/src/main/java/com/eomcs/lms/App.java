@@ -9,13 +9,12 @@ public class App {
   
   static Scanner keyScan;
   
-  static Lesson[] lessons = new Lesson[100];
-  static int lessonsSize = 0;
-  
   public static void main(String[] args) {
     java.io.InputStream keyboard = System.in;
     keyScan = new Scanner(keyboard);
     
+    Lesson[] lessons = new Lesson[100];
+    int lessonsSize = 0;
     
     Member[] members = new Member[100];
     int membersSize = 0;
@@ -32,11 +31,30 @@ public class App {
         break;
         
       } else if (command.equals("/lesson/add")) {
-        addLesson(); // addLesson() 메서드 블록에 묶어 놓은 코드를 실행한다.
+        // 수업 데이터를 저장할 메모리를 Lesson 설계도에 따라 만든다.
+        Lesson lesson = new Lesson();
+        
+        // 사용자가 입력한 값을 Lesson 인스턴스의 각 변수에 저장한다.
+        lesson.no = getIntValue("번호? ");
+        lesson.title = getStringValue("수업명? ");
+        lesson.contents = getStringValue("설명? ");
+        lesson.startDate = getDateValue("시작일? ");
+        lesson.endDate = getDateValue("종료일? ");
+        lesson.totalHours = getIntValue("총수업시간? ");
+        lesson.dayHours = getIntValue("일수업시간? ");
+        
+        // 수업 데이터를 저장하고 있는 인스턴스의 주소를 레퍼런스 배열에 저장한다.
+        lessons[lessonsSize++] = lesson;
+        
+        System.out.println("저장하였습니다.");
         
       } else if (command.equals("/lesson/list")) {
-        listLesson();
-        
+        for (int i = 0; i < lessonsSize; i++) {
+          Lesson lesson = lessons[i];
+          System.out.printf("%s, %s, %s ~ %s, %s\n", 
+              lesson.no, lesson.title, 
+              lesson.startDate, lesson.endDate, lesson.totalHours);
+        }
       } else if (command.equals("/member/add")) {
         Member member = new Member();
         member.no = getIntValue("번호? ");
@@ -82,34 +100,6 @@ public class App {
     }
   }
   
-  static void addLesson() {
-    // 수업 데이터를 저장할 메모리를 Lesson 설계도에 따라 만든다.
-    Lesson lesson = new Lesson();
-    
-    // 사용자가 입력한 값을 Lesson 인스턴스의 각 변수에 저장한다.
-    lesson.no = getIntValue("번호? ");
-    lesson.title = getStringValue("수업명? ");
-    lesson.contents = getStringValue("설명? ");
-    lesson.startDate = getDateValue("시작일? ");
-    lesson.endDate = getDateValue("종료일? ");
-    lesson.totalHours = getIntValue("총수업시간? ");
-    lesson.dayHours = getIntValue("일수업시간? ");
-    
-    // 수업 데이터를 저장하고 있는 인스턴스의 주소를 레퍼런스 배열에 저장한다.
-    lessons[lessonsSize++] = lesson;
-    
-    System.out.println("저장하였습니다.");
-  }
-
-  static void listLesson() {
-    for (int i = 0; i < lessonsSize; i++) {
-      Lesson lesson = lessons[i];
-      System.out.printf("%s, %s, %s ~ %s, %s\n", 
-          lesson.no, lesson.title, 
-          lesson.startDate, lesson.endDate, lesson.totalHours);
-    }
-  }
-  
   private static int getIntValue(String message) {
     while (true) {
       try {
@@ -136,7 +126,6 @@ public class App {
     System.out.print(message);
     return keyScan.nextLine();
   }
-  
 }
 
 
