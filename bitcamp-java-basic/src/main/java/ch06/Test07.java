@@ -5,9 +5,15 @@ public class Test07 {
   public static void main(String[] args) {
     // 가변 파라미터는 호출하는 쪽에서 배열을 만들 필요가 없다.
     // 자바가 자동으로 배열을 만든다.
-    plus1();
-    plus1(10);
-    plus1(10, 20);
+    plus1(); // => plus1(new int[] {});
+    plus1(10); // => plus1(new int[] {10});
+    plus1(10, 20); // => plus1(new int[] {10, 20});
+    plus1(new int[] {});
+    plus1(new int[] {10});
+    plus1(new int[] {10, 20});
+    
+    //plus2(); //컴파일 오류!
+    //plus2(10); //컴파일 오류!
     
     // 배열 레퍼런스는 호출자가 만들어서 넘겨야 한다. 그래서 호출할 때는 가변 파라미터가 편하다.
     plus2(new int[] {});
