@@ -14,7 +14,7 @@ public class Test16 {
     // Calendar는 인스턴스 생성을 도와주는 별도의 클래스 메서드(스태틱 메서드)를 제공한다.
     c1 = Calendar.getInstance();
     
-    System.out.println(c1.get(Calendar.YEAR));
+    System.out.println(c1.get(Calendar.YEAR)); 
     
     /* 
      # 팩토리 메서드(factory method)

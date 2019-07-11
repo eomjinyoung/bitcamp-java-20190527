@@ -11,7 +11,8 @@ class My1 {
 
 public class Test01 {
   public static void main(String[] args) {
-    My1 obj1 = new My1();
+    My1 obj1;
+    obj1 = new My1();
     My1 obj2 = new My1();
     My1 obj3 = new My1();
     

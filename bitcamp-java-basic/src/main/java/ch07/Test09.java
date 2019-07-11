@@ -101,6 +101,24 @@ public class Test09 {
     //Score4 s4 = new Score4(); // 컴파일 오류!
     
   }
+  
+  static void m3() {
+    // 로컬 클래스(local class)
+    // => 특정 메서드 안에서만 사용되는 클래스인 경우 로컬 클래스로 정의한다.
+    //
+    class Score4 {
+      String name; 
+      int kor;
+      int eng;
+      int math;
+      int sum;
+      float aver;
+    }
+    
+    class Score5 {
+      
+    }
+  }
 }
 
 

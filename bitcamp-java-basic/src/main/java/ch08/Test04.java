@@ -1,6 +1,8 @@
 // 그 밖의 클래스 멤버들
 package ch08;
 
+import java.util.Scanner;
+
 class My4 {
   // 클래스 필드 = 스태틱 필드(변수)
   // => 클래스가 로딩될 때 생성되는 변수
@@ -15,6 +17,8 @@ class My4 {
   // 스태틱 블록 = 클래스 블록 
   // => 클래스가 로딩될 때 클래스 변수를 생성한 후 실행되는 블록
   // => 따라서 딱 한 번만 실행된다.
+  // => 스태틱 필드를 초기화하는 코드를 둔다.
+  // => 스태틱 메서드를 실행하는데 필요한 값을 준비하는 코드를 둔다.
   static {
     System.out.println("오호라!");
   }
@@ -33,20 +37,26 @@ class My4 {
 
 public class Test04 {
   public static void main(String[] args) {
+    Scanner keyScan = new Scanner(System.in);
+    
     System.out.println("***************");
     
     // 레퍼런스를 선언할 때는 클래스가 로딩되지 않는다.
     // 따라서 스태틱 블록이 실행되지 않는다.
     My4 obj1;
+    keyScan.nextLine();
     
     System.out.println("------------------");
     
     // 클래스가 로딩되는 때? 클래스 멤버(필드, 메서드)를 사용할 때!
     // - 클래스 필드를 사용할 때
-    // My4.a = 300;
+    //My4.a = 300;
+    //keyScan.nextLine();
     
     // - 클래스 메서드를 사용할 때
     My4.m1();
+    keyScan.nextLine();
+    
     My4.m1(); // 한 번 클래스가 로딩되면 다시 로딩되지 않는다. 따라서 스태틱 블록은 딱 한 번 실행된다.
   }
 }

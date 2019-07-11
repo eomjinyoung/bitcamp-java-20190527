@@ -9,7 +9,15 @@ class Monitor3 {
   
   { // 인스턴스 블록 <= 실무에서는 인스턴스 블록을 잘 사용하지 않는다. 대신에 생성자를 주로 사용한다.
     this.bright = 50;
-    this.contrast = 50;
+    
+    // 다음과 같이 인스턴스 필드에 값을 직접 대입하지 못하는 경우
+    // 이렇게 인스턴스 초기화 블록에서 값을 설정하면 된다.
+    // => 값을 설정하는 것이 복잡할 경우 초기화 문장이 아닌 인스턴스 초기화 블록에서 수행한다.
+    if (this.bright < 50)
+      this.contrast = 70;
+    else 
+      this.contrast = 40;
+    
     this.widthRes = 1920;
     this.heightRes = 1080;
   }
