@@ -3,6 +3,7 @@ package ch12.c.other;
 import ch12.c.My;
 
 public class My2 extends My {
+  
   public void m1() {
     My obj1 = new My();
     

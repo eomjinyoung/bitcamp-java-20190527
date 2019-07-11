@@ -4,18 +4,6 @@ package ch12.b;
 public class Test02 {
 
   public static void main(String[] args) {
-    // 클래스를 만든 개발자의 의도에 따라 아주 잘 사용한 예:
-    Score s1 = new Score();
-    s1.name = "홍길동";
-    s1.kor = 100;
-    s1.eng = 90;
-    s1.math = 80;
-    s1.compute();
-    
-    // private으로 보호되고 있는 값을 꺼내고 싶다면, 
-    // 값을 리턴하는 공개된 메서드를 호출하라!
-    System.out.printf("총점=%d, 평균=%.1f\n", s1.getSum(), s1.getAver());
-    
     // 클래스를 만든 개발자의 의도에 벗어나 사용한 예:
     Score s2 = new Score();
     s2.name = "홍길동";
