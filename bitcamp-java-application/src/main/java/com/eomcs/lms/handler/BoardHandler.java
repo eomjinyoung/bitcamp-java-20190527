@@ -5,18 +5,16 @@ import com.eomcs.lms.domain.Board;
 import com.eomcs.lms.util.Input;
 
 public class BoardHandler {
-  private Board[] boards = new Board[100];
-  private int boardsSize = 0;
-  
-  public Input input;
+  private BoardList boardList = new BoardList();
+  private Input input;
   
   public BoardHandler(Input input) {
     this.input = input;
   }
   
   public void listBoard() {
-    for (int i = 0; i < this.boardsSize; i++) {
-      Board board = this.boards[i];
+    Board[] boards = boardList.toArray();
+    for (Board board : boards) {
       System.out.printf("%s, %s, %s, %s\n", 
           board.getNo(), board.getContents(), 
           board.getCreatedDate(), board.getViewCount());
@@ -30,7 +28,7 @@ public class BoardHandler {
     board.setContents(input.getStringValue("내용? "));
     board.setCreatedDate(new Date(System.currentTimeMillis())); 
     
-    boards[boardsSize++] = board;
+    boardList.add(board);
     System.out.println("저장하였습니다.");
   }
 }

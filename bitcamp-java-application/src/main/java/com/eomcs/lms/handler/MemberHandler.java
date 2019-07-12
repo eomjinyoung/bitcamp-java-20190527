@@ -5,18 +5,16 @@ import com.eomcs.lms.domain.Member;
 import com.eomcs.lms.util.Input;
 
 public class MemberHandler {
-  private Member[] members = new Member[100];
-  private int membersSize = 0;
-  
-  public Input input;
+  private MemberList memberList = new MemberList();
+  private Input input;
   
   public MemberHandler(Input input) {
     this.input = input;
   }
   
   public void listMember() {
-    for (int i = 0; i < membersSize; i++) {
-      Member member = members[i];
+    Member[] members = memberList.toArray();
+    for (Member member : members) {
       System.out.printf("%s, %s, %s, %s, %s\n", 
           member.getNo(), member.getName(), member.getEmail(), 
           member.getTel(), member.getRegisteredDate());
@@ -33,7 +31,8 @@ public class MemberHandler {
     member.setTel(input.getStringValue("전화? "));
     member.setRegisteredDate(new Date(System.currentTimeMillis())); 
       
-    members[membersSize++] = member;
+    memberList.add(member);
+    
     System.out.println("저장하였습니다.");
   }
 }
