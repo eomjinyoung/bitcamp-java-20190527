@@ -9,14 +9,11 @@ public class BoardList {
   private int size = 0;
   
   public BoardList() {
-    this(DEFAULT_CAPACITY);
+    list = new Board[DEFAULT_CAPACITY];
   }
   
   public BoardList(int initialCapacity) {
-    if (initialCapacity < 50 || initialCapacity > 10000)
-      list = new Board[DEFAULT_CAPACITY];
-    else
-      list = new Board[initialCapacity];
+    list = new Board[initialCapacity];
   }
   
   public void add(Board Board) {

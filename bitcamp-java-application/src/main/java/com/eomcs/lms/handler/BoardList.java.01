@@ -3,21 +3,8 @@ package com.eomcs.lms.handler;
 import com.eomcs.lms.domain.Board;
 
 public class BoardList {
-  private static final int DEFAULT_CAPACITY = 100;
-  
-  private Board[] list;
+  private Board[] list = new Board[100];
   private int size = 0;
-  
-  public BoardList() {
-    this(DEFAULT_CAPACITY);
-  }
-  
-  public BoardList(int initialCapacity) {
-    if (initialCapacity < 50 || initialCapacity > 10000)
-      list = new Board[DEFAULT_CAPACITY];
-    else
-      list = new Board[initialCapacity];
-  }
   
   public void add(Board Board) {
     if (this.size == list.length)

@@ -1,6 +1,9 @@
 // Wrapper 클래스 생성자에 대한 고찰
 package ch11;
-
+class A {
+  int i;
+  Integer x;
+}
 public class Test11 {
   public static void main(String[] args) {
     // 왜 wrapper 클래스의 생성자를 쓰지 말라고 하는가?
