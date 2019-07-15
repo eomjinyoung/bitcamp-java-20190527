@@ -13,7 +13,7 @@ public class A {
   public void m1(int a) {} // OK
   
   // => 파라미터 이름으로는 메서드를 구분할 수 없다.
-  // public void m1(int b) {} // 컴파일 오류!
+  //public void m1(int b) {} // 컴파일 오류!
   
   // => 파라미터 타입이 달라야 한다.
   public void m1(float a) {} // OK
