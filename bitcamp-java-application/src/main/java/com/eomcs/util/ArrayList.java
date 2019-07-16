@@ -75,24 +75,39 @@ public class ArrayList<E> {
     @SuppressWarnings("unchecked")
     E old = (E) list[index];
     
+    // 방법1: 직접 반복문을 이용하여 삭제 처리하기
+    /*
+    for (int i = index + 1; i < size; i++) {
+      list[i-1] = list[i];
+    }
+    */
     
+    // 방법2: 배열 복사 기능을 이용하여 삭제 처리하기 
+    System.arraycopy(list, index + 1, list, index, size - (index + 1));
+
+    // 값을 삭제한 후 맨 끝 값이 들어 있던 방을 null로 설정한다.
+    // => 레펀런스가 남아있지 않게 하여 가비지가 정상적으로 이뤄지도록 한다.
+    list[--size] = null;
     
     return old;
   }
   
   public static void main(String[] args) {
     ArrayList<String> list = new ArrayList<>();
-    list.add("홍길동");
-    list.add("임꺽정");
-    list.add("심청이");
+    list.add("000");
+    list.add("111");
+    list.add("222");
+    list.add("333");
+    list.add("444");
+    list.add("555");
     
-    String old = list.set(1, "안중근");
+    String old = list.remove(5);
     System.out.println("원래값 : " + old);
+    System.out.println("-----------------------");
     
-    
-    System.out.println(list.get(0));
-    System.out.println(list.get(1));
-    System.out.println(list.get(2));
+    for (int i = 0; i < list.size(); i++) {
+      System.out.println(list.get(i));
+    }
   }
   
 }
