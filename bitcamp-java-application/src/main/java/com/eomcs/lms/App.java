@@ -42,6 +42,12 @@ public class App {
       } else if (command.equals("/lesson/list")) {
         lessonHandler.listLesson();
         
+      } else if (command.equals("/lesson/detail")) {
+        lessonHandler.detailLesson();
+        
+      } else if (command.equals("/lesson/update")) {
+        lessonHandler.updateLesson();
+        
       } else if (command.equals("/member/add")) {
         memberHandler.addMember();
       

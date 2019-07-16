@@ -101,7 +101,7 @@ public class ArrayList<E> {
     list.add("444");
     list.add("555");
     
-    String old = list.remove(5);
+    String old = list.set(2, "okok"); // list.remove(2);
     System.out.println("원래값 : " + old);
     System.out.println("-----------------------");
     
