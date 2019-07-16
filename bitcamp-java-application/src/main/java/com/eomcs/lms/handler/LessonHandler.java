@@ -1,11 +1,12 @@
 package com.eomcs.lms.handler;
 
 import com.eomcs.lms.domain.Lesson;
-import com.eomcs.lms.util.Input;
+import com.eomcs.util.ArrayList;
+import com.eomcs.util.Input;
 
 public class LessonHandler {
   
-  private LessonList lessonList = new LessonList();
+  private ArrayList lessonList = new ArrayList();
   private Input input;
   
   public LessonHandler(Input input) {
@@ -33,8 +34,9 @@ public class LessonHandler {
   }
 
   public void listLesson() {
-    Lesson[] lessons = lessonList.toArray();
-    for (Lesson lesson : lessons) {
+    Object[] list = lessonList.toArray();
+    for (Object obj : list) {
+      Lesson lesson = (Lesson) obj;
       System.out.printf("%s, %s, %s ~ %s, %s\n", 
           lesson.getNo(), lesson.getTitle(), 
           lesson.getStartDate(), lesson.getEndDate(), lesson.getTotalHours());

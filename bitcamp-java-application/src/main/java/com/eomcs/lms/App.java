@@ -6,7 +6,7 @@ import java.util.Scanner;
 import com.eomcs.lms.handler.BoardHandler;
 import com.eomcs.lms.handler.LessonHandler;
 import com.eomcs.lms.handler.MemberHandler;
-import com.eomcs.lms.util.Input;
+import com.eomcs.util.Input;
 
 public class App {
   
