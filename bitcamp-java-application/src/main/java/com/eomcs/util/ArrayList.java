@@ -68,6 +68,18 @@ public class ArrayList<E> {
     return old;
   }
   
+  public E remove(int index) {
+    if (index < 0 || index >= size)
+      throw new IndexOutOfBoundsException(String.format("인덱스 = %s", index));
+    
+    @SuppressWarnings("unchecked")
+    E old = (E) list[index];
+    
+    
+    
+    return old;
+  }
+  
   public static void main(String[] args) {
     ArrayList<String> list = new ArrayList<>();
     list.add("홍길동");
