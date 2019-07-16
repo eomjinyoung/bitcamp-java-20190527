@@ -48,6 +48,9 @@ public class App {
       } else if (command.equals("/lesson/update")) {
         lessonHandler.updateLesson();
         
+      } else if (command.equals("/lesson/delete")) {
+        lessonHandler.deleteLesson();
+        
       } else if (command.equals("/member/add")) {
         memberHandler.addMember();
       
