@@ -49,6 +49,40 @@ public class ArrayList<E> {
     return this.size;
   }
   
+  @SuppressWarnings("unchecked")
+  public E get(int index) {
+    if (index < 0 || index >= size)
+      throw new IndexOutOfBoundsException(String.format("인덱스 = %s", index));
+    
+    return (E) list[index];
+  }
+  
+  @SuppressWarnings("unchecked")
+  public E set(int index, E obj) {
+    if (index < 0 || index >= size)
+      throw new IndexOutOfBoundsException(String.format("인덱스 = %s", index));
+    
+    E old = (E) list[index];
+    list[index] = obj;
+    
+    return old;
+  }
+  
+  public static void main(String[] args) {
+    ArrayList<String> list = new ArrayList<>();
+    list.add("홍길동");
+    list.add("임꺽정");
+    list.add("심청이");
+    
+    String old = list.set(1, "안중근");
+    System.out.println("원래값 : " + old);
+    
+    
+    System.out.println(list.get(0));
+    System.out.println(list.get(1));
+    System.out.println(list.get(2));
+  }
+  
 }
 
 
