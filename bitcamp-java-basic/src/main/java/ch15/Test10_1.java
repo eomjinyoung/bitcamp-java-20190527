@@ -3,38 +3,45 @@ package ch15;
 
 import java.util.HashMap;
 
-public class Test08 {
+public class Test10_1 {
   public static void main(String[] args) {
     // hash 코드는 Map에서 값을 저장하기 위해 key로 사용한다.
     HashMap map = new HashMap();
     
     // Map은 값을 저장할 때 key를 이용한다.
     // => key: 값을 저장할 위치를 계산할 때 사용한다.
+    //         key 객체의 hashCode()를 호출하여 그 리턴 값을 사용하여 위치를 계산한다. 
+    //         따라서 key 객체의 해시코드가 다르면 위치도 다르다.
     // => map.put(key, value);
     //
     
-    // put(Object key, Object value)
-    // => key 값으로 int를 넘겨준다? 
-    //    내부적으로 auto-boxing을 수행하여 Integer 객체를 만든다.
-    //    그리고 그 객체를 넘겨주는 것이다.
-    // => put() 메서드는 key로 넘겨받은 객체에 대해 hashCode()를 호출하여 
-    //    정수 값을 얻는다.
-    // => 해시 코드를 사용하여 값을 저장할 위치를 계산한다.
-    // => 그런 후 그 위치에 해당하는 배열(배열로 관리한다면)에 저장한다.
-    // 
-    
+    // key로 사용할 객체를 준비한다.
     Integer k1 = new Integer(101);
     Integer k2 = new Integer(102);
     Integer k3 = new Integer(103);
-    Integer k4 = new Integer(104);
-    Integer k5 = new Integer(105);
     
-    
+    // 위에서 준비한 key 객체를 가지고 Student 객체를 보관한다.
     map.put(k1, new Student("홍길동", 20, false));
     map.put(k2, new Student("임꺽정", 30, true));
     map.put(k3, new Student("유관순", 17, true));
-    map.put(k4, new Student("안중근", 24, true));
-    map.put(k5, new Student("윤봉길", 22, false));
+    
+    // put(Object key, Object value)
+    // => put() 메서드는 key로 넘겨받은 객체에 대해 hashCode()를 호출하여 
+    //    정수 값을 얻는다.
+    // => 그렇게 리턴 받은 정수 값(해시 코드)를 사용하여 Student 객체를 저장할 위치를 계산한다.
+    // => 그런 후 그 위치에 해당하는 배열(배열로 관리한다면)에 저장한다.
+    // 
+    
+    
+    // 다음과 같이 int를 key로 사용할 수 있다. 
+    // => key 값으로 int를 넘겨준다면, 
+    //    내부적으로 auto-boxing을 수행하여 Integer 객체를 만든다.
+    //    그리고 그 객체를 넘겨주는 것이다.
+    map.put(104, new Student("안중근", 24, true));
+    map.put(105, new Student("윤봉길", 22, false));
+    
+
+    
     
     // key를 사용하여 값을 꺼내보자.
     Integer k6 = new Integer(102);
