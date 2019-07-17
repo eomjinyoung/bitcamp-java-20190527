@@ -3,7 +3,7 @@ package ch15;
  
 // clone()은 인스턴스를 복제할 때 호출하는 메서드이다.
 
-public class Test15 {
+public class Test12_1 {
   
   static class Score {
     String name;
@@ -36,22 +36,27 @@ public class Test15 {
     System.out.println(s1);
     
     // 인스턴스 복제
-    // Object에서 상속 받은 clone()은 protected 접근 제한이 있다. 
-    // 따라서 그냥 사용할 수 없다.
-    //Score s2 = s1.clone(); // 컴파일 오류!
-    
-    // 해결책1:
-    // => 직접 복제하라!
+    // 방법1:
+    // => 직접 복제한다. 즉 새 객체를 만들어 기존 객체의 값을 저장한다.
     Score s2 = new Score(s1.name, s1.kor, s1.eng, s1.math); // 빈 객체 생성
-    s2.name = "임꺽정";
     
     // s1과 s2는 서로 다른 인스턴스이다.
+    System.out.println(s1 == s2);
+    
+    // s1과 s2에 들어 있는 값은 같다.
     System.out.println(s1);
     System.out.println(s2);
     
-    // 해결책2:
+    // 방법2:
+    // Object에서 상속 받은 clone()을 호출한다.
+    //Score s3 = s1.clone(); // 컴파일 오류!
+    
+    // Object에서 상속 받은 clone()은 protected 이다. 
+    // 따라서 같은 패키지에 소속된 클래스이거나 상속 받은 서브 클래스가 아니면 호출할 수 없다.
+    
+    // 해결책:
     // => Object에서 상속 받은 clone()을 오버라이딩 하라!
-    // => Test16.java 를 살펴보라!
+    // => Test12_2.java 를 살펴보라!
   }
 }
 
