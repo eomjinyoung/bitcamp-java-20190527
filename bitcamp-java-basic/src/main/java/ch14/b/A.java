@@ -10,7 +10,9 @@ public class A {
     System.out.println("A.m2()");
   }
   
-  public void m3() {
+  public Object m3() {
     System.out.println("A.m3()");
+    return null;
   }
+ 
 }

@@ -27,6 +27,16 @@ public class B extends A {
   // => 접근 범위를 축소하는 것은 안된다.
   //@Override void m2(String a, int b) {} // 컴파일 오류!
   @Override public void m2(String a, int b) {} // OK!
+  
+  // => return 타입을 해당 타입의 서브 클래스로 바꿀 수 있다.
+  //    즉 리턴 타입이 Object라면 Object의 서브 클래스인 
+  //    String, Integer, java.sql.Date 등으로 바꿀 수 있다.
+  //    리턴 타입이 InputStream 이라면 InputStream의 서브 클래스인
+  //    FileInputStream, DateInputStream 등으로 바꿀 수 있다.
+  //@Override public String m3() {return null;} // OK!
+  //@Override public Integer m3() {return null;} // OK!
+  @Override public java.sql.Date m3() {return null;} // OK!
+  
 }
 
 
