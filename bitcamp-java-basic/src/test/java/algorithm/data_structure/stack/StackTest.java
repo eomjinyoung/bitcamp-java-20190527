@@ -2,6 +2,7 @@ package algorithm.data_structure.stack;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import algorithm.data_structure.stack.step1.Stack;
 
 public class StackTest {
 

@@ -1,6 +1,6 @@
-package algorithm.data_structure.stack;
+package algorithm.data_structure.stack.step2;
 
-public class Stack {
+public class Stack<E> {
   
   public static final int DEFAULT_SIZE = 5;
   
@@ -11,7 +11,7 @@ public class Stack {
     list = new Object[DEFAULT_SIZE];
   }
   
-  public void push(Object value) {
+  public void push(E value) {
     if (size == list.length) {
       Object[] arr = new Object[list.length + (list.length >> 1)];
       for (int i = 0; i < list.length; i++) {
@@ -23,11 +23,12 @@ public class Stack {
     list[size++] = value;
   }
   
-  public Object pop() {
+  @SuppressWarnings("unchecked")
+  public E pop() {
     if (size == 0)
       return null;
     
-    return list[--size];
+    return (E) list[--size];
   }
   
   public boolean empty() {
