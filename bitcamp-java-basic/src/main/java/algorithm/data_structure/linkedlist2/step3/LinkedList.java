@@ -1,5 +1,5 @@
 // LinkedList : 목록으로 다루는 값을 특정 타입으로 제한하기 위해 제네릭(generic) 적용하기
-package com.eomcs.util;
+package algorithm.data_structure.linkedlist2.step3;
 
 import java.lang.reflect.Array;
 

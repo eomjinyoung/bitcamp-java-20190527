@@ -1,4 +1,4 @@
-package com.eomcs.util;
+package algorithm.data_structure.linkedlist2.step1;
 
 public class Node {
   Object value;

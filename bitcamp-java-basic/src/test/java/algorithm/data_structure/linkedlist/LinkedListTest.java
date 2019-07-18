@@ -2,6 +2,7 @@ package algorithm.data_structure.linkedlist;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import algorithm.data_structure.linkedlist.step1.LinkedList;
 
 public class LinkedListTest {
 
