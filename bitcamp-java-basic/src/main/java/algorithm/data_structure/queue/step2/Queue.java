@@ -1,5 +1,5 @@
 // 제네릭 적용
-package algorithm.data_structure.queue2;
+package algorithm.data_structure.queue.step2;
 
 import algorithm.data_structure.linkedlist.step3.LinkedList;
 

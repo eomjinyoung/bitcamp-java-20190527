@@ -1,4 +1,4 @@
-package com.eomcs.util;
+package algorithm.data_structure.queue.step3;
 
 public class QueueTest {
   public static void main(String[] args) {

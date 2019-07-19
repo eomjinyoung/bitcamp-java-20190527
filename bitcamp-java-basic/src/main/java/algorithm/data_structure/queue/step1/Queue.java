@@ -1,4 +1,4 @@
-package algorithm.data_structure.queue;
+package algorithm.data_structure.queue.step1;
 
 import algorithm.data_structure.linkedlist.step1.LinkedList;
 

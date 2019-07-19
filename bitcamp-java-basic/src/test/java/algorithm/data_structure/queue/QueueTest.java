@@ -2,6 +2,7 @@ package algorithm.data_structure.queue;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import algorithm.data_structure.queue.step1.Queue;
 
 public class QueueTest {
 
