@@ -1,5 +1,5 @@
 // 인터페이스의 필드
-package ch18.g;
+package ch18.g1;
 
 public interface A {
   // 인터페이스에 선언하는 모든 필드는 public static final 이다.
