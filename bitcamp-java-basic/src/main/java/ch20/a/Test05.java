@@ -72,8 +72,8 @@ public class Test05 {
     // indexOf(값) 
     // => 목록에 해당 값이 있는 인덱스를 알아낸다.
     // => 값을 비교할 때는 contains()와 마찬가지로 equals()의 리턴 값이 true인 경우 같은 값으로 간주한다.
-    System.out.println(list.indexOf(s2));
-    System.out.println(list.indexOf(s4));
+    System.out.println(list.indexOf(s2)); // => 1
+    System.out.println(list.indexOf(s4)); // => s2.equals(s4)의 리턴 값이 true 이면 1 을 리턴.
     System.out.println(list.indexOf(new Student("ccc", 30))); // 못찾으면 -1 이다.
   }
 

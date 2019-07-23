@@ -16,12 +16,14 @@ public class Test01 {
     
     // Set은 집합의 특성을 따른다.
     // => 같은 값을 중복해서 넣을 수 없다.
-    set.add("aaa");
-    set.add("bbb");
+    set.add(new String("aaa"));
+    set.add(new String("bbb"));
     
     // => null을 넣을 수 있다. 단 중복해서 넣을 수 없다.
     set.add(null);
     set.add(null);
+    
+    System.out.println(set.size());
     
     // Set에 들어 있는 값 꺼내기
     // => 직접 값을 한 개씩 꺼내는 메서드가 없다.

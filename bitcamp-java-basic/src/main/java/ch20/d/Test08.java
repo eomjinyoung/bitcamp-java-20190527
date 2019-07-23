@@ -35,6 +35,7 @@ public class Test08 {
     Iterator<String> iterator = keySet.iterator();
     
     System.out.println(iterator.next());
+    System.out.println("--------------------------------");
     
     map.put("bba", new Student("bba", 20));
     map.put("bbc", new Student("bbc", 20));
@@ -45,14 +46,22 @@ public class Test08 {
     // 해결책?
     // => 값을 변경하면 다시 Iterator를 얻어야 한다.
     // 
-    System.out.println(iterator.next());
-    System.out.println(iterator.next());
     
+    // HashMap과 마찬가지로 Iterator를 얻은 후에 
+    // Hashtable의 값을 변경했다면 
+    // 다음과 같이 다시 Iterator를 얻어야 한다.
+    
+    iterator = keySet.iterator();
+    
+    while (iterator.hasNext()) {
+      System.out.println(iterator.next());
+    }
   }
 }
 
 /*
 HashMap과 Hashtable의 비교
+
 항목                               HashMap           Hashtable
 ------------------------------------------------------------------------
 1) key, value null 허용         |    Yes         |      No

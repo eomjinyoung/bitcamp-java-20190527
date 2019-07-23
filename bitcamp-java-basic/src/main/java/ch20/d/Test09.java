@@ -23,16 +23,18 @@ public class Test09 {
       }
     }
     
-    Hashtable<String, Student> map = new Hashtable<>();
-    map.put("aaa", new Student("홍길동", 20));
-    map.put("bbb", new Student("임꺽정", 30));
+    Hashtable<String, Student> table = new Hashtable<>();
+    table.put("aaa", new Student("홍길동", 20));
+    table.put("bbb", new Student("임꺽정", 30));
     
     Student s = new Student("안중근", 25);
-    map.put("ccc", s);
-    map.put("ddd", s);
+    table.put("ccc", s);
+    table.put("ddd", s);
     
-    // value 목록 꺼내기
-    Enumeration<Student> values = map.elements();
+    // Hashtable도 HashMap과 마찬가지로 values()를 사용하여 값 목록만 꺼낼 수 있다.
+    // 또한 Hashtable은 Enumeration으로 값 목록을 꺼내는 메서드를 추가로 제공한다.
+    // => Enumeration의 사용법은 Iterator와 유사하다.
+    Enumeration<Student> values = table.elements();
     while (values.hasMoreElements()) {
       System.out.println(values.nextElement());
     }

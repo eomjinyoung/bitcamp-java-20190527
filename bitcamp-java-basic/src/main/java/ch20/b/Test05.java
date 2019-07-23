@@ -1,4 +1,4 @@
-// Stack 클래스 사용법 - search()
+// Stack 클래스 사용법 - size()
 package ch20.b;
 
 import java.util.Stack;

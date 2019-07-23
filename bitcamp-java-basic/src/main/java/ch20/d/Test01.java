@@ -42,7 +42,7 @@ public class Test01 {
     map.put("ccc", new Student("유관순", 16));
     
     // 같은 key로 값을 저장하면 기존의 값을 덮어 쓴다.
-    map.put("ccc", new Student("안중근", 25));
+    map.put(new String("ccc"), new Student("안중근", 25));
     
     // 맵에서 값 꺼내기
     // => 저장할 때 사용한 키를 가지고 꺼낸다.
