@@ -15,6 +15,14 @@ public class Test03 {
     // Car의 레퍼런스 c를 가지고 run()을 호출하면 
     // 실제 c가 가리키는 Sedan의 run()이 호출된다.
     c.run();
+    
+    runCar(new Sedan());
+    runCar(new SUV());
+    runCar(new Convertible());
+  }
+  
+  public static void runCar(Car car) {
+    car.run();
   }
 
 }
