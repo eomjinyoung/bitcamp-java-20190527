@@ -1,4 +1,4 @@
-// 상수를 다른 클래스로 분류하기 전 
+// static nested class 사용 전 : 상수를 다른 클래스로 분류하기 전 
 package ch19.b;
 
 public class Test01 {

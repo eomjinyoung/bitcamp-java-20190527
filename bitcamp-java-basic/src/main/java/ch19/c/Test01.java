@@ -1,4 +1,4 @@
-// 상수를 다른 클래스로 분류한 후
+// static nested class 사용 전 : 상수를 다른 클래스로 분류하기 
 package ch19.c;
 
 public class Test01 {
@@ -10,10 +10,10 @@ public class Test01 {
     p.price = 98000;
     
     // 상수를 Category 클래스로 옮긴 후에 사용하기 
-    p.category = Category.COMPUTER_MOUSE;
+    p.category = Category.COMPUTER_MOUSE_BLUETOOTH;
     
     // 개선점:
-    // => 카테고리의 이름이 하나의 긴 변수명으로 되어 있다.
+    // => 카테고리의 상수 이름이 긴 이름으로 되어 있다.
     // => 만약 한 계층에 하위 분류를 추가한다면 underscore(_)를 사용하여 분류명을 길게 써야 한다.
     // => 분류명 관리가 불편하다.
     //

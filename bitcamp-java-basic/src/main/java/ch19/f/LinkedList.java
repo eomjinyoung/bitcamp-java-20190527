@@ -119,7 +119,7 @@ public class LinkedList {
   // 그러나 바깥 큭래스의 특정 인스턴스를 사용한다면 그 인스턴스에 종속되기 때문에
   // non-static nested class로 선언하라!
   // => 다음 Array 클래스는 LinkedList의 특정 인스턴스의 값을 사용해야 하기 때문에 
-  //    non-static 클래스로 선언한다.
+  //    non-static 중첩 클래스로 선언한다.
   // => 내부에서만 사용할 클래스라면 비공개로 처리하라.
   // 
   private class Array {
@@ -129,7 +129,7 @@ public class LinkedList {
     //
     //LinkedList list; <== 이 코드 필요 없다.
     
-    /*  같은 인스턴스 멤버기 때문에 생성자에서 인스턴스 주소를 받을 필요가 없다.
+    /*  같은 인스턴스 멤버이기 때문에 생성자에서 인스턴스 주소를 받을 필요가 없다.
     public Array(LinkedList list) {
       this.list = list;
     }
@@ -162,6 +162,28 @@ public class LinkedList {
       }
       
       return arr;
+    }
+  }
+  
+  // Node 클래스는 바깥 클래스(LinkedList)의 특정 인스턴스와 관계가 없다.
+  // 따라서 위에서 정의한 Array 중첩 클래스와 다르게 
+  // static nested class 로 선언한다.
+  private static class Node {
+    public Object value;
+    public Node prev;
+    public Node next;
+    
+    public Node() {
+    }
+    
+    public Node(Object value) {
+      this.value = value;
+    }
+    
+    public Node(Object value, Node prev, Node next) {
+      this(value);
+      this.prev = prev;
+      this.next = next;
     }
   }
 

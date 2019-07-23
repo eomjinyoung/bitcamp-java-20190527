@@ -1,28 +1,6 @@
 // 중첩 클래스 종류 
 package ch19.a;
 
-// 익명 클래스의 예제를 위한 클래스
-class Car {
-  String model;
-  
-  public void run() {
-    System.out.println("달린다!");
-  }
-  
-  public Car() {
-    this.model = "미정";
-  }
-  
-  public Car(String model) {
-    this.model = model;
-  }
-}
-
-// 익명 클래스의 예제를 위한 인터페이스
-interface Pen {
-  void write();
-}
-
 public class Test02 {
 
   // 중첩 클래스
@@ -31,11 +9,21 @@ public class Test02 {
   //
   // 1) static nested class 
   // => 바깥 클래스의 특정 인스턴스에 종속되지 않는 클래스.
-  static class A {}
+  static class A {} // ex) Test02.A obj = new Test02.A();
+  
+  // => 다른 스태틱 멤버
+  static int a; // ex) Test02.a = 100;
+  static void f1() {} // ex) Test02.f1();
+  static {} // 클래스 로딩할 때 자동으로 실행
   
   // 2) non-static nested class = inner class
   // => 바깥 클래스의 특정 인스턴스에 종속되는 클래스.
-  class B {}
+  class B {} // ex) Test02.B obj = t.new B() {}
+  
+  // 다른 인스턴스 멤버
+  int b; // ex) t.b = 100;
+  void f2() {}; // ex) t.f2();
+  {} // 인스턴스가 생성된 후 생성자 호출 전에 실행
   
   public static void main(String[] args) {
     // 3) local class
@@ -53,60 +41,14 @@ public class Test02 {
     //      new 수퍼클래스() {클래스 정의}
     //      new 인터페이스() {클래스 정의}
     
-    // 예1:
-    // => Car 클래스를 상속 받아 익명 클래스를 정의한다.
-    // => 인스턴스를 생성할 때 수퍼 클래스인 Car의 기본 생성자를 호출한다.
-    //
-    Car obj = new Car() {
-      @Override
-      public void run() {
-        System.out.println(this.model + " : 달려라! 달려라!");
+    Object obj = new Object() {
+      // Object 클래스를 상속 받은 익명 클래스를 만들고,
+      // f1() 메서드를 추가한다.
+      public void f1() {
+        System.out.println("Hello!");
       }
-    }; // new 명령은 인스턴스를 생성하는 명령이기 때문에 문장 끝에 세미콜론(;)을 붙여야 한다.
-    obj.run();
-    
-    // 예2:
-    // => 클래스 이름 다음에 오는 것이 수퍼 클래스의 생성자를 지정하는 문법이다.
-    // => 수퍼 클래스의 기본 생성자 대신 다른 생성자 호출하기.
-    Car obj2 = new Car("티코") {
-      @Override
-      public void run() {
-        System.out.println(this.model + " : 경차 달린다!");
-      }
-    };
-    obj2.run();
-    
-    // 예3: 
-    // => 인터페이스를 구현하여 익명 클래스를 만들기
-    // => 인터페이스를 지정하면 수퍼 클래스는 자동으로 Object가 된다.
-    // => 그러면 호출할 생성자도 Object 클래스의 생성자이어야 한다.
-    //
-    Pen obj3 = new Pen() {
-      @Override
-      public void write() {
-        System.out.println("글 쓴다!");
-      }
-    };
-    obj3.write();
+    }; 
   }
-  
-  // 스태틱 메서드 
-  public static void m1() {
-    // 스태틱 멤버는 오직 같은 스태틱 멤버만 사용할 수 있다.
-    A obj = new A();
-    
-    // 스태틱 멤버는 인스턴스 주소를 담는 this라는 built-in 변수가 없기 때문에 
-    // 인스턴스 멤버(필드, 메서드, inner 클래스)를 사용할 수 없다.
-    B obj2; // 레퍼런스 변수를 선언할 때는 inner 클래스를 사용할 수 있다.
-    //obj2 = new B(); // 컴파일 오류!
-    
-    // 다른 로컬 멤버(변수, 중첩 클래스)는 사용할 수 없다.
-    //C obj3; // 컴파일 오류! C 클래스는 main()에서만 사용할 수 있다.
-    //obj3 = new C(); // 컴파일 오류!
-    
-    
-  }
-
 }
 
 
