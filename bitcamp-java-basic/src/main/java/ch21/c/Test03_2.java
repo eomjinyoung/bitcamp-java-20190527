@@ -5,7 +5,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 
-public class Test03 {
+public class Test03_2 {
 
   public static void main(String[] args) 
       throws ClassNotFoundException, // 이 메서드에서 발생하는 예외의 목록을 지정한다.
@@ -30,7 +30,7 @@ public class Test03 {
     // => 메서드 선언부에 throws 절 추가하기
     // => 이 방식을 사용해야 하는 경우? 
     //    이런 예외를 한 곳에서 처리하고 싶을 때 이 방식을 사용한다.
-    // => "어이~~ 여기에 예외 처리하지 마! 호출자가 처리하도록 보고해." 라는 의미! 
+    // => "어이~~ 여기에 예외 처리하지 마! 호출자에게 전달해." 라는 의미! 
     
     Scanner keyboard = new Scanner(System.in);
     Class<?> clazz = Class.forName("ch21.c.PlusCommand");

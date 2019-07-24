@@ -56,7 +56,8 @@ public class Test04 {
       } catch (RuntimeException e) { // OK! 공통 부모이기 때문에 가능!
         System.out.println("명령어 처리 중 오류 발생!");
         System.out.println(e.toString());
-      }        
+
+      } 
     }
      
     
