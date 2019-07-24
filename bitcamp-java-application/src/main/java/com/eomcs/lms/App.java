@@ -5,13 +5,32 @@ package com.eomcs.lms;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-import com.eomcs.lms.handler.BoardHandler;
-import com.eomcs.lms.handler.LessonHandler;
-import com.eomcs.lms.handler.MemberHandler;
+import com.eomcs.lms.domain.Board;
+import com.eomcs.lms.domain.Lesson;
+import com.eomcs.lms.domain.Member;
+import com.eomcs.lms.handler.BoardAddCommand;
+import com.eomcs.lms.handler.BoardDeleteCommand;
+import com.eomcs.lms.handler.BoardDetailCommand;
+import com.eomcs.lms.handler.BoardListCommand;
+import com.eomcs.lms.handler.BoardUpdateCommand;
+import com.eomcs.lms.handler.CalcPlusCommand;
+import com.eomcs.lms.handler.Command;
+import com.eomcs.lms.handler.HiCommand;
+import com.eomcs.lms.handler.LessonAddCommand;
+import com.eomcs.lms.handler.LessonDeleteCommand;
+import com.eomcs.lms.handler.LessonDetailCommand;
+import com.eomcs.lms.handler.LessonListCommand;
+import com.eomcs.lms.handler.LessonUpdateCommand;
+import com.eomcs.lms.handler.MemberAddCommand;
+import com.eomcs.lms.handler.MemberDeleteCommand;
+import com.eomcs.lms.handler.MemberDetailCommand;
+import com.eomcs.lms.handler.MemberListCommand;
+import com.eomcs.lms.handler.MemberUpdateCommand;
 import com.eomcs.util.Input;
 
 public class App {
@@ -35,16 +54,40 @@ public class App {
     // Input 생성자를 통해 Input이 의존하는 객체인 Scanner를 주입한다.
     Input input = new Input(keyScan);
     
+    // Command 객체를 보관할 Map 준비
+    HashMap<String,Command> commandMap = new HashMap<>();
+    
+    // Command 객체가 사용할 Collection 준비
+    ArrayList<Lesson> lessonList = new ArrayList<>();
+    LinkedList<Member> memberList = new LinkedList<>();
+    ArrayList<Board> boardList = new ArrayList<>();
+
     // 각 핸들러의 생성자를 통해 의존 객체 "Input"을 주입한다.
     // => 이렇게 어떤 객체가 필요로 하는 의존 객체를 주입하는 것을 
     //    "의존성 주입(Dependency Injection; DI)"라고 한다.
     // => DI를 전문적으로 처리해주는 프레임워크가 있으니 그 이름도 유명한 
     //    "Spring IoC 컨테이너"!
-    LessonHandler lessonHandler = new LessonHandler(input, new ArrayList<>());
-    MemberHandler memberHandler = new MemberHandler(input, new LinkedList<>());
-    BoardHandler boardHandler = new BoardHandler(input, new ArrayList<>());
-    BoardHandler boardHandler2 = new BoardHandler(input, new LinkedList<>());
-
+    commandMap.put("/lesson/add", new LessonAddCommand(input, lessonList));
+    commandMap.put("/lesson/delete", new LessonDeleteCommand(input, lessonList));
+    commandMap.put("/lesson/detail", new LessonDetailCommand(input, lessonList));
+    commandMap.put("/lesson/list", new LessonListCommand(input, lessonList));
+    commandMap.put("/lesson/update", new LessonUpdateCommand(input, lessonList));
+    
+    commandMap.put("/member/add", new MemberAddCommand(input, memberList));
+    commandMap.put("/member/delete", new MemberDeleteCommand(input, memberList));
+    commandMap.put("/member/detail", new MemberDetailCommand(input, memberList));
+    commandMap.put("/member/list", new MemberListCommand(input, memberList));
+    commandMap.put("/member/update", new MemberUpdateCommand(input, memberList));
+    
+    commandMap.put("/board/add", new BoardAddCommand(input, boardList));
+    commandMap.put("/board/delete", new BoardDeleteCommand(input, boardList));
+    commandMap.put("/board/detail", new BoardDetailCommand(input, boardList));
+    commandMap.put("/board/list", new BoardListCommand(input, boardList));
+    commandMap.put("/board/update", new BoardUpdateCommand(input, boardList));
+    
+    commandMap.put("/hi", new HiCommand(input));
+    commandMap.put("/calc/plus", new CalcPlusCommand(input));
+    
     while (true) {
       
       String command = prompt();
@@ -56,6 +99,9 @@ public class App {
       commandStack.push(command); // 사용자가 입력한 명령을 보관한다.
       commandQueue.offer(command); // 사용자가 입력한 명령을 보관한다.
       
+      // 사용자가 입력한 명령어를 처리할 Command 객체를 Map에서 꺼낸다.
+      Command executor = commandMap.get(command);
+      
       if (command.equals("quit")) {
         break;
       } else if (command.equals("history")) {
@@ -64,65 +110,8 @@ public class App {
       } else if (command.equals("history2")) {
         printCommandHistory(commandQueue);
         
-      } else if (command.equals("/lesson/add")) {
-        lessonHandler.addLesson(); // addLesson() 메서드 블록에 묶어 놓은 코드를 실행한다.
-        
-      } else if (command.equals("/lesson/list")) {
-        lessonHandler.listLesson();
-        
-      } else if (command.equals("/lesson/detail")) {
-        lessonHandler.detailLesson();
-        
-      } else if (command.equals("/lesson/update")) {
-        lessonHandler.updateLesson();
-        
-      } else if (command.equals("/lesson/delete")) {
-        lessonHandler.deleteLesson();
-        
-      } else if (command.equals("/member/add")) {
-        memberHandler.addMember();
-      
-      } else if (command.equals("/member/list")) {
-        memberHandler.listMember();
-        
-      } else if (command.equals("/member/detail")) {
-        memberHandler.detailMember();
-        
-      } else if (command.equals("/member/update")) {
-        memberHandler.updateMember();
-        
-      } else if (command.equals("/member/delete")) {
-        memberHandler.deleteMember();
-        
-      } else if (command.equals("/board/add")) {
-        boardHandler.addBoard();
-        
-      } else if (command.equals("/board/list")) {
-        boardHandler.listBoard();
-        
-      } else if (command.equals("/board/detail")) {
-        boardHandler.detailBoard();
-        
-      } else if (command.equals("/board/update")) {
-        boardHandler.updateBoard();
-        
-      } else if (command.equals("/board/delete")) {
-        boardHandler.deleteBoard();
-        
-      } else if (command.equals("/board2/add")) {
-        boardHandler2.addBoard();
-        
-      } else if (command.equals("/board2/list")) {
-        boardHandler2.listBoard();
-        
-      } else if (command.equals("/board2/detail")) {
-        boardHandler2.detailBoard();
-        
-      } else if (command.equals("/board2/update")) {
-        boardHandler2.updateBoard();
-        
-      } else if (command.equals("/board2/delete")) {
-        boardHandler2.deleteBoard();
+      } else if (executor != null) {
+        executor.execute();
         
       } else {
         System.out.println("해당 명령을 지원하지 않습니다!");
