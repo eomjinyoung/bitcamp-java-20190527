@@ -2,8 +2,12 @@
 // => 애플리케이션을 실행할 때 이 클래스를 실행한다.
 package com.eomcs.lms;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -157,110 +161,90 @@ public class App {
   }
   
   private static void loadLessonData() {
-    // File의 정보를 준비
-    File file = new File("./lesson.csv");
+    File file = new File("./lesson.dat");
     
-    FileReader in = null; 
-    Scanner scan = null;
+    // 바이트 단위로 출력된 데이터를 읽을 객체를 준비한다.
+    FileInputStream in = null; 
+    DataInputStream in2 = null;
     
     try {
-      // 파일 정보를 바탕으로 데이터를 읽어주는 객체 준비
-      in = new FileReader(file);
-      scan = new Scanner(in);
+      in = new FileInputStream(file);
       
-      while (scan.hasNextLine()) {
-        // 파일에서 한 줄 읽는다.
-        String line = scan.nextLine();
-        
-        // 문자열을 콤마로 분리한다. 분리된 데이터는 배열에 담겨 리턴된다.
-        String[] data = line.split(",");
-        
-        // 수업 데이터를 담을 Lesson 객체를 준비한다.
+      // 바이트 배열을 읽어 원래의 타입인 int나 String 등으로 변환해주는 도구를 
+      // FileInputStream에 붙인다.
+      in2 = new DataInputStream(in);
+      
+      // 파일에서 첫 번째 int 값을 먼저 읽는다.
+      // 이 값은 파일에 저장된 데이터의 개수이다. 
+      int len = in2.readInt();
+      
+      while (len-- > 0) {
         Lesson lesson = new Lesson();
         
-        // 배열 각 항목의 값을 Lesson 객체에 담는다.
-        lesson.setNo(Integer.parseInt(data[0]));
-        lesson.setTitle(data[1]);
-        lesson.setContents(data[2]);
-        lesson.setStartDate(Date.valueOf(data[3]));
-        lesson.setEndDate(Date.valueOf(data[4]));
-        lesson.setTotalHours(Integer.parseInt(data[5]));
-        lesson.setDayHours(Integer.parseInt(data[6]));
+        // 파일에서 데이터의 각 항목을 읽어 객체에 저장한다.
+        lesson.setNo(in2.readInt());
+        lesson.setTitle(in2.readUTF());
+        lesson.setContents(in2.readUTF());
+        lesson.setStartDate(Date.valueOf(in2.readUTF()));
+        lesson.setEndDate(Date.valueOf(in2.readUTF()));
+        lesson.setTotalHours(in2.readInt());
+        lesson.setDayHours(in2.readInt());
         
-        // 수업 데이터를 담은 Lesson 객체를 lessonList에 추가한다.
         lessonList.add(lesson);
       }
       
     } catch (FileNotFoundException e) {
-      // 읽을 파일을 찾지 못할 때 
-      // JVM을 멈추지 말고 간단히 오류 안내 문구를 출력한 다음에 
-      // 계속 실행하게 하자!
       System.out.println("읽을 파일을 찾을 수 없습니다!");
       
     } catch (Exception e) {
-      // FileNotFoundException 외의 다른 예외를 여기에서 처리한다.
       System.out.println("파일을 읽는 중에 오류가 발생했습니다!");
       
     } finally {
-      try {
-        scan.close();
-      } catch (Exception e) {
-        // close() 하다가 오류가 발생하면 무시한다.
-      }
-      try {
-        in.close();
-      } catch (Exception e) {
-        // close() 하다가 오류가 발생하면 무시한다.
-      }
+      try {in2.close();} catch (Exception e) {}
+      try {in.close();} catch (Exception e) {}
     }
-    
   }
   
   private static void saveLessonData() {
     
-    // File의 정보를 준비
-    File file = new File("./lesson.csv");
+    File file = new File("./lesson.dat");
     
-    FileWriter out = null;
+    // 바이트 단위로 데이터를 다루기 위해 바이트 스트림 클래스를 준비한다.
+    FileOutputStream out = null;
+    DataOutputStream out2 = null;
     
     try {
-      // 파일 정보를 바탕으로 데이터를 출력해주는 객체 준비
-      out = new FileWriter(file);
+      out = new FileOutputStream(file);
+      
+      // FileOutputStream은 바이트 또는 바이트 배열을 출력할 수 있다.
+      // 따라서 어떤 값을 출력하려면 byte 배열로 만들어야 한다.
+      // 자바는 이것을 도와주는 DataOutputStream 이라는 클래스를 제공하고 있다.
+      // 이 클래스를 FileOutputStream에 붙여서 사용하라!
+      out2 = new DataOutputStream(out);
+      
+      // 본격적으로 데이터를 출력하기 전에 몇 개의 데이터를 출력할 것인지 먼저 그 개수를 출력한다.
+      out2.writeInt(lessonList.size());
       
       for (Lesson lesson : lessonList) {
-        // 파일에 출력한다.
-        // => 수업 데이터를 한 문자열로 만들자. 
-        //    형식은 국제적으로 많이 사용하는 CSV(Comma-Separated Value) 형식으로 만들자.
-        String str = String.format("%d,%s,%s,%s,%s,%d,%d\n", 
-            lesson.getNo(),
-            lesson.getTitle(),
-            lesson.getContents(),
-            lesson.getStartDate(),
-            lesson.getEndDate(),
-            lesson.getTotalHours(),
-            lesson.getDayHours());
-        out.write(str);
+        // 수업 데이터의 각 항목을 바이트 배열로 변환하여 출력한다.
+        // DataOutputStream 클래스에 그런 기능을 제공하는 메서드가 있다.
+        out2.writeInt(lesson.getNo()); // int --> byte[]
+        out2.writeUTF(lesson.getTitle()); // String --> byte[]
+        out2.writeUTF(lesson.getContents()); // String --> byte[]
+        out2.writeUTF(lesson.getStartDate().toString()); // String --> byte[]
+        out2.writeUTF(lesson.getEndDate().toString()); // String --> byte[]
+        out2.writeInt(lesson.getTotalHours()); // int --> byte[]
+        out2.writeInt(lesson.getDayHours()); // int --> byte[]
       }
     } catch (FileNotFoundException e) {
-      // 출력할 파일을 생성하지 못할 때 
-      // JVM을 멈추지 말고 간단히 오류 안내 문구를 출력한 다음에 
-      // 계속 실행하게 하자!
       System.out.println("파일을 생성할 수 없습니다!");
 
     } catch (IOException e) {
-      // 파일에 데이터를 출력하다가 오류가 발생하면,
-      // JVM을 멈추지 말고 간단히 오류 안내 문구를 출력한 다음에 
-      // 계속 실행하게 하자!
       System.out.println("파일에 데이터를 출력하는 중에 오류 발생!");
       
     } finally {
-      try {
-        out.close();
-      } catch (Exception e) {
-        // close() 하다가 발생된 예외는 따로 처리할 게 없다.
-        // 그냥 빈채로 둔다.
-      } 
-      
+      try {out2.close();} catch (Exception e) {}
+      try {out.close();} catch (Exception e) {} 
     }
   }
   
