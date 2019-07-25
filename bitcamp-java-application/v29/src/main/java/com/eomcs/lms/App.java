@@ -9,8 +9,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.sql.Date;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -160,20 +158,38 @@ public class App {
     return keyScan.nextLine();
   }
   
-  @SuppressWarnings("unchecked")
   private static void loadLessonData() {
-    File file = new File("./lesson.ser");
+    File file = new File("./lesson.dat");
     
+    // 바이트 단위로 출력된 데이터를 읽을 객체를 준비한다.
     FileInputStream in = null; 
-    ObjectInputStream in2 = null;
+    DataInputStream in2 = null;
     
     try {
       in = new FileInputStream(file);
       
-      // 바이트 배열을 읽어 객체로 복원해 주는 객체 준비
-      in2 = new ObjectInputStream(in);
+      // 바이트 배열을 읽어 원래의 타입인 int나 String 등으로 변환해주는 도구를 
+      // FileInputStream에 붙인다.
+      in2 = new DataInputStream(in);
       
-      lessonList = (ArrayList<Lesson>) in2.readObject();
+      // 파일에서 첫 번째 int 값을 먼저 읽는다.
+      // 이 값은 파일에 저장된 데이터의 개수이다. 
+      int len = in2.readInt();
+      
+      while (len-- > 0) {
+        Lesson lesson = new Lesson();
+        
+        // 파일에서 데이터의 각 항목을 읽어 객체에 저장한다.
+        lesson.setNo(in2.readInt());
+        lesson.setTitle(in2.readUTF());
+        lesson.setContents(in2.readUTF());
+        lesson.setStartDate(Date.valueOf(in2.readUTF()));
+        lesson.setEndDate(Date.valueOf(in2.readUTF()));
+        lesson.setTotalHours(in2.readInt());
+        lesson.setDayHours(in2.readInt());
+        
+        lessonList.add(lesson);
+      }
       
     } catch (FileNotFoundException e) {
       System.out.println("읽을 파일을 찾을 수 없습니다!");
@@ -189,26 +205,40 @@ public class App {
   
   private static void saveLessonData() {
     
-    File file = new File("./lesson.ser");
+    File file = new File("./lesson.dat");
     
+    // 바이트 단위로 데이터를 다루기 위해 바이트 스트림 클래스를 준비한다.
     FileOutputStream out = null;
-    ObjectOutputStream out2 = null;
+    DataOutputStream out2 = null;
     
     try {
       out = new FileOutputStream(file);
       
-      // 객체를 통째로 바이트 배열로 변환해주는 출력 스트림 준비하기
-      out2 = new ObjectOutputStream(out);
+      // FileOutputStream은 바이트 또는 바이트 배열을 출력할 수 있다.
+      // 따라서 어떤 값을 출력하려면 byte 배열로 만들어야 한다.
+      // 자바는 이것을 도와주는 DataOutputStream 이라는 클래스를 제공하고 있다.
+      // 이 클래스를 FileOutputStream에 붙여서 사용하라!
+      out2 = new DataOutputStream(out);
       
-      // lessonList를 통째로 출력하기
-      out2.writeObject(lessonList);
+      // 본격적으로 데이터를 출력하기 전에 몇 개의 데이터를 출력할 것인지 먼저 그 개수를 출력한다.
+      out2.writeInt(lessonList.size());
       
+      for (Lesson lesson : lessonList) {
+        // 수업 데이터의 각 항목을 바이트 배열로 변환하여 출력한다.
+        // DataOutputStream 클래스에 그런 기능을 제공하는 메서드가 있다.
+        out2.writeInt(lesson.getNo()); // int --> byte[]
+        out2.writeUTF(lesson.getTitle()); // String --> byte[]
+        out2.writeUTF(lesson.getContents()); // String --> byte[]
+        out2.writeUTF(lesson.getStartDate().toString()); // String --> byte[]
+        out2.writeUTF(lesson.getEndDate().toString()); // String --> byte[]
+        out2.writeInt(lesson.getTotalHours()); // int --> byte[]
+        out2.writeInt(lesson.getDayHours()); // int --> byte[]
+      }
     } catch (FileNotFoundException e) {
       System.out.println("파일을 생성할 수 없습니다!");
 
     } catch (IOException e) {
       System.out.println("파일에 데이터를 출력하는 중에 오류 발생!");
-      e.printStackTrace();
       
     } finally {
       try {out2.close();} catch (Exception e) {}
@@ -217,7 +247,7 @@ public class App {
   }
   
   private static void loadMemberData() {
-    File file = new File("./member.ser");
+    File file = new File("./member.dat");
     
     FileInputStream in = null; 
     DataInputStream in2 = null;
@@ -256,7 +286,7 @@ public class App {
   }
   
   private static void saveMemberData() {
-    File file = new File("./member.ser");
+    File file = new File("./member.dat");
     
     FileOutputStream out = null;
     DataOutputStream out2 = null;
@@ -281,7 +311,6 @@ public class App {
 
     } catch (IOException e) {
       System.out.println("파일에 데이터를 출력하는 중에 오류 발생!");
-      e.printStackTrace();
       
     } finally {
       try {out2.close();} catch (Exception e) {}
@@ -290,7 +319,7 @@ public class App {
   }
   
   private static void loadBoardData() {
-    File file = new File("./board.ser");
+    File file = new File("./board.dat");
     
     FileInputStream in = null; 
     DataInputStream in2 = null;
@@ -327,7 +356,7 @@ public class App {
   
   private static void saveBoardData() {
     
-    File file = new File("./board.ser");
+    File file = new File("./board.dat");
     
     FileOutputStream out = null;
     DataOutputStream out2 = null;
@@ -349,7 +378,6 @@ public class App {
 
     } catch (IOException e) {
       System.out.println("파일에 데이터를 출력하는 중에 오류 발생!");
-      e.printStackTrace();
       
     } finally {
       try {out2.close();} catch (Exception e) {}
