@@ -12,10 +12,7 @@ public class Test10_2 {
     class TextFileFilter implements FilenameFilter {
       @Override
       public boolean accept(File dir, String name) {
-        if (name.endsWith(".txt"))
-          return true;
-        else 
-          return false;
+        return name.endsWith(".txt");
       }
     }
     

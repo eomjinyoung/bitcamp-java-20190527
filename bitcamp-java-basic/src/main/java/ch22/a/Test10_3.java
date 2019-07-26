@@ -14,10 +14,7 @@ public class Test10_3 {
     String[] names = file.list(new FilenameFilter() {
       @Override
       public boolean accept(File dir, String name) {
-        if (name.endsWith(".txt"))
-          return true;
-        else 
-          return false;
+        return name.endsWith(".txt");
       }
     });
     

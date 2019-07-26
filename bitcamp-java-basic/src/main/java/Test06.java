@@ -1,7 +1,7 @@
 // 컴파일 옵션 실행 옵션
 public class Test06 {
     public static void main(String[] args) {
-        System.out.println("Hello!");
+        System.out.println("Hello!2");
     }
 }
 

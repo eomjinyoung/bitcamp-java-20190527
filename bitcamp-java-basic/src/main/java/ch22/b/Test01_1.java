@@ -34,12 +34,12 @@ public class Test01_1 {
       // => write(int) : 1바이트를 출력하는 메서드이다.
       //    파라미터의 타입이 int라고 해서 4바이트를 출력하는 것이 아니다.
       //    오직 1바이트만 출력한다.   
-      out.write(2);
-      out.write(40);
-      out.write(100);
-      out.write(101);
-      out.write(102);
-      out.write(127);
+      out.write(2);     // 0x00000002
+      out.write(40);    // 0x00000028
+      out.write(100);   // 0x00000064
+      out.write(101);   // 0x00000065
+      out.write(102);   // 0x00000066
+      out.write(127);   // 0x0000007f
       out.write(0x11223344); // 00010001 00100010 00110011 01000100
       out.write(0x55667788); // 맨 끝 1바이트만 출력한다.
       

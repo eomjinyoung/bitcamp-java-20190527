@@ -10,12 +10,9 @@ public class Test11_4 {
     File file = new File(".");
     
     // anonymous class 
-    File[] files = file.listFiles((File pathname) -> {
-        if (pathname.isFile() && pathname.getName().endsWith(".txt"))
-          return true;
-        else 
-          return false;
-    });
+    File[] files = file.listFiles(pathname -> 
+        pathname.isFile() && pathname.getName().endsWith(".txt")
+    );
     
     for (File f : files) {
       System.out.printf("%s %12d %s\n", 

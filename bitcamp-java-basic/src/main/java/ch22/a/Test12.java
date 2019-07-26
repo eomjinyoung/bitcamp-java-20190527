@@ -9,8 +9,7 @@ public class Test12 {
     
     File file = new File(".");
     
-    File[] files = file.listFiles(
-        (File pathname) -> pathname.isDirectory() ? true : false);
+    File[] files = file.listFiles(f -> f.isDirectory());
     
     for (File f : files) {
       System.out.printf("%s %12d %s\n", 

@@ -15,16 +15,23 @@ public class Test13 {
     System.out.println("삭제 완료!");
   }
   
-  static void delete(File dir) {
-    File[] files = dir.listFiles();
-    for (File file : files) {
-      if (file.isFile()) {
-        file.delete();
-      } else {
-        delete(file);
-      }
+  static void delete(File path) {
+    // 1) 파라미터로 넘어 온 파일 객체가 파일이라면 삭제하고 리턴한다.
+    if (path.isFile()) {
+      path.delete();
+      return;
     }
-    dir.delete();
+    
+    // 2) 디렉토리라면 하위 디렉토리나 파일 목록을 얻는다.
+    File[] files = path.listFiles();
+    
+    // 3) 하위 디렉토리나 파일을 삭제한다.
+    for (File file : files) {
+      delete(file);
+    }
+    
+    // 4) 현재의 디렉토리를 삭제한다.
+    path.delete();
   }
 }
 
