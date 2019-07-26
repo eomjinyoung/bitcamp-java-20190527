@@ -11,7 +11,7 @@ public class Test02 {
     // => 디렉토리나 파일을 생성, 삭제, 변경할 수 있다.
     
     // 존재하는 파일
-    File file = new File("build.gradle");
+    File file = new File("./build.gradle");
     System.out.println(file.getName()); // 파일명
     System.out.println(file.getPath()); // 경로
     System.out.println(file.getAbsolutePath()); // 절대 경로
