@@ -5,9 +5,9 @@ import java.io.IOException;
 import ch22.c.ex1.byte_stream.BufferedOutputStream;
 
 // 버퍼 기능을 추가하기 위해 기존에 작성한 BufferedOutputStream을 상속 받는다.
-public class DataOutputStream2 extends BufferedOutputStream {
+public class BufferedDataOutputStream extends BufferedOutputStream {
 
-  public DataOutputStream2(String name) throws FileNotFoundException {
+  public BufferedDataOutputStream(String name) throws FileNotFoundException {
     super(name);
   }
   

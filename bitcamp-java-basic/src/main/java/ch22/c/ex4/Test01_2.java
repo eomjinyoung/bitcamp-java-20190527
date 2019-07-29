@@ -1,12 +1,16 @@
 // 버퍼없이 대량의 primitive 타입의 값을 읽기
-package ch22.c.ex3.byte_stream;
+package ch22.c.ex4;
 
-import ch22.c.ex2.byte_stream.DataInputStream;
+import java.io.FileInputStream;
 
 public class Test01_2 {
   public static void main(String[] args) throws Exception {
 
-    DataInputStream in = new DataInputStream("temp/data.bin");
+    // 파일에서 데이터를 읽는 일을 할 객체를 준비한다.
+    FileInputStream other = new FileInputStream("temp/data.bin");
+    
+    // 위 객체에 primitive 타입의 값을 읽는 기능을 붙인다.
+    DataInputStream in = new DataInputStream(other);
 
     System.out.println("읽기 시작...");
     long start = System.currentTimeMillis();

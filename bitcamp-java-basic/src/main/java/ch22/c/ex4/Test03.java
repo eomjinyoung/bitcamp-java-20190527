@@ -1,7 +1,7 @@
 // 정리
-package ch22.c.ex9;
+package ch22.c.ex4;
 
-public class Test05 {
+public class Test03 {
   public static void main(String[] args) {
     // IO Stream 클래스의 역할에 따른 분류
     // 1) data sink stream class

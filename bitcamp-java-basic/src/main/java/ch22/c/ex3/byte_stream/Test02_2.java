@@ -4,7 +4,7 @@ package ch22.c.ex3.byte_stream;
 public class Test02_2 {
   public static void main(String[] args) throws Exception {
 
-    DataInputStream2 in = new DataInputStream2("temp/data.bin");
+    BufferedDataInputStream in = new BufferedDataInputStream("temp/data.bin");
 
     System.out.println("읽기 시작...");
     long start = System.currentTimeMillis();

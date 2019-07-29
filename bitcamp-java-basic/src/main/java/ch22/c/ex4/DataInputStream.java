@@ -1,13 +1,18 @@
-package ch22.c.ex3.byte_stream;
+package ch22.c.ex4;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import ch22.c.ex1.byte_stream.BufferedInputStream;
+import java.io.InputStream;
 
-// 버퍼 기능을 추가하기 위해 기존의 BufferedInputStream 클래스를 상속 받는다.
-public class DataInputStream2 extends BufferedInputStream {
+public class DataInputStream extends DecoratorInputStream {
 
-  public DataInputStream2(String name) throws IOException {
-    super(name);
+  public DataInputStream(InputStream other) throws FileNotFoundException {
+    super(other);
+  }
+  
+  @Override
+  public int read() throws IOException {
+    return other.read();
   }
   
   public int readInt() throws IOException {
@@ -51,9 +56,7 @@ public class DataInputStream2 extends BufferedInputStream {
     byte[] bytes = new byte[len];
     
     // 준비한 바이트 배열에 파일 데이터를 읽어 온다.
-    for (int i = 0; i < bytes.length; i++) {
-      bytes[i] = (byte)read();
-    }
+    read(bytes);
     
     // 읽어 온 바이트 배열을 가지고 String 객체를 만든다.
     return new String(bytes, "UTF-8");

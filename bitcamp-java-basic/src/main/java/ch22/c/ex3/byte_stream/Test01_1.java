@@ -1,6 +1,8 @@
 // 버퍼없이 대량의 primitive 타입의 값을 출력하기 
 package ch22.c.ex3.byte_stream;
 
+import ch22.c.ex2.byte_stream.DataOutputStream;
+
 public class Test01_1 {
   public static void main(String[] args) throws Exception {
 

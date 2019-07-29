@@ -1,14 +1,24 @@
-package ch22.c.ex3.byte_stream;
+package ch22.c.ex4;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
-// 기존의 FileOutputStream을 상속 받아 primitive 값을 출력하는 기능을 추가한다. 
-public class DataOutputStream extends FileOutputStream {
+//데코레이터 설계 패턴을 적용하여 기존 OutputStream에 기능을 추가한다.
+//=> DecoratorOutputStream을 상속 받는다.
+public class DataOutputStream extends DecoratorOutputStream {
 
-  public DataOutputStream(String name) throws FileNotFoundException {
-    super(name);
+  public DataOutputStream(OutputStream other) throws FileNotFoundException {
+    super(other);
+  }
+  
+  // 자신에게 1바이트 출력하라고 요청이 들어오면 
+  // 생성자에서 받은 다른 OutputStream 객체에 일을 떠 넘긴다.
+  // 왜? 데코레이터(악세서리)가 하는 일이 그렇다.
+  // 
+  @Override
+  public void write(int b) throws IOException {
+    other.write(b);
   }
   
   public void writeInt(int value) throws IOException {

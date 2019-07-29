@@ -12,15 +12,15 @@ public class BufferedInputStream extends DecoratorInputStream {
   int cursor = 0;
   int count = 0;
   
-  public BufferedInputStream(InputStream in) throws IOException {
-    super(in);
+  public BufferedInputStream(InputStream other) throws IOException {
+    super(other);
   }
   
   @Override
   public int read() throws IOException {
     if (cursor >= size) { 
       count++;
-      size = read(buf); 
+      size = other.read(buf); 
       if (size == -1) 
         return -1;
       cursor = 0; 
