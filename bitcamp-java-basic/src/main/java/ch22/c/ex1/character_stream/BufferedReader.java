@@ -1,4 +1,4 @@
-package ch22.c.ex1;
+package ch22.c.ex1.character_stream;
 
 import java.io.FileReader;
 import java.io.IOException;

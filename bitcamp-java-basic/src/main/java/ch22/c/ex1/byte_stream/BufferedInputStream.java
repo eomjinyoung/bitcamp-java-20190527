@@ -1,4 +1,4 @@
-package ch22.c.ex1;
+package ch22.c.ex1.byte_stream;
 
 import java.io.FileInputStream;
 import java.io.IOException;
