@@ -1,10 +1,10 @@
-// 버퍼 사용 - 사용 후
+// 버퍼 사용 - 사용 전
 // 
-package ch22.c.ex2;
+package ch22.c.ex3;
 
 import java.io.FileInputStream;
 
-public class Test01_2 {
+public class Test01_1 {
   public static void main(String[] args) {
     
     try {
@@ -14,10 +14,9 @@ public class Test01_2 {
       
       long start = System.currentTimeMillis();
       
-      byte[] buf = new byte[8192];
-      int len = 0;
+      int b;
       int count = 0;
-      while ((len = in.read(buf)) != -1) {
+      while ((b = in.read()) != -1) {
         count++;
       }
       

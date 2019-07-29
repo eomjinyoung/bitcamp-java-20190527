@@ -1,5 +1,5 @@
 // 데코레이터를 여러 개 연결하기
-package ch22.c.ex2;
+package ch22.c.ex3;
 
 import java.io.FileOutputStream;
 

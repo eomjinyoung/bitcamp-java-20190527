@@ -1,4 +1,4 @@
-package ch22.c.ex2;
+package ch22.c.ex3;
 
 import java.io.IOException;
 import java.io.InputStream;

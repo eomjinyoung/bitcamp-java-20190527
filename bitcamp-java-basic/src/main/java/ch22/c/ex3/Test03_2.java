@@ -1,5 +1,5 @@
 // primitive data type의 값을 출력하는 것을 도와주는 데코레이터 사용하기
-package ch22.c.ex2;
+package ch22.c.ex3;
 
 import java.io.FileOutputStream;
 

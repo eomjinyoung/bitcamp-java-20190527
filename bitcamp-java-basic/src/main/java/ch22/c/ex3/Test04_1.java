@@ -1,5 +1,5 @@
 // 바이트 데이터를 읽어 primitive data type으로 바꾸기
-package ch22.c.ex2;
+package ch22.c.ex3;
 
 import java.io.FileInputStream;
 
