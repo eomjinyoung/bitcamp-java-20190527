@@ -1,5 +1,5 @@
 // 바이트 데이터를 읽어 primitive data type의 값으로 바꿔주는 데코레이터 사용하기
-package ch22.c.ex3;
+package ch22.c.ex9;
 
 import java.io.FileInputStream;
 

@@ -1,5 +1,5 @@
 // 정리
-package ch22.c.ex3;
+package ch22.c.ex9;
 
 public class Test05 {
   public static void main(String[] args) {

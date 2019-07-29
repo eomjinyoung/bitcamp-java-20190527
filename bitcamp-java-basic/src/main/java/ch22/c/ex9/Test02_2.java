@@ -1,5 +1,5 @@
 // 버퍼 사용 - 사용 후
-package ch22.c.ex3;
+package ch22.c.ex9;
 
 import java.io.FileOutputStream;
 

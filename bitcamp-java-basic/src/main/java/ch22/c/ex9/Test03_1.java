@@ -1,5 +1,5 @@
 // primitive data type의 값을 출력하기
-package ch22.c.ex3;
+package ch22.c.ex9;
 
 import java.io.FileOutputStream;
 

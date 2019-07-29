@@ -1,5 +1,5 @@
 // 버퍼 사용 - 버퍼 기능을 대신 수행해주는 BufferedOutputStream 사용하기
-package ch22.c.ex3;
+package ch22.c.ex9;
 
 import java.io.FileOutputStream;
 

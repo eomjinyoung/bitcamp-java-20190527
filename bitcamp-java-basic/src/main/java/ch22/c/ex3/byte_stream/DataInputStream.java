@@ -1,4 +1,4 @@
-package ch22.c.ex2.byte_stream;
+package ch22.c.ex3.byte_stream;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
