@@ -1,5 +1,5 @@
 // 버퍼없이 대량의 primitive 타입의 값을 출력하기 
-package ch22.c.ex4;
+package ch22.c.ex4.byte_stream;
 
 import java.io.FileOutputStream;
 

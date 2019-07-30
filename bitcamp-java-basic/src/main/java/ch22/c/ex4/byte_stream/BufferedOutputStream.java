@@ -1,4 +1,4 @@
-package ch22.c.ex4;
+package ch22.c.ex4.byte_stream;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

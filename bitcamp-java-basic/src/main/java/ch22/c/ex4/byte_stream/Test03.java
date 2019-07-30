@@ -1,5 +1,5 @@
 // 정리
-package ch22.c.ex4;
+package ch22.c.ex4.byte_stream;
 
 public class Test03 {
   public static void main(String[] args) {
