@@ -18,7 +18,8 @@ public class Test02_2 {
       // 개발자가 스스로 판단하여 예외를 try ~ catch ~ 로 처리할 것인지 
       // 아니면 호출자에게 전달할 것인지 결정해야 한다.
     }
-
+    
+    System.out.println("종료!");
   }
 
 }

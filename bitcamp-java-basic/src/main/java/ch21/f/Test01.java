@@ -30,6 +30,7 @@ public class Test01 {
     } catch (Exception e) {
       
       StringWriter out = new StringWriter();
+      //FileWriter out = new FileWriter("error.log");
       PrintWriter out2 = new PrintWriter(out);
       
       // 상세 오류 정보를 String 으로 받기
