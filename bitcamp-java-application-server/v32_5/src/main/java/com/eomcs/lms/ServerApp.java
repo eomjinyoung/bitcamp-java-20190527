@@ -1,4 +1,4 @@
-// v32_6: 회원 데이터를 다루는 CRUD 명령을 처리한다.
+// v32_5: 명령어에 따라 클라이언트가 보낸 데이터 처리하기
 package com.eomcs.lms;
 
 import java.io.ObjectInputStream;
@@ -10,14 +10,10 @@ import com.eomcs.lms.domain.Member;
 
 public class ServerApp {
 
-  static ArrayList<Member> memberList = new ArrayList<>();
-  
-  static ObjectInputStream in;
-  static ObjectOutputStream out;
-  
   public static void main(String[] args) {
     System.out.println("[수업관리시스템 서버 애플리케이션]");
 
+    ArrayList<Member> memberList = new ArrayList<>();
 
     try (ServerSocket serverSocket = new ServerSocket(8888)) {
       System.out.println("서버 시작!");
@@ -28,10 +24,6 @@ public class ServerApp {
         
         System.out.println("클라이언트와 연결되었음.");
         
-        // 다른 메서드가 사용할 수 있도록 입출력 스트림을 스태틱 변수에 저장한다.
-        ServerApp.in = in;
-        ServerApp.out = out;
-        
         loop:
         while (true) {
           // 클라이언트가 보낸 명령을 읽는다.
@@ -40,11 +32,15 @@ public class ServerApp {
           
           // 명령어에 따라 처리한다.
           switch (command) {
-            case "/member/add":
-              addMember();
+            case "add":
+              // 클라이언트가 보낸 객체를 읽는다.
+              Member member = (Member)in.readObject();
+              memberList.add(member);
+              out.writeUTF("ok");
               break;
-            case "/member/list":
-              listMember();
+            case "list":
+              out.writeUTF("ok");
+              out.writeObject(memberList);
               break;
             case "quit":
               out.writeUTF("ok");
@@ -67,17 +63,6 @@ public class ServerApp {
     }
     
     System.out.println("서버 종료!");
-  }
-  
-  private static void addMember() throws Exception {
-    Member member = (Member)in.readObject();
-    memberList.add(member);
-    out.writeUTF("ok");
-  }
-  
-  private static void listMember() throws Exception {
-    out.writeUTF("ok");
-    out.writeObject(memberList);
   }
 }
 
