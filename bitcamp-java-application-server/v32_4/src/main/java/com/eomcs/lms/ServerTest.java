@@ -17,17 +17,17 @@ public class ServerTest {
       
       System.out.println("서버와 연결되었음.");
       
-      out.writeUTF("add");
-      
+      // 서버에 전송할 객체를 준비한다.
       Member member = new Member();
       member.setNo(1);
-      member.setName("홍길동");
+      //member.setName("홍길동");
       member.setEmail("hong@test.com");
       member.setPhoto("hong.gif");
       member.setTel("1111-1111");
 
+      // 서버에 객체를 전송한다.
       out.writeObject(member);
-      
+      out.flush();
       
       System.out.println("서버에 객체를 보냈음.");
       

@@ -1,51 +1,65 @@
-// v32_3: 클라이언트와 서버 간에 데이터 주고 받기 - 클라이언트가 보낸 데이터를 되돌려 보내기  
+// v32_5: 명령어에 따라 클라이언트가 보낸 데이터 처리하기
 package com.eomcs.lms;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import com.eomcs.lms.domain.Member;
 
 public class ServerApp {
 
   public static void main(String[] args) {
     System.out.println("[수업관리시스템 서버 애플리케이션]");
 
+    ArrayList<Member> memberList = new ArrayList<>();
+
     try (ServerSocket serverSocket = new ServerSocket(8888)) {
       System.out.println("서버 시작!");
-
+ 
       try (Socket clientSocket = serverSocket.accept();
-          // 클라이언트 연결 객체(소켓)에서 I/O 스트림 객체를 얻는다.
-          // => 사용하기 편하게 데코레이터를 붙인다.
-          BufferedReader in = new BufferedReader(
-              new InputStreamReader(clientSocket.getInputStream()));
-          PrintWriter out = new PrintWriter(
-              new BufferedOutputStream(clientSocket.getOutputStream()))) {
+          ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+          ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream())) {
         
         System.out.println("클라이언트와 연결되었음.");
         
-        // 클라이언트가 보낸 데이터를 읽는다.
-        // => 보낸 규칙에 맞춰서 읽어야 한다.
-        String message = in.readLine();
-        System.out.println("클라이언트가 보낸 데이터를 읽었음.");
+        loop:
+        while (true) {
+          // 클라이언트가 보낸 명령을 읽는다.
+          String command = in.readUTF();
+          System.out.println(command + " 요청 처리중...");
+          
+          // 명령어에 따라 처리한다.
+          switch (command) {
+            case "add":
+              // 클라이언트가 보낸 객체를 읽는다.
+              Member member = (Member)in.readObject();
+              memberList.add(member);
+              out.writeUTF("ok");
+              break;
+            case "list":
+              out.writeUTF("ok");
+              out.writeObject(memberList);
+              break;
+            case "quit":
+              out.writeUTF("ok");
+              break loop;
+            default:
+              out.writeUTF("fail");
+              out.writeUTF("지원하지 않는 명령입니다.");
+          }
+          System.out.println("클라이언트에게 응답 완료!");
+        } // loop:
         
-        // 클라이언트가 보낸 문자열이 궁금하다. 서버 쪽 콘솔 창에 출력해 보자.
-        System.out.println("--->" + message);
-
-        // 클라이언트가 보낸 문자열을 그대로 리턴한다.
-        out.println("[강사]" + message);
-        System.out.println("클라이언트로 데이터를 보냈음.");
       } 
       
       System.out.println("클라이언트와 연결을 끊었음.");
       
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
-
+    
     System.out.println("서버 종료!");
   }
 }
