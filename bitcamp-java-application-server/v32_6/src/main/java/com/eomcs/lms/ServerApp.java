@@ -1,4 +1,4 @@
-// v32_7: 수업과 게시물 데이터를 다루는 CRUD 명령을 처리한다.
+// v32_6: 회원 데이터를 다루는 CRUD 명령을 처리한다.
 package com.eomcs.lms;
 
 import java.io.ObjectInputStream;
