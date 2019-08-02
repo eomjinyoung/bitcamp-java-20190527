@@ -1,4 +1,4 @@
-// v32_9: 회원/수업/게시물 요청을 처리하는 클래스를 패키지로 분류한다.
+// v32_10: 파일 저장기능 추가
 package com.eomcs.lms;
 
 import java.io.ObjectInputStream;
@@ -53,6 +53,9 @@ public class ServerApp {
           out.flush();
           System.out.println("클라이언트에게 응답 완료!");
         } // loop:
+        
+        // 클라이언트와 연결을 끊기 전에 작업 내용을 파일에 저장한다. 
+        boardServlet.saveData();
       } 
       
       System.out.println("클라이언트와 연결을 끊었음.");
