@@ -1,4 +1,4 @@
-// v32_10: 파일 저장기능 추가
+// v32_11: Servlet 클래스에서 데이터 저장 기능을 별도의 클래스(DAO)로 분리하기
 package com.eomcs.lms;
 
 import java.io.ObjectInputStream;
