@@ -9,20 +9,20 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import com.eomcs.lms.domain.Member;
+import com.eomcs.lms.domain.Board;
 
-public class MemberSerialDao {
+public class BoardSerialDao {
   
-  ArrayList<Member> list = new ArrayList<>();
+  ArrayList<Board> list = new ArrayList<>();
   File file;
   
-  public MemberSerialDao(String file) throws ClassNotFoundException {
+  public BoardSerialDao(String file) throws ClassNotFoundException {
     this.file = new File(file);
     
     try {
       loadData();
     } catch (IOException e) {
-      System.out.println("회원 데이터 로딩 중 오류 발생!");
+      System.out.println("게시물 데이터 로딩 중 오류 발생!");
     }
   }
   
@@ -30,8 +30,8 @@ public class MemberSerialDao {
   private void loadData() throws IOException, ClassNotFoundException {
     try (ObjectInputStream in = new ObjectInputStream(
           new FileInputStream(file))) {
-      list = (ArrayList<Member>) in.readObject();
-      System.out.println("회원 데이터 로딩 완료!");
+      list = (ArrayList<Board>) in.readObject();
+      System.out.println("게시물 데이터 로딩 완료!");
     }
   }
   
@@ -41,7 +41,7 @@ public class MemberSerialDao {
           new FileOutputStream(file))) {
       
       out.writeObject(list);
-      System.out.println("회원 데이터 저장 완료!");
+      System.out.println("게시물 데이터 저장 완료!");
       
     } catch (FileNotFoundException e) {
       System.out.println("파일을 생성할 수 없습니다!");
@@ -52,16 +52,16 @@ public class MemberSerialDao {
     }
   }
   
-  public int insert(Member member) throws Exception {
-    list.add(member);
+  public int insert(Board board) throws Exception {
+    list.add(board);
     return 1;
   }
   
-  public List<Member> findAll() throws Exception {
+  public List<Board> findAll() throws Exception {
     return list;
   }
   
-  public Member findBy(int no) throws Exception {
+  public Board findBy(int no) throws Exception {
     int index = indexOf(no);
     if (index == -1)
       return null;
@@ -69,12 +69,12 @@ public class MemberSerialDao {
     return list.get(index);
   }
   
-  public int update(Member member) throws Exception {
-    int index = indexOf(member.getNo());
+  public int update(Board board) throws Exception {
+    int index = indexOf(board.getNo());
     if (index == -1)
       return 0;
     
-    list.set(index, member);
+    list.set(index, board);
     return 1;
   }
   
@@ -89,7 +89,7 @@ public class MemberSerialDao {
   
   private int indexOf(int no) {
     int i = 0;
-    for (Member obj : list) {
+    for (Board obj : list) {
       if (obj.getNo() == no) {
         return i;
       }
