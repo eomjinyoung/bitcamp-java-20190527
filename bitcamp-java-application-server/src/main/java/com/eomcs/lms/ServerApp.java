@@ -56,6 +56,8 @@ public class ServerApp {
         
         // 클라이언트와 연결을 끊기 전에 작업 내용을 파일에 저장한다. 
         boardServlet.saveData();
+        lessonServlet.saveData();
+        memberServlet.saveData();
       } 
       
       System.out.println("클라이언트와 연결을 끊었음.");
