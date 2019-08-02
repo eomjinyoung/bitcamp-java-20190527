@@ -27,7 +27,6 @@ public class ServerApp {
         MemberServlet memberServlet = new MemberServlet(in, out);
         LessonServlet lessonServlet = new LessonServlet(in, out);
         
-        loop:
         while (true) {
           // 클라이언트가 보낸 명령을 읽는다.
           String command = in.readUTF();
@@ -45,7 +44,8 @@ public class ServerApp {
           } else if (command.equals("quit")) {
             out.writeUTF("ok");
             out.flush();
-            break loop;
+            break;
+            
           } else {
             out.writeUTF("fail");
             out.writeUTF("지원하지 않는 명령입니다.");
