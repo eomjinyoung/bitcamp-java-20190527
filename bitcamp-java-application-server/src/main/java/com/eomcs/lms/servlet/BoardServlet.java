@@ -1,8 +1,9 @@
-package com.eomcs.lms;
+package com.eomcs.lms.servlet;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import com.eomcs.lms.Servlet;
 import com.eomcs.lms.domain.Board;
 
 // 게시물 요청을 처리하는 담당자
