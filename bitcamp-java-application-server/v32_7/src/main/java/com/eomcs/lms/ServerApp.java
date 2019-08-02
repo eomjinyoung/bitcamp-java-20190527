@@ -1,4 +1,4 @@
-// v32_8: 회원/수업/게시물 요청을 처리하는 코드를 별도의 클래스로 분리하다.
+// v32_7: 수업과 게시물 데이터를 다루는 CRUD 명령을 처리한다.
 package com.eomcs.lms;
 
 import java.io.ObjectInputStream;
@@ -14,7 +14,7 @@ public class ServerApp {
 
   static ArrayList<Member> memberList = new ArrayList<>();
   static ArrayList<Lesson> lessonList = new ArrayList<>();
-  
+  static ArrayList<Board> boardList = new ArrayList<>();
   
   static ObjectInputStream in;
   static ObjectOutputStream out;
@@ -36,19 +36,11 @@ public class ServerApp {
         ServerApp.in = in;
         ServerApp.out = out;
         
-        BoardServlet boardServlet = new BoardServlet(in, out);
-        
         loop:
         while (true) {
           // 클라이언트가 보낸 명령을 읽는다.
           String command = in.readUTF();
           System.out.println(command + " 요청 처리중...");
-          
-          if (command.startsWith("/board/")) {
-            boardServlet.service(command);
-            out.flush();
-            continue;
-          }
           
           // 명령어에 따라 처리한다.
           switch (command) {
@@ -81,6 +73,21 @@ public class ServerApp {
               break;
             case "/lesson/update":
               updateLesson();
+              break;
+            case "/board/add":
+              addBoard();
+              break;
+            case "/board/list":
+              listBoard();
+              break;
+            case "/board/delete":
+              deleteBoard();
+              break;  
+            case "/board/detail":
+              detailBoard();
+              break;
+            case "/board/update":
+              updateBoard();
               break;
             case "quit":
               out.writeUTF("ok");
@@ -282,6 +289,64 @@ public class ServerApp {
     return -1;
   }
   
+  private static void updateBoard() throws Exception {
+    Board board = (Board)in.readObject();
+    
+    int index = indexOfBoard(board.getNo());
+    if (index == -1) {
+      fail("해당 번호의 게시물이 없습니다.");
+      return;
+    }
+    boardList.set(index, board);
+    out.writeUTF("ok");
+  }
+
+  private static void detailBoard() throws Exception {
+    int no = in.readInt();
+    
+    int index = indexOfBoard(no);
+    if (index == -1) {
+      fail("해당 번호의 게시물이 없습니다.");
+      return;
+    }
+    out.writeUTF("ok");
+    out.writeObject(boardList.get(index));
+  }
+
+  private static void deleteBoard() throws Exception {
+    int no = in.readInt();
+    
+    int index = indexOfBoard(no);
+    if (index == -1) {
+      fail("해당 번호의 게시물이 없습니다.");
+      return;
+    }
+    boardList.remove(index);
+    out.writeUTF("ok");
+  }
+
+  private static void addBoard() throws Exception {
+    Board board = (Board)in.readObject();
+    boardList.add(board);
+    out.writeUTF("ok");
+  }
+  
+  private static void listBoard() throws Exception {
+    out.writeUTF("ok");
+    out.reset(); // 기존에 serialize 했던 객체의 상태를 무시하고 다시 serialize 한다.
+    out.writeObject(boardList);
+  }
+  
+  private static int indexOfBoard(int no) {
+    int i = 0;
+    for (Board obj : boardList) {
+      if (obj.getNo() == no) {
+        return i;
+      }
+      i++;
+    }
+    return -1;
+  }
   private static void fail(String cause) throws Exception {
     out.writeUTF("fail");
     out.writeUTF(cause);
