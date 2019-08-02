@@ -6,11 +6,15 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import com.eomcs.lms.domain.Board;
+import com.eomcs.lms.domain.Lesson;
 import com.eomcs.lms.domain.Member;
 
 public class ServerApp {
 
   static ArrayList<Member> memberList = new ArrayList<>();
+  static ArrayList<Lesson> lessonList = new ArrayList<>();
+  static ArrayList<Board> boardList = new ArrayList<>();
   
   static ObjectInputStream in;
   static ObjectOutputStream out;
@@ -54,6 +58,36 @@ public class ServerApp {
               break;
             case "/member/update":
               updateMember();
+              break;
+            case "/lesson/add":
+              addLesson();
+              break;
+            case "/lesson/list":
+              listLesson();
+              break;
+            case "/lesson/delete":
+              deleteLesson();
+              break;  
+            case "/lesson/detail":
+              detailLesson();
+              break;
+            case "/lesson/update":
+              updateLesson();
+              break;
+            case "/board/add":
+              addBoard();
+              break;
+            case "/board/list":
+              listBoard();
+              break;
+            case "/board/delete":
+              deleteBoard();
+              break;  
+            case "/board/detail":
+              detailBoard();
+              break;
+            case "/board/update":
+              updateBoard();
               break;
             case "quit":
               out.writeUTF("ok");
@@ -196,6 +230,123 @@ public class ServerApp {
     return -1;
   }
   
+  private static void updateLesson() throws Exception {
+    Lesson lesson = (Lesson)in.readObject();
+    
+    int index = indexOfLesson(lesson.getNo());
+    if (index == -1) {
+      fail("해당 번호의 수업이 없습니다.");
+      return;
+    }
+    lessonList.set(index, lesson);
+    out.writeUTF("ok");
+  }
+
+  private static void detailLesson() throws Exception {
+    int no = in.readInt();
+    
+    int index = indexOfLesson(no);
+    if (index == -1) {
+      fail("해당 번호의 수업이 없습니다.");
+      return;
+    }
+    out.writeUTF("ok");
+    out.writeObject(lessonList.get(index));
+  }
+
+  private static void deleteLesson() throws Exception {
+    int no = in.readInt();
+    
+    int index = indexOfLesson(no);
+    if (index == -1) {
+      fail("해당 번호의 수업이 없습니다.");
+      return;
+    }
+    lessonList.remove(index);
+    out.writeUTF("ok");
+  }
+
+  private static void addLesson() throws Exception {
+    Lesson lesson = (Lesson)in.readObject();
+    lessonList.add(lesson);
+    out.writeUTF("ok");
+  }
+  
+  private static void listLesson() throws Exception {
+    out.writeUTF("ok");
+    out.reset(); // 기존에 serialize 했던 객체의 상태를 무시하고 다시 serialize 한다.
+    out.writeObject(lessonList);
+  }
+  
+  private static int indexOfLesson(int no) {
+    int i = 0;
+    for (Lesson obj : lessonList) {
+      if (obj.getNo() == no) {
+        return i;
+      }
+      i++;
+    }
+    return -1;
+  }
+  
+  private static void updateBoard() throws Exception {
+    Board board = (Board)in.readObject();
+    
+    int index = indexOfBoard(board.getNo());
+    if (index == -1) {
+      fail("해당 번호의 게시물이 없습니다.");
+      return;
+    }
+    boardList.set(index, board);
+    out.writeUTF("ok");
+  }
+
+  private static void detailBoard() throws Exception {
+    int no = in.readInt();
+    
+    int index = indexOfBoard(no);
+    if (index == -1) {
+      fail("해당 번호의 게시물이 없습니다.");
+      return;
+    }
+    out.writeUTF("ok");
+    out.writeObject(boardList.get(index));
+  }
+
+  private static void deleteBoard() throws Exception {
+    int no = in.readInt();
+    
+    int index = indexOfBoard(no);
+    if (index == -1) {
+      fail("해당 번호의 게시물이 없습니다.");
+      return;
+    }
+    boardList.remove(index);
+    out.writeUTF("ok");
+  }
+
+  private static void addBoard() throws Exception {
+    Board board = (Board)in.readObject();
+    boardList.add(board);
+    out.writeUTF("ok");
+  }
+  
+  private static void listBoard() throws Exception {
+    out.writeUTF("ok");
+    out.reset(); // 기존에 serialize 했던 객체의 상태를 무시하고 다시 serialize 한다.
+    out.writeObject(boardList);
+  }
+  
+  private static int indexOfBoard(int no) {
+    int i = 0;
+    for (Board obj : boardList) {
+      if (obj.getNo() == no) {
+        return i;
+      }
+      i++;
+    }
+    return -1;
+  }
   private static void fail(String cause) throws Exception {
     out.writeUTF("fail");
     out.writeUTF(cause);
