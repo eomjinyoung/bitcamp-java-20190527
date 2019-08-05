@@ -1,10 +1,13 @@
-// v32_13: CSV(comma-separated value) 형식으로 데이터를 다루는 DAO 추가
+// v32_15: 서블릿에서 DAO를 쉽게 교체할 수 있도록 외부에서 주입하라!
 package com.eomcs.lms;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import com.eomcs.lms.dao.serial.BoardSerialDao;
+import com.eomcs.lms.dao.serial.LessonSerialDao;
+import com.eomcs.lms.dao.serial.MemberSerialDao;
 import com.eomcs.lms.servlet.BoardServlet;
 import com.eomcs.lms.servlet.LessonServlet;
 import com.eomcs.lms.servlet.MemberServlet;
@@ -23,9 +26,19 @@ public class ServerApp {
         
         System.out.println("클라이언트와 연결되었음.");
         
-        BoardServlet boardServlet = new BoardServlet(in, out);
-        MemberServlet memberServlet = new MemberServlet(in, out);
-        LessonServlet lessonServlet = new LessonServlet(in, out);
+        /*
+        BoardCsvDao boardDao = new BoardCsvDao("./board.csv");
+        MemberCsvDao memberDao = new MemberCsvDao("./member.csv");
+        LessonCsvDao lessonDao = new LessonCsvDao("./lesson.csv");
+        */
+        
+        BoardSerialDao boardDao = new BoardSerialDao("./board.ser");
+        MemberSerialDao memberDao = new MemberSerialDao("./member.ser");
+        LessonSerialDao lessonDao = new LessonSerialDao("./lesson.ser");
+        
+        BoardServlet boardServlet = new BoardServlet(boardDao, in, out);
+        MemberServlet memberServlet = new MemberServlet(memberDao, in, out);
+        LessonServlet lessonServlet = new LessonServlet(lessonDao, in, out);
         
         while (true) {
           // 클라이언트가 보낸 명령을 읽는다.
@@ -55,9 +68,9 @@ public class ServerApp {
         } // loop:
         
         // 클라이언트와 연결을 끊기 전에 작업 내용을 파일에 저장한다. 
-        boardServlet.saveData();
-        lessonServlet.saveData();
-        memberServlet.saveData();
+        boardDao.saveData();
+        lessonDao.saveData();
+        memberDao.saveData();
       } 
       
       System.out.println("클라이언트와 연결을 끊었음.");
