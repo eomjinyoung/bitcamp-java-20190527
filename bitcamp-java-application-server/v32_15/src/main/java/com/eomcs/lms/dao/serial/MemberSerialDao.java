@@ -14,8 +14,6 @@ public class MemberSerialDao extends AbstractDataSerializer<Member,Integer>
     
     try {
       loadData();
-      System.out.println("회원 데이터 로딩 완료!");
-      
     } catch (IOException e) {
       System.out.println("회원 데이터 로딩 중 오류 발생!");
     }
