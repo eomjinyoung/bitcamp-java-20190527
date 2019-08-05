@@ -40,9 +40,7 @@ public class App {
 
   Scanner keyScan;
 
-  @SuppressWarnings("unchecked")
   private void service() {
-
     try (Socket socket = new Socket("localhost", 8888);
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
@@ -75,11 +73,11 @@ public class App {
       commandMap.put("/member/list", new MemberListCommand(input, memberList));
       commandMap.put("/member/update", new MemberUpdateCommand(input, memberList));
 
-      commandMap.put("/board/add", new BoardAddCommand(input, boardList));
-      commandMap.put("/board/delete", new BoardDeleteCommand(input, boardList));
-      commandMap.put("/board/detail", new BoardDetailCommand(input, boardList));
-      commandMap.put("/board/list", new BoardListCommand(input, boardList));
-      commandMap.put("/board/update", new BoardUpdateCommand(input, boardList));
+      commandMap.put("/board/add", new BoardAddCommand(input, boardDao));
+      commandMap.put("/board/delete", new BoardDeleteCommand(input, boardDao));
+      commandMap.put("/board/detail", new BoardDetailCommand(input, boardDao));
+      commandMap.put("/board/list", new BoardListCommand(input, boardDao));
+      commandMap.put("/board/update", new BoardUpdateCommand(input, boardDao));
 
       commandMap.put("/hi", new HiCommand(input));
       commandMap.put("/calc/plus", new CalcPlusCommand(input));
@@ -97,6 +95,8 @@ public class App {
         Command executor = commandMap.get(command);
 
         if (command.equals("quit")) {
+          out.writeUTF(command);
+          out.flush();
           break;
         } else if (command.equals("history")) {
           printCommandHistory(commandStack);
