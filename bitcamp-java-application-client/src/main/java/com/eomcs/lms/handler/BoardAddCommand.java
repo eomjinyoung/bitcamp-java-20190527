@@ -1,18 +1,18 @@
 package com.eomcs.lms.handler;
 
 import java.sql.Date;
-import java.util.List;
+import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.domain.Board;
 import com.eomcs.util.Input;
 
 public class BoardAddCommand implements Command {
   
-  private List<Board> list;
+  private BoardDao boardDao;
   private Input input;
   
-  public BoardAddCommand(Input input, List<Board> list) {
+  public BoardAddCommand(Input input, BoardDao boardDao) {
     this.input = input;
-    this.list = list;
+    this.boardDao = boardDao;
   }
 
   @Override
@@ -23,8 +23,13 @@ public class BoardAddCommand implements Command {
     board.setContents(input.getStringValue("내용? "));
     board.setCreatedDate(new Date(System.currentTimeMillis())); 
     
-    list.add(board);
-    System.out.println("저장하였습니다.");
+    try {
+      boardDao.insert(board);
+      System.out.println("저장하였습니다.");
+    } catch (Exception e) {
+      System.out.println("데이터 저장에 실패했습니다!");
+      System.out.println(e.getMessage());
+    }
   }
 
 }
