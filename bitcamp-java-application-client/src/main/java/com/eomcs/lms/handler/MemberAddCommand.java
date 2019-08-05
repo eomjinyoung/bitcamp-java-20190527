@@ -1,17 +1,17 @@
 package com.eomcs.lms.handler;
 
 import java.sql.Date;
-import java.util.List;
+import com.eomcs.lms.dao.MemberDao;
 import com.eomcs.lms.domain.Member;
 import com.eomcs.util.Input;
 
 public class MemberAddCommand implements Command {
-  private List<Member> list;
+  private MemberDao memberDao;
   private Input input;
-  
-  public MemberAddCommand(Input input, List<Member> list) {
+
+  public MemberAddCommand(Input input, MemberDao memberDao) {
     this.input = input;
-    this.list = list;
+    this.memberDao = memberDao;
   }
 
   @Override
@@ -24,10 +24,15 @@ public class MemberAddCommand implements Command {
     member.setPhoto(input.getStringValue("사진? "));
     member.setTel(input.getStringValue("전화? "));
     member.setRegisteredDate(new Date(System.currentTimeMillis())); 
+
+    try {
+      memberDao.insert(member);
+      System.out.println("저장하였습니다.");
       
-    list.add(member);
-    
-    System.out.println("저장하였습니다.");
+    } catch (Exception e) {
+      System.out.println("데이터 저장에 실패했습니다!");
+      System.out.println(e.getMessage());
+    }
   }
 
 }

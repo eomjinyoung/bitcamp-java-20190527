@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,9 +12,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 import com.eomcs.lms.client.BoardDaoProxy;
+import com.eomcs.lms.client.LessonDaoProxy;
+import com.eomcs.lms.client.MemberDaoProxy;
 import com.eomcs.lms.dao.BoardDao;
-import com.eomcs.lms.domain.Lesson;
-import com.eomcs.lms.domain.Member;
+import com.eomcs.lms.dao.LessonDao;
+import com.eomcs.lms.dao.MemberDao;
 import com.eomcs.lms.handler.BoardAddCommand;
 import com.eomcs.lms.handler.BoardDeleteCommand;
 import com.eomcs.lms.handler.BoardDetailCommand;
@@ -47,10 +48,8 @@ public class App {
 
       // Command 객체가 사용할 데이터 처리 객체를 준비한다.
       BoardDao boardDao = new BoardDaoProxy(in, out);
-      
-      // 회원과 수업 데이터를 다루는 커맨드는 일단 ArrayList를 사용!
-      ArrayList<Member> memberList = new ArrayList<>();
-      ArrayList<Lesson> lessonList = new ArrayList<>();
+      MemberDao memberDao = new MemberDaoProxy(in, out);
+      LessonDao lessonDao = new LessonDaoProxy(in, out);
       
       keyScan = new Scanner(System.in);
 
@@ -61,17 +60,17 @@ public class App {
 
       HashMap<String,Command> commandMap = new HashMap<>();
 
-      commandMap.put("/lesson/add", new LessonAddCommand(input, lessonList));
-      commandMap.put("/lesson/delete", new LessonDeleteCommand(input, lessonList));
-      commandMap.put("/lesson/detail", new LessonDetailCommand(input, lessonList));
-      commandMap.put("/lesson/list", new LessonListCommand(input, lessonList));
-      commandMap.put("/lesson/update", new LessonUpdateCommand(input, lessonList));
+      commandMap.put("/lesson/add", new LessonAddCommand(input, lessonDao));
+      commandMap.put("/lesson/delete", new LessonDeleteCommand(input, lessonDao));
+      commandMap.put("/lesson/detail", new LessonDetailCommand(input, lessonDao));
+      commandMap.put("/lesson/list", new LessonListCommand(input, lessonDao));
+      commandMap.put("/lesson/update", new LessonUpdateCommand(input, lessonDao));
 
-      commandMap.put("/member/add", new MemberAddCommand(input, memberList));
-      commandMap.put("/member/delete", new MemberDeleteCommand(input, memberList));
-      commandMap.put("/member/detail", new MemberDetailCommand(input, memberList));
-      commandMap.put("/member/list", new MemberListCommand(input, memberList));
-      commandMap.put("/member/update", new MemberUpdateCommand(input, memberList));
+      commandMap.put("/member/add", new MemberAddCommand(input, memberDao));
+      commandMap.put("/member/delete", new MemberDeleteCommand(input, memberDao));
+      commandMap.put("/member/detail", new MemberDetailCommand(input, memberDao));
+      commandMap.put("/member/list", new MemberListCommand(input, memberDao));
+      commandMap.put("/member/update", new MemberUpdateCommand(input, memberDao));
 
       commandMap.put("/board/add", new BoardAddCommand(input, boardDao));
       commandMap.put("/board/delete", new BoardDeleteCommand(input, boardDao));

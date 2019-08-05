@@ -2,17 +2,17 @@ package com.eomcs.lms;
 
 import java.util.Map;
 import com.eomcs.lms.context.ServletContextListener;
-import com.eomcs.lms.dao.serial.BoardSerialDao;
-import com.eomcs.lms.dao.serial.LessonSerialDao;
-import com.eomcs.lms.dao.serial.MemberSerialDao;
+import com.eomcs.lms.dao.csv.BoardCsvDao;
+import com.eomcs.lms.dao.csv.LessonCsvDao;
+import com.eomcs.lms.dao.csv.MemberCsvDao;
 
 // 서버가 시작되거나 종료될 때 보고를 받고 작업을 수행하는 역할
 // => ServletContextListener 규칙을 준비해야만 서버의 시작과 종료 알림을 받을 수 있다.
 public class AppInitListener implements ServletContextListener {
   
-  BoardSerialDao boardDao; 
-  MemberSerialDao memberDao;
-  LessonSerialDao lessonDao;
+  BoardCsvDao boardDao; 
+  MemberCsvDao memberDao;
+  LessonCsvDao lessonDao;
   
   @Override
   public void contextInitialized(Map<String, Object> context) {
@@ -20,10 +20,8 @@ public class AppInitListener implements ServletContextListener {
     
     
     try {
-      /*
       boardDao = new BoardCsvDao("./board.csv");
-       */
-      boardDao = new BoardSerialDao("./board.ser");
+      //boardDao = new BoardSerialDao("./board.ser");
       context.put("boardDao", boardDao);
       
     } catch (Exception e) {
@@ -31,10 +29,8 @@ public class AppInitListener implements ServletContextListener {
     }
     
     try {
-      /*
       memberDao = new MemberCsvDao("./member.csv");
-       */
-      memberDao = new MemberSerialDao("./member.ser");
+      //memberDao = new MemberSerialDao("./member.ser");
       context.put("memberDao", memberDao);
       
     } catch (Exception e) {
@@ -42,10 +38,8 @@ public class AppInitListener implements ServletContextListener {
     }
     
     try {
-      /*
       lessonDao = new LessonCsvDao("./lesson.csv");
-       */
-      lessonDao = new LessonSerialDao("./lesson.ser");
+      //lessonDao = new LessonSerialDao("./lesson.ser");
       context.put("lessonDao", lessonDao);
       
     } catch (Exception e) {
