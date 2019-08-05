@@ -1,4 +1,4 @@
-// v32_12: DAO 클래스들의 공통 필드나 메서드를 뽑아 수퍼 클래스로 정의(generalization)
+// v32_13: CSV(comma-separated value) 형식으로 데이터를 다루는 DAO 추가
 package com.eomcs.lms;
 
 import java.io.ObjectInputStream;
