@@ -2,13 +2,14 @@ package com.eomcs.lms.servlet;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Date;
 import com.eomcs.lms.Servlet;
-import com.eomcs.lms.dao.MemberSerialDao;
+import com.eomcs.lms.dao.csv.MemberCsvDao;
 import com.eomcs.lms.domain.Member;
 
 public class MemberServlet implements Servlet {
   
-  MemberSerialDao memberDao;
+  MemberCsvDao memberDao;
   
   ObjectInputStream in;
   ObjectOutputStream out;
@@ -17,7 +18,7 @@ public class MemberServlet implements Servlet {
     this.in = in;
     this.out = out;
     
-    memberDao = new MemberSerialDao("./member.ser");
+    memberDao = new MemberCsvDao("./member.csv");
   }
   
   public void saveData() {
@@ -51,7 +52,10 @@ public class MemberServlet implements Servlet {
   private void updateMember() throws Exception {
     Member member = (Member)in.readObject();
     
-    if (memberDao.update(member) == 0) {
+    // 변경일은 서버쪽에서 설정해야 한다.
+    member.setRegisteredDate(new Date(System.currentTimeMillis()));
+
+    if (memberDao.modify(member) == 0) {
       fail("해당 번호의 회원이 없습니다.");
       return;
     }
@@ -74,7 +78,7 @@ public class MemberServlet implements Servlet {
   private void deleteMember() throws Exception {
     int no = in.readInt();
     
-    if (memberDao.delete(no) == 0) {
+    if (memberDao.remove(no) == 0) {
       fail("해당 번호의 회원이 없습니다.");
       return;
     }
@@ -83,6 +87,9 @@ public class MemberServlet implements Servlet {
 
   private void addMember() throws Exception {
     Member member = (Member)in.readObject();
+    
+    // 등록일은 서버쪽에서 설정해야 한다.
+    member.setRegisteredDate(new Date(System.currentTimeMillis()));
     
     if (memberDao.insert(member) == 0) {
       fail("회원을 입력할 수 없습니다.");
