@@ -1,6 +1,9 @@
 // client-v33_2 : Stateful 통신 방식을 Stateless 통신 방식으로 변경한다. 
 package com.eomcs.lms;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -38,11 +41,19 @@ public class App {
 
   Scanner keyScan;
 
+  String host;
+  int port;
+  
+  public App(String host, int port) {
+    this.host = host;
+    this.port = port;
+  }
+  
   private void service() {
     // Command 객체가 사용할 데이터 처리 객체를 준비한다.
-    BoardDao boardDao = new BoardDaoProxy("localhost", 8888);
-    MemberDao memberDao = new MemberDaoProxy("localhost", 8888);
-    LessonDao lessonDao = new LessonDaoProxy("localhost", 8888);
+    BoardDao boardDao = new BoardDaoProxy(host, port);
+    MemberDao memberDao = new MemberDaoProxy(host, port);
+    LessonDao lessonDao = new LessonDaoProxy(host, port);
 
     keyScan = new Scanner(System.in);
 
@@ -86,9 +97,11 @@ public class App {
 
       Command executor = commandMap.get(command);
 
-      if (command.equals("serverstop")) {
-        //out.writeUTF(command);
-        //out.flush();
+      if (command.equals("quit")) {
+        break;
+        
+      } else if (command.equals("serverstop")) {
+        serverStop();
         break;
 
       } else if (command.equals("history")) {
@@ -125,9 +138,22 @@ public class App {
     System.out.print("명령> ");
     return keyScan.nextLine();
   }
+  
+  private void serverStop() {
+    try (Socket socket = new Socket(host, port);
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
+      
+      out.writeUTF("serverstop");
+      out.flush();
+      
+    } catch (Exception e) {
+      // 서버를 종료하는 요청을 보낸 후 발생하는 예외는 무시한다.
+    }
+  }
 
   public static void main(String[] args) {
-    App app = new App();
+    App app = new App("localhost", 8888);
     app.service();
   }
 }
