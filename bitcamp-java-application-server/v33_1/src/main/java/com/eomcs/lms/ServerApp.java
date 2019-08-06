@@ -1,4 +1,4 @@
-// v33_2: Stateful 통신 방식을 Stateless 통신 방식으로 변경하여 더 많은 클라이언트 요청 처리.
+// v33_1: 반복해서 클라이언트 접속을 허용하기
 package com.eomcs.lms;
 
 import java.io.ObjectInputStream;
@@ -38,7 +38,7 @@ public class ServerApp {
         listener.contextInitialized(servletContext);
       }
 
-
+      loop:
       while (true) {
         try (Socket clientSocket = serverSocket.accept();
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
@@ -54,29 +54,33 @@ public class ServerApp {
           MemberServlet memberServlet = new MemberServlet(memberDao, in, out);
           LessonServlet lessonServlet = new LessonServlet(lessonDao, in, out);
 
-          // 클라이언트가 보낸 명령을 읽는다.
-          String command = in.readUTF();
-          System.out.println(command + " 요청 처리중...");
+          while (true) {
+            // 클라이언트가 보낸 명령을 읽는다.
+            String command = in.readUTF();
+            System.out.println(command + " 요청 처리중...");
 
-          if (command.startsWith("/board/")) {
-            boardServlet.service(command);
+            if (command.startsWith("/board/")) {
+              boardServlet.service(command);
 
-          } else if (command.startsWith("/member/")) {
-            memberServlet.service(command);
+            } else if (command.startsWith("/member/")) {
+              memberServlet.service(command);
 
-          } else if (command.startsWith("/lesson/")) {
-            lessonServlet.service(command);
+            } else if (command.startsWith("/lesson/")) {
+              lessonServlet.service(command);
 
-          } else if (command.equals("serverstop")) {
-            break;
-
-          } else {
-            out.writeUTF("fail");
-            out.writeUTF("지원하지 않는 명령입니다.");
-          }
-          out.flush();
-          System.out.println("클라이언트에게 응답 완료!");
-
+            } else if (command.equals("quit")) {
+              break;
+              
+            } else if (command.equals("serverstop")) {
+              break loop;
+              
+            } else {
+              out.writeUTF("fail");
+              out.writeUTF("지원하지 않는 명령입니다.");
+            }
+            out.flush();
+            System.out.println("클라이언트에게 응답 완료!");
+          } // loop:
         } 
 
         System.out.println("클라이언트와 연결을 끊었음.");

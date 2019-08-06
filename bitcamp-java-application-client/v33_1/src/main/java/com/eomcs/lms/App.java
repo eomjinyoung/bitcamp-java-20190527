@@ -1,4 +1,4 @@
-// client-v33_2 : Stateful 통신 방식을 Stateless 통신 방식으로 변경한다. 
+// client-v33_1 : 서버 종료 명령 추가하기
 package com.eomcs.lms;
 
 import java.io.ObjectInputStream;
@@ -141,7 +141,7 @@ public class App {
     System.out.print("명령> ");
     return keyScan.nextLine();
   }
-  
+
   public static void main(String[] args) {
     App app = new App();
     app.service();
