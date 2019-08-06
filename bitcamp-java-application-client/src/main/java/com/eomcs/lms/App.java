@@ -1,4 +1,4 @@
-// client-v32_2 : 데이터 관리를 서버에게 맡긴다. 즉 서버를 통해 데이터를 처리한다.
+// client-v33_1 : 서버 종료 명령 추가하기
 package com.eomcs.lms;
 
 import java.io.ObjectInputStream;
@@ -97,6 +97,12 @@ public class App {
           out.writeUTF(command);
           out.flush();
           break;
+          
+        } else if (command.equals("serverstop")) {
+          out.writeUTF(command);
+          out.flush();
+          break;
+          
         } else if (command.equals("history")) {
           printCommandHistory(commandStack);
 
