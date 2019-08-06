@@ -67,5 +67,4 @@ public class Server3 {
     }
     System.out.println("서버 종료!");
   }
-
 }

@@ -20,7 +20,7 @@ public class Client4 {
     SocketAddress socketAddress = new InetSocketAddress("localhost", 8888);
     
     System.out.println("서버와 연결 중...");
-    socket.connect(socketAddress, 20000); // timeout : milliseconds
+    socket.connect(socketAddress, 40000); // timeout : milliseconds
     System.out.println("서버와 연결되었음!");
     
     keyboard.nextLine(); // 사용자가 엔터를 칠 때까지 다음 코드로 이동하지 않는다.

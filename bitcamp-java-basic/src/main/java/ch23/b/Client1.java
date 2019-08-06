@@ -27,6 +27,7 @@ public class Client1 {
       // - 실제 write()는 소켓의 내부 버퍼로 출력한다.
       //   따라서 write() 호출 후 즉시 리턴될 것이다.
       out.write(100);
+      out.flush();
       System.out.println("서버에 데이터를 보냈음!");
       
       // 서버의 응답을 받는다.

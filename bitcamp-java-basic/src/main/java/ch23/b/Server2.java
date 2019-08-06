@@ -22,9 +22,7 @@ public class Server2 {
         System.out.println("대기열에서 클라이언트 정보를 꺼내 소켓을 생성하였음.");
         System.out.println("클라이언트와 통신할 입출력 스트림이 준비되었음.");
         
-        System.out.print("데이터를 읽기 전에 잠깐!");
-        keyboard.nextLine(); 
-        
+        System.out.println("클라이언트의 데이터가 오기를 기다림!");
         String request = in.nextLine(); 
         System.out.println(request);
 

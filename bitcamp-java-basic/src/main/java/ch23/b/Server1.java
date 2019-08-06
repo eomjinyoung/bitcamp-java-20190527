@@ -53,7 +53,7 @@ public class Server1 {
         
         // => 클라이언트에게 받은 문자열을 그대로 보낸다.
         //    물론 클라이언트가 보낸 데이터를 다 읽을 때까지 리턴하지 않는다.
-        out.write(100 / 3);
+        out.write(request);
         System.out.println("클라인트에게 데이터를 보냈음.");
         
       }

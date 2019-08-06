@@ -13,21 +13,21 @@ public class Client3 {
 
   public static void main(String[] args) {
     
-    try (Socket socket = new Socket("192.168.0.109", 8888);
+    try (Socket socket = new Socket("192.168.0.24", 8888);
         DataOutputStream out = new DataOutputStream( 
             new BufferedOutputStream(socket.getOutputStream()));
         Scanner in = new Scanner(socket.getInputStream())) {
       
       System.out.println("서버와 연결되었음!");
       
-      File file = new File("temp/test.mp4");
+      File file = new File("temp/test.jpeg");
       try (BufferedInputStream fileIn = new BufferedInputStream(
             new FileInputStream(file))) {
         
         // 서버에 보낼 파일의 크기와 이름을 먼저 알려준다.
         long fileLen = file.length();
         out.writeLong(fileLen);
-        out.writeUTF("test.mp4");
+        out.writeUTF("okok.jpeg");
         out.flush();
         
         // 파일에서 1바이트를 읽어서 서버에 보낸다.
