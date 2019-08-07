@@ -10,7 +10,7 @@ public class Test04 {
 
   public static void main(String[] args) throws Exception {
     
-    URL url = new URL("https://www.naver.com");
+    URL url = new URL("http://www.weather.go.kr/weather/main.jsp");
     
     // 서버와 연결하고 HTTP 요청을 수행한다.
     // 그런 후에 웹서버의 응답 데이터를 읽어들일 도구를 리턴한다.

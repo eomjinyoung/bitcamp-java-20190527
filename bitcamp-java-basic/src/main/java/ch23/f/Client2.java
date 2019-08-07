@@ -27,7 +27,7 @@ public class Client2 {
         DatagramPacket packet = new DatagramPacket(
             bytes, // 보내는 데이터(바이트 배열) 
             bytes.length, // 바이트 배열의 크기
-            InetAddress.getByName("localhost"), // 받는 이의 주소
+            InetAddress.getByName("192.168.0.24"), // 받는 이의 주소
             8888 // 받는 이의 포트 번호 
             );
 

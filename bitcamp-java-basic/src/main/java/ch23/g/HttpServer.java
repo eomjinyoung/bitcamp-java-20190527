@@ -34,6 +34,7 @@ public class HttpServer {
           
           out.println("HTTP/1.1 200 ok");
           out.println("Content-Type: text/html;charset=UTF-8");
+          out.println("Refresh: 3;url=http://www.daum.net");
           out.println();
           out.println("<html><body><h1>오호라!! 안녕하세요!</h1></body></html>");
           out.flush();
