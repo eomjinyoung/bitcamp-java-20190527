@@ -47,7 +47,7 @@ public class Test03 {
     
     // 주의!
     // => dead 상태에서 다시 실행할 수 없다.
-    //t.start(); // 예외 발생!
+    t.start(); // 예외 발생!
     
     for (int i = 0; i < 1000; i++) {
       System.out.printf("main() ~~~~> %d\n", i);
