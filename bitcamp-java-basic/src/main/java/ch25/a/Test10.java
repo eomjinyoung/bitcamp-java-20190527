@@ -16,8 +16,8 @@ public class Test10 {
         
         // update 문장은 executeUpdate()를 사용하여 서버에 전달한다.
         int count = stmt.executeUpdate(
-            "update x_board set view_count = view_count + 1"
-            + " where board_id = 1");
+            "update x_board set view_count = view_count + 20"
+            + " where board_id > 1");
         // 리턴 값은 update 한 레코드의 개수이다.
         System.out.println(count);
       }

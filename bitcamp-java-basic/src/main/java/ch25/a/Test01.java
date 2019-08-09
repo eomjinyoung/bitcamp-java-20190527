@@ -27,7 +27,7 @@ public class Test01 {
     
     
     // 1) java.sql.Driver 구현체를 생성하여 JDBC 드라이버 관리자에 등록한다.
-    // => Driver 구현체는 JDBC에 정보를 제공하는 클래스이다.
+    // => Driver 구현체는 JDBC의 정보를 제공하는 클래스이다.
     // => 또는 DBMS에 연결을 수행하는 객체이다.
     // => MariaDB의 JDBC 드라이버에서 org.mariadb.jdbc.Driver 클래스가 이 구현체이다.
     try {
