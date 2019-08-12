@@ -1,9 +1,6 @@
 // client-v36_1 : DAO Proxy 클래스 대신 DBMS를 사용하는 DAO로 대체한다.  
 package com.eomcs.lms;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -11,12 +8,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-import com.eomcs.lms.client.MemberDaoProxy;
 import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.dao.LessonDao;
 import com.eomcs.lms.dao.MemberDao;
 import com.eomcs.lms.dao.mariadb.BoardDaoImpl;
 import com.eomcs.lms.dao.mariadb.LessonDaoImpl;
+import com.eomcs.lms.dao.mariadb.MemberDaoImpl;
 import com.eomcs.lms.handler.BoardAddCommand;
 import com.eomcs.lms.handler.BoardDeleteCommand;
 import com.eomcs.lms.handler.BoardDetailCommand;
@@ -39,18 +36,10 @@ public class App {
 
   Scanner keyScan;
 
-  String host;
-  int port;
-  
-  public App(String host, int port) {
-    this.host = host;
-    this.port = port;
-  }
-  
   private void service() {
     // Command 객체가 사용할 데이터 처리 객체를 준비한다.
     BoardDao boardDao = new BoardDaoImpl();
-    MemberDao memberDao = new MemberDaoProxy(host, port);
+    MemberDao memberDao = new MemberDaoImpl();
     LessonDao lessonDao = new LessonDaoImpl();
 
     keyScan = new Scanner(System.in);
@@ -95,10 +84,6 @@ public class App {
       if (command.equals("quit")) {
         break;
         
-      } else if (command.equals("serverstop")) {
-        serverStop();
-        break;
-
       } else if (command.equals("history")) {
         printCommandHistory(commandStack);
 
@@ -134,21 +119,8 @@ public class App {
     return keyScan.nextLine();
   }
   
-  private void serverStop() {
-    try (Socket socket = new Socket(host, port);
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
-      
-      out.writeUTF("serverstop");
-      out.flush();
-      
-    } catch (Exception e) {
-      // 서버를 종료하는 요청을 보낸 후 발생하는 예외는 무시한다.
-    }
-  }
-
   public static void main(String[] args) {
-    App app = new App("", 8888);
+    App app = new App();
     app.service();
   }
 }
