@@ -1,6 +1,5 @@
 package com.eomcs.lms.handler;
 
-import java.sql.Date;
 import com.eomcs.lms.dao.MemberDao;
 import com.eomcs.lms.domain.Member;
 import com.eomcs.util.Input;
@@ -22,7 +21,6 @@ public class MemberAddCommand implements Command {
     member.setPassword(input.getStringValue("암호? "));
     member.setPhoto(input.getStringValue("사진? "));
     member.setTel(input.getStringValue("전화? "));
-    member.setRegisteredDate(new Date(System.currentTimeMillis())); 
 
     try {
       memberDao.insert(member);

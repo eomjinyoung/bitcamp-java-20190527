@@ -19,7 +19,6 @@ public class MemberUpdateCommand implements Command {
     
     try {
       Member member = memberDao.findBy(no);
-      
       if (member == null) {
         System.out.println("해당 번호의 데이터가 없습니다!");
         return;
