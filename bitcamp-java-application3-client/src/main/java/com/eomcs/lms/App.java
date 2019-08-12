@@ -1,4 +1,4 @@
-// client-v36_1 : DAO Proxy 클래스 대신 DBMS를 사용하는 DAO로 대체한다.  
+// client-v36_2 : DAO들이 Connection 객체를 공유하기. DBMS와의 연결 방식을 Stateful로 변경.
 package com.eomcs.lms;
 
 import java.sql.Connection;
