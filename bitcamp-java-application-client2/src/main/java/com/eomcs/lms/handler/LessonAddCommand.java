@@ -20,7 +20,6 @@ public class LessonAddCommand implements Command {
     Lesson lesson = new Lesson();
 
     // 사용자가 입력한 값을 Lesson 인스턴스의 각 변수에 저장한다.
-    lesson.setNo(input.getIntValue("번호? "));
     lesson.setTitle(input.getStringValue("수업명? "));
     lesson.setContents(input.getStringValue("설명? "));
     lesson.setStartDate(input.getDateValue("시작일? "));

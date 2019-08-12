@@ -11,20 +11,18 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-import com.eomcs.lms.client.LessonDaoProxy;
 import com.eomcs.lms.client.MemberDaoProxy;
 import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.dao.LessonDao;
 import com.eomcs.lms.dao.MemberDao;
 import com.eomcs.lms.dao.mariadb.BoardDaoImpl;
+import com.eomcs.lms.dao.mariadb.LessonDaoImpl;
 import com.eomcs.lms.handler.BoardAddCommand;
 import com.eomcs.lms.handler.BoardDeleteCommand;
 import com.eomcs.lms.handler.BoardDetailCommand;
 import com.eomcs.lms.handler.BoardListCommand;
 import com.eomcs.lms.handler.BoardUpdateCommand;
-import com.eomcs.lms.handler.CalcPlusCommand;
 import com.eomcs.lms.handler.Command;
-import com.eomcs.lms.handler.HiCommand;
 import com.eomcs.lms.handler.LessonAddCommand;
 import com.eomcs.lms.handler.LessonDeleteCommand;
 import com.eomcs.lms.handler.LessonDetailCommand;
@@ -53,7 +51,7 @@ public class App {
     // Command 객체가 사용할 데이터 처리 객체를 준비한다.
     BoardDao boardDao = new BoardDaoImpl();
     MemberDao memberDao = new MemberDaoProxy(host, port);
-    LessonDao lessonDao = new LessonDaoProxy(host, port);
+    LessonDao lessonDao = new LessonDaoImpl();
 
     keyScan = new Scanner(System.in);
 
@@ -81,9 +79,6 @@ public class App {
     commandMap.put("/board/detail", new BoardDetailCommand(input, boardDao));
     commandMap.put("/board/list", new BoardListCommand(input, boardDao));
     commandMap.put("/board/update", new BoardUpdateCommand(input, boardDao));
-
-    commandMap.put("/hi", new HiCommand(input));
-    commandMap.put("/calc/plus", new CalcPlusCommand(input));
 
     while (true) {
 

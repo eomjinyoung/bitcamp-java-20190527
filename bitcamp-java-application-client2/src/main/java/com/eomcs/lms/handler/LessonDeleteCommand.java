@@ -18,8 +18,11 @@ public class LessonDeleteCommand implements Command {
     int no = input.getIntValue("번호? ");
     
     try {
-      lessonDao.delete(no);
-      System.out.println("삭제하였습니다.");
+      if (lessonDao.delete(no) > 0) {
+        System.out.println("삭제하였습니다.");
+      } else {
+        System.out.println("해당 데이터가 없습니다.");
+      }
       
     } catch (Exception e) {
       System.out.println("데이터 삭제에 실패했습니다!");
