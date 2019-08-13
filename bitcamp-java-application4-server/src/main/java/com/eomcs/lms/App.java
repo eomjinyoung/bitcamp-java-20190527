@@ -1,4 +1,4 @@
-// v37_3 : 애플리케이션 서버 아키텍처의 이점 확인하기. 검색 기능을 추가해도 클라이언트를 다시 설치할 필요가 없다.
+// v37_4 : Stateful 통신 방식을 Stateless 통신 방식으로 변경하기.
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
