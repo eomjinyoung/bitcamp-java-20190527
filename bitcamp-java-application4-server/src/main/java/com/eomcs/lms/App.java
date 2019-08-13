@@ -68,7 +68,7 @@ public class App {
 
       commandMap.put("/board/add", new BoardAddCommand(null, boardDao));
       commandMap.put("/board/delete", new BoardDeleteCommand(null, boardDao));
-      commandMap.put("/board/detail", new BoardDetailCommand(null, boardDao));
+      commandMap.put("/board/detail", new BoardDetailCommand(boardDao));
       commandMap.put("/board/list", new BoardListCommand(boardDao));
       commandMap.put("/board/update", new BoardUpdateCommand(null, boardDao));
       

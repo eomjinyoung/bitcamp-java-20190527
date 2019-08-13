@@ -1,4 +1,4 @@
-// client-v37_1 : '규칙1' 프로토콜에 따라 통신하는 클라이언트를 만든다.
+// client-v37_2 : '규칙2' 프로토콜에 따라 서버가 요구하는 파라미터 값을 사용자로부터 입력 받아 보내기.
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
@@ -62,7 +62,7 @@ public class ClientApp {
           send(command, out);
           
           // 서버의 응답을 처리한다.
-          receive(in);
+          receive(in, out);
         }
         System.out.println();
       } //while
@@ -81,12 +81,18 @@ public class ClientApp {
     out.flush();
   }
   
-  private void receive(BufferedReader in) throws Exception {
+  private void receive(BufferedReader in, PrintStream out) throws Exception {
     while (true) {
       String response = in.readLine();
-      if (response.equals("!end!"))
+      if (response.equals("!end!")) {
         break;
-      System.out.println(response);
+        
+      } else if (response.equals("!{}!")) {
+        send(keyboard.nextLine(), out);
+        
+      } else {
+        System.out.println(response);
+      }
     }
   }
   
