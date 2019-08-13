@@ -66,11 +66,11 @@ public class App {
       commandMap.put("/member/list", new MemberListCommand(memberDao));
       commandMap.put("/member/update", new MemberUpdateCommand(null, memberDao));
 
-      commandMap.put("/board/add", new BoardAddCommand(null, boardDao));
-      commandMap.put("/board/delete", new BoardDeleteCommand(null, boardDao));
+      commandMap.put("/board/add", new BoardAddCommand(boardDao));
+      commandMap.put("/board/delete", new BoardDeleteCommand(boardDao));
       commandMap.put("/board/detail", new BoardDetailCommand(boardDao));
       commandMap.put("/board/list", new BoardListCommand(boardDao));
-      commandMap.put("/board/update", new BoardUpdateCommand(null, boardDao));
+      commandMap.put("/board/update", new BoardUpdateCommand(boardDao));
       
       commandMap.put("/hello", new HelloCommand());
       
