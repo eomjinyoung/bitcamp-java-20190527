@@ -25,6 +25,10 @@ public class ChatClient extends Frame implements ActionListener {
   TextField messageTF = new TextField();
   Button sendBtn = new Button("보내기");
   
+  Socket socket;
+  BufferedReader in;
+  PrintStream out;
+  
   public ChatClient(String title) {
     super(title);
     this.setSize(600, 480);
@@ -35,6 +39,11 @@ public class ChatClient extends Frame implements ActionListener {
     this.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {
+        
+        try {in.close();} catch (Exception ex) {}
+        try {out.close();} catch (Exception ex) {}
+        try {socket.close();} catch (Exception ex) {}
+        
         System.exit(0);
       }
     });
@@ -64,25 +73,49 @@ public class ChatClient extends Frame implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == sendBtn) {
-      System.out.println("보내기 눌렀네!");
+      // 서버에 전송
+      out.println(messageTF.getText());
+      
+      // 기존에 입력한 메시지는 지운다.
+      messageTF.setText("");
       
     } else if (e.getSource() == connectBtn) {
-      System.out.println("연결 눌렀네!");
+      connectChatServer();
     }
   }
   
   private void connectChatServer() {
     try {
-      Socket socket = new Socket(
+      socket = new Socket(
           addressTF.getText(), 
           Integer.parseInt(portTF.getText()));
-      BufferedReader in = new BufferedReader(
+      out = new PrintStream(socket.getOutputStream());
+      in = new BufferedReader(
           new InputStreamReader(socket.getInputStream()));
-      PrintStream out = new PrintStream(socket.getOutputStream());
       
+      chattingPane.append("서버와 연결됨!\n");
+      
+      // 서버와 연결되면 메시지 수신을 별도의 담당자에게 맡긴다.
+      new Thread(new MessageReceiver()).start();
+      
+      // 메시지 전송은 버튼을 누를 때 마다 main 스레드가 처리할 것이다.
       
     } catch (Exception e) {
-      
+      chattingPane.append("서버 연결 오류!\n");
+    }
+  }
+  
+  class MessageReceiver implements Runnable {
+    @Override
+    public void run() {
+      try {
+        while (true) {
+          String message = in.readLine();
+          chattingPane.append(message + "\n");
+        }
+      } catch (Exception e) {
+        chattingPane.append("메시지 수신 중 오류 발생!\n");
+      }
     }
   }
   
