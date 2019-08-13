@@ -10,10 +10,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.Socket;
 
-public class ChatClient extends Frame {
+public class ChatClient extends Frame implements ActionListener {
   private static final long serialVersionUID = 1L;
 
+  TextField addressTF = new TextField(20);
+  TextField portTF = new TextField(4);
+  Button connectBtn = new Button("연결");
+  TextArea chattingPane = new TextArea();
+  TextField messageTF = new TextField();
+  Button sendBtn = new Button("보내기");
+  
   public ChatClient(String title) {
     super(title);
     this.setSize(600, 480);
@@ -29,41 +40,50 @@ public class ChatClient extends Frame {
     });
     
     Panel topPane = new Panel();
-    TextField addressTF = new TextField(20);
-    TextField portTF = new TextField(4);
-    Button connectBtn = new Button("연결");
     topPane.add(addressTF);
     topPane.add(portTF);
     topPane.add(connectBtn);
     this.add(topPane, BorderLayout.NORTH);
 
-    TextArea mainPane = new TextArea();
-    this.add(mainPane, BorderLayout.CENTER);
+    this.add(chattingPane, BorderLayout.CENTER);
     
     Panel bottomPane = new Panel();
     bottomPane.setLayout(new BorderLayout());
-    TextField messageTF = new TextField();
-    Button sendBtn = new Button("보내기");
     bottomPane.add(messageTF, BorderLayout.CENTER);
     bottomPane.add(sendBtn, BorderLayout.EAST);
     
     this.add(bottomPane, BorderLayout.SOUTH);
     
     // 연결 버튼에 대해 옵저버(리스너) 등록하기
-    connectBtn.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.out.println("연결 버튼 눌렀다!");
-      }
-    });
+    connectBtn.addActionListener(this);
     
     // 보내기 버튼에 대해 옵저버(리스너) 등록하기
-    sendBtn.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.out.println("보내기 버튼 눌렀다!");
-      }
-    });
+    sendBtn.addActionListener(this);
+  }
+  
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    if (e.getSource() == sendBtn) {
+      System.out.println("보내기 눌렀네!");
+      
+    } else if (e.getSource() == connectBtn) {
+      System.out.println("연결 눌렀네!");
+    }
+  }
+  
+  private void connectChatServer() {
+    try {
+      Socket socket = new Socket(
+          addressTF.getText(), 
+          Integer.parseInt(portTF.getText()));
+      BufferedReader in = new BufferedReader(
+          new InputStreamReader(socket.getInputStream()));
+      PrintStream out = new PrintStream(socket.getOutputStream());
+      
+      
+    } catch (Exception e) {
+      
+    }
   }
   
   public static void main(String[] args) {
