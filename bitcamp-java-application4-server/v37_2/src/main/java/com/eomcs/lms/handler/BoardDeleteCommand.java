@@ -2,25 +2,24 @@ package com.eomcs.lms.handler;
 
 import java.io.BufferedReader;
 import java.io.PrintStream;
-import com.eomcs.lms.dao.LessonDao;
+import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.util.Input;
 
-public class LessonDeleteCommand implements Command {
+public class BoardDeleteCommand implements Command {
   
-  private LessonDao lessonDao;
+  private BoardDao boardDao;
   
-  public LessonDeleteCommand(LessonDao lessonDao) {
-    this.lessonDao = lessonDao;
+  public BoardDeleteCommand(BoardDao boardDao) {
+    this.boardDao = boardDao;
   }
-
+  
   @Override
   public void execute(BufferedReader in, PrintStream out) {
     try {
-
       int no = Input.getIntValue(in, out, "번호? ");
       
-      if (lessonDao.delete(no) > 0) {
-        out.println("삭제하였습니다.");
+      if (boardDao.delete(no) > 0) {
+        out.println("데이터를 삭제하였습니다.");
       } else {
         out.println("해당 데이터가 없습니다.");
       }
@@ -30,19 +29,4 @@ public class LessonDeleteCommand implements Command {
       System.out.println(e.getMessage());
     }
   }
-  
-  
-  
 }
-
-
-
-
-
-
-
-
-
-
-
-
