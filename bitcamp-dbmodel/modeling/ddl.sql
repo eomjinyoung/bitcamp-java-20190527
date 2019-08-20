@@ -1,3 +1,5 @@
+SET FOREIGN_KEY_CHECKS = 0;
+
 -- 학생
 DROP TABLE IF EXISTS students RESTRICT;
 
@@ -455,3 +457,14 @@ ALTER TABLE members
     REFERENCES school_grade ( -- 학력
       sg_id -- 학력번호
     );
+    
+SET FOREIGN_KEY_CHECKS = 1;    
+    
+
+
+
+
+
+
+
+
