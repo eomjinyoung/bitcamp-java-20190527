@@ -117,7 +117,7 @@ select
     r.rno, 
     r.loc, 
     r.name
-from lect l left outer join room r on l.rno=r.rno;
+from lect l right outer join room r on l.rno=r.rno;
 /* 왼쪽 테이블인 lect를 기준으로 room 데이터를 연결한다. 
  * 만약 lect와 일치하는 데이터가 room에 없더라도 
  * lect 데이터를 출력한다!
@@ -127,18 +127,39 @@ from lect l left outer join room r on l.rno=r.rno;
 /* 요구사항:
    모든 멤버의 번호와 이름을 출력하라!  
    단 학생의 경우 재직여부도 출력하라!*/
-    
-/* 다음 질의문은 안타깝게도 학생 목록만 출력한다.
-    왜? memb테이블의 데이터와 stnt 테이블의 데이터를 
-    추출할 때 mno가 같은 데이터만 추출한다.*/
+
+-- 1) 모든 멤버 데이터 출력하기
+select mno, name
+from memb;
+
+-- 2) 학생 데이터를 가져와서 연결하기
+select mno, name, work
+from memb natural join stnt;
+
+select mno, name, work
+from memb join stnt using(mno);
+
+select memb.mno, name, work
+from memb, stnt
+where memb.mno=stnt.mno;
+
+select memb.mno, name, work
+from memb inner join stnt on memb.mno=stnt.mno;
+
+select memb.mno, name, work
+from memb join stnt on memb.mno=stnt.mno;
+
 select m.mno, name, work
-from memb m join stnt s on m.mno=s.mno;                     
-      
-/* 상대 테이블(stnt)에 연결할 대상(데이터)이 없더라도
+from memb m join stnt s on m.mno=s.mno;
+
+/* 안타깝게도 위의 SQL문은 학생 목록만 출력한다.
+    왜? memb테이블의 데이터와 stnt 테이블의 데이터를 
+    연결할 때 mno가 같은 데이터만 연결하여 추출하기 때문이다.
+   해결책!      
+    상대 테이블(stnt)에 연결할 대상(데이터)이 없더라도
     select에서 추출하는 방법 */
 select m.mno, name, work
 from memb m left outer join stnt s on m.mno=s.mno;           
-
 
 
 
@@ -164,7 +185,7 @@ from lect_appl la
         join stnt s on la.mno=s.mno;
   
 /* 4단계: 수상신청한 강의 번호 대신 강의명을 출력 */
-select la.lano, l.titl, m.name, s.work, la.rdt
+select la.lano, l.titl, m.name, s.work, la.rdt, l.rno
 from lect_appl la 
         join memb m on la.mno=m.mno
         join stnt s on la.mno=s.mno 
@@ -174,7 +195,7 @@ from lect_appl la
  * => 강의실 번호는 lect 테이블 데이터에 있다.
  * => 강의실 이름은 room 테이블 데이터에 있다. 
  */
-select la.lano, l.titl, m.name, s.work, la.rdt, r.name
+select la.lano, l.titl, m.name, s.work, la.rdt, r.name, l.mno
 from lect_appl la 
         join memb m on la.mno=m.mno
         join stnt s on la.mno=s.mno 
