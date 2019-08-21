@@ -3,15 +3,20 @@ package com.eomcs.lms.handler;
 import java.io.BufferedReader;
 import java.io.PrintStream;
 import com.eomcs.lms.dao.PhotoBoardDao;
+import com.eomcs.lms.dao.PhotoFileDao;
 import com.eomcs.lms.domain.PhotoBoard;
 import com.eomcs.util.Input;
 
 public class PhotoBoardAddCommand implements Command {
   
   private PhotoBoardDao photoBoardDao;
+  private PhotoFileDao photoFileDao;
   
-  public PhotoBoardAddCommand(PhotoBoardDao photoBoardDao) {
+  public PhotoBoardAddCommand(
+      PhotoBoardDao photoBoardDao, 
+      PhotoFileDao photoFileDao) {
     this.photoBoardDao = photoBoardDao;
+    this.photoFileDao = photoFileDao;
   }
 
   @Override

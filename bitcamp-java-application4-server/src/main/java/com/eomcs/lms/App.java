@@ -15,10 +15,12 @@ import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.dao.LessonDao;
 import com.eomcs.lms.dao.MemberDao;
 import com.eomcs.lms.dao.PhotoBoardDao;
+import com.eomcs.lms.dao.PhotoFileDao;
 import com.eomcs.lms.dao.mariadb.BoardDaoImpl;
 import com.eomcs.lms.dao.mariadb.LessonDaoImpl;
 import com.eomcs.lms.dao.mariadb.MemberDaoImpl;
 import com.eomcs.lms.dao.mariadb.PhotoBoardDaoImpl;
+import com.eomcs.lms.dao.mariadb.PhotoFileDaoImpl;
 import com.eomcs.lms.handler.BoardAddCommand;
 import com.eomcs.lms.handler.BoardDeleteCommand;
 import com.eomcs.lms.handler.BoardDetailCommand;
@@ -69,6 +71,7 @@ public class App {
       MemberDao memberDao = new MemberDaoImpl(con);
       LessonDao lessonDao = new LessonDaoImpl(con);
       PhotoBoardDao photoBoardDao = new PhotoBoardDaoImpl(con);
+      PhotoFileDao photoFileDao = new PhotoFileDaoImpl(con);
 
       // 클라이언트 명령을 처리할 커맨드 객체를 준비한다.
       commandMap.put("/lesson/add", new LessonAddCommand(lessonDao));
@@ -90,7 +93,8 @@ public class App {
       commandMap.put("/board/list", new BoardListCommand(boardDao));
       commandMap.put("/board/update", new BoardUpdateCommand(boardDao));
 
-      commandMap.put("/photoboard/add", new PhotoBoardAddCommand(photoBoardDao));
+      commandMap.put("/photoboard/add", 
+          new PhotoBoardAddCommand(photoBoardDao, photoFileDao));
       commandMap.put("/photoboard/delete", new PhotoBoardDeleteCommand(photoBoardDao));
       commandMap.put("/photoboard/detail", new PhotoBoardDetailCommand(photoBoardDao));
       commandMap.put("/photoboard/list", new PhotoBoardListCommand(photoBoardDao));
