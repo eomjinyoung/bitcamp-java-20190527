@@ -1,4 +1,4 @@
-// v38_3 : 사진 게시판 만들기 + 첨부파일 다루기 + 트랜잭션 적용하기
+// v38_2 : 사진 게시판 만들기 + 첨부파일 다루기
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
@@ -49,7 +49,7 @@ public class App {
   private static final int CONTINUE = 1;
   private static final int STOP = 0;
 
-  public static Connection con;
+  Connection con;
   HashMap<String,Command> commandMap = new HashMap<>();
   int state;
   
