@@ -1,4 +1,4 @@
-// v38_1 : 사진 게시판 만들기
+// v38_2 : 사진 게시판 만들기 + 첨부파일 다루기
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
@@ -95,10 +95,13 @@ public class App {
 
       commandMap.put("/photoboard/add", 
           new PhotoBoardAddCommand(photoBoardDao, photoFileDao));
-      commandMap.put("/photoboard/delete", new PhotoBoardDeleteCommand(photoBoardDao));
-      commandMap.put("/photoboard/detail", new PhotoBoardDetailCommand(photoBoardDao));
+      commandMap.put("/photoboard/delete", 
+          new PhotoBoardDeleteCommand(photoBoardDao, photoFileDao));
+      commandMap.put("/photoboard/detail", 
+          new PhotoBoardDetailCommand(photoBoardDao, photoFileDao));
       commandMap.put("/photoboard/list", new PhotoBoardListCommand(photoBoardDao));
-      commandMap.put("/photoboard/update", new PhotoBoardUpdateCommand(photoBoardDao));
+      commandMap.put("/photoboard/update", 
+          new PhotoBoardUpdateCommand(photoBoardDao, photoFileDao));
       
     } catch (Exception e) {
       System.out.println("DBMS에 연결할 수 없습니다!");
