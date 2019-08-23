@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,7 +48,6 @@ public class App {
   private static final int CONTINUE = 1;
   private static final int STOP = 0;
 
-  public static Connection con;
   HashMap<String,Command> commandMap = new HashMap<>();
   int state;
   
@@ -144,13 +142,6 @@ public class App {
     } catch (Exception e) {
       System.out.println("소켓 통신 오류!");
       e.printStackTrace();
-    }
-
-    // DBMS와의 연결을 끊는다.
-    try {
-      con.close();
-    } catch (Exception e) {
-      // 연결 끊을 때 발생되는 예외는 무시한다.
     }
   }
 

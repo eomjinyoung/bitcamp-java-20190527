@@ -2,8 +2,6 @@ package com.eomcs.lms.handler;
 
 import java.io.BufferedReader;
 import java.io.PrintStream;
-import java.sql.SQLException;
-import com.eomcs.lms.App;
 import com.eomcs.lms.dao.PhotoBoardDao;
 import com.eomcs.lms.dao.PhotoFileDao;
 import com.eomcs.lms.domain.PhotoBoard;
@@ -25,8 +23,6 @@ public class PhotoBoardAddCommand implements Command {
   @Override
   public void execute(BufferedReader in, PrintStream out) {
     try {
-      App.con.setAutoCommit(false);
-      
       PhotoBoard photoBoard = new PhotoBoard();
       photoBoard.setTitle(Input.getStringValue(in, out, "제목? "));
       photoBoard.setLessonNo(Input.getIntValue(in, out, "수업? "));
@@ -55,26 +51,13 @@ public class PhotoBoardAddCommand implements Command {
         count++;
       }
       
-      App.con.commit();
-
       out.println("저장하였습니다.");
       
     } catch (Exception e) {
-      // 예외가 발생하면 DBMS의 임시 데이터베이스에 보관된 데이터 변경 작업들을 모두 취소한다.
-      try {
-        App.con.rollback();
-      } catch (SQLException e1) {
-      }
       out.println("데이터 저장에 실패했습니다!");
       System.out.println(e.getMessage());
       
-    } finally {
-      try {
-        App.con.setAutoCommit(true);
-      } catch (SQLException e) {
-      }
     }
-    
   }
 
 }
