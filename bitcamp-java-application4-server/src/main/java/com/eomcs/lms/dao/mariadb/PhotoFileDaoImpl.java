@@ -8,18 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 import com.eomcs.lms.dao.PhotoFileDao;
 import com.eomcs.lms.domain.PhotoFile;
+import com.eomcs.util.ConnectionFactory;
 
 public class PhotoFileDaoImpl implements PhotoFileDao {
 
-  Connection con;
+  ConnectionFactory conFactory;
   
-  public PhotoFileDaoImpl(Connection con) {
-    this.con = con;
+  public PhotoFileDaoImpl(ConnectionFactory conFactory) {
+    this.conFactory = conFactory;
   }
 
   @Override
   public int insert(PhotoFile photoFile) throws Exception {
-    try (Statement stmt = con.createStatement()) {
+    try (Connection con = conFactory.getConnection();
+        Statement stmt = con.createStatement()) {
 
       return stmt.executeUpdate(
           "insert into lms_photo_file(photo_id, file_path)"
@@ -30,7 +32,8 @@ public class PhotoFileDaoImpl implements PhotoFileDao {
 
   @Override
   public List<PhotoFile> findAll(int boardNo) throws Exception {
-    try (Statement stmt = con.createStatement();
+    try (Connection con = conFactory.getConnection();
+        Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(
             "select photo_file_id, photo_id, file_path"
             + " from lms_photo_file"
@@ -53,7 +56,8 @@ public class PhotoFileDaoImpl implements PhotoFileDao {
 
   @Override
   public int deleteAll(int boardNo) throws Exception {
-    try (Statement stmt = con.createStatement()) {
+    try (Connection con = conFactory.getConnection();
+        Statement stmt = con.createStatement()) {
 
       return stmt.executeUpdate("delete from lms_photo_file"
           + " where photo_id=" + boardNo);
