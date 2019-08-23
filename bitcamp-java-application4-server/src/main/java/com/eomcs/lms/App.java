@@ -1,4 +1,4 @@
-// v40_1 : 스레드 전용 커넥션 객체 사용하기(스레드 로컬 문법 적용) + 트랜잭션 처리
+// v40_2 : 스레드 전용 커넥션 객체 사용하기(스레드 로컬 문법 적용) + 트랜잭션 처리 + 트랜잭션 관리자 도입
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
@@ -42,6 +42,7 @@ import com.eomcs.lms.handler.PhotoBoardDetailCommand;
 import com.eomcs.lms.handler.PhotoBoardListCommand;
 import com.eomcs.lms.handler.PhotoBoardUpdateCommand;
 import com.eomcs.util.ConnectionFactory;
+import com.eomcs.util.PlatformTransactionManager;
 
 public class App {
 
@@ -69,6 +70,9 @@ public class App {
           "bitcamp",
           "1111");
 
+      // 트랜잭션 관리자를 준비한다.
+      PlatformTransactionManager txManager = new PlatformTransactionManager(conFactory);
+      
       // Command 객체가 사용할 데이터 처리 객체를 준비한다.
       BoardDao boardDao = new BoardDaoImpl(conFactory);
       MemberDao memberDao = new MemberDaoImpl(conFactory);
@@ -97,14 +101,14 @@ public class App {
       commandMap.put("/board/update", new BoardUpdateCommand(boardDao));
 
       commandMap.put("/photoboard/add", 
-          new PhotoBoardAddCommand(conFactory, photoBoardDao, photoFileDao));
+          new PhotoBoardAddCommand(txManager, photoBoardDao, photoFileDao));
       commandMap.put("/photoboard/delete", 
-          new PhotoBoardDeleteCommand(conFactory, photoBoardDao, photoFileDao));
+          new PhotoBoardDeleteCommand(txManager, photoBoardDao, photoFileDao));
       commandMap.put("/photoboard/detail", 
           new PhotoBoardDetailCommand(photoBoardDao, photoFileDao));
       commandMap.put("/photoboard/list", new PhotoBoardListCommand(photoBoardDao));
       commandMap.put("/photoboard/update", 
-          new PhotoBoardUpdateCommand(conFactory, photoBoardDao, photoFileDao));
+          new PhotoBoardUpdateCommand(txManager, photoBoardDao, photoFileDao));
       
     } catch (Exception e) {
       System.out.println("DBMS에 연결할 수 없습니다!");
