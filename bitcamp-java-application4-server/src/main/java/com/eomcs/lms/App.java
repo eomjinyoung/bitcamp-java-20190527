@@ -1,4 +1,4 @@
-// v38_3 : 사진 게시판 만들기 + 첨부파일 다루기 + 트랜잭션 적용하기
+// v39_1 : DB 커넥션 관리자 도입 
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
@@ -43,6 +43,7 @@ import com.eomcs.lms.handler.PhotoBoardDeleteCommand;
 import com.eomcs.lms.handler.PhotoBoardDetailCommand;
 import com.eomcs.lms.handler.PhotoBoardListCommand;
 import com.eomcs.lms.handler.PhotoBoardUpdateCommand;
+import com.eomcs.util.ConnectionFactory;
 
 public class App {
 
@@ -62,16 +63,19 @@ public class App {
     state = CONTINUE;
     
     try {
-      // DAO가 사용할 Connection 객체 준비하기
-      con = DriverManager.getConnection(
-          "jdbc:mariadb://localhost/bitcampdb?user=bitcamp&password=1111");
+      // 커넥션 관리자를 준비한다.
+      ConnectionFactory conFactory = new ConnectionFactory(
+          "org.mariadb.jdbc.Driver",
+          "jdbc:mariadb://localhost/bitcampdb",
+          "bitcamp",
+          "1111");
 
       // Command 객체가 사용할 데이터 처리 객체를 준비한다.
-      BoardDao boardDao = new BoardDaoImpl(con);
-      MemberDao memberDao = new MemberDaoImpl(con);
-      LessonDao lessonDao = new LessonDaoImpl(con);
-      PhotoBoardDao photoBoardDao = new PhotoBoardDaoImpl(con);
-      PhotoFileDao photoFileDao = new PhotoFileDaoImpl(con);
+      BoardDao boardDao = new BoardDaoImpl(conFactory);
+      MemberDao memberDao = new MemberDaoImpl(conFactory);
+      LessonDao lessonDao = new LessonDaoImpl(conFactory);
+      PhotoBoardDao photoBoardDao = new PhotoBoardDaoImpl(conFactory);
+      PhotoFileDao photoFileDao = new PhotoFileDaoImpl(conFactory);
 
       // 클라이언트 명령을 처리할 커맨드 객체를 준비한다.
       commandMap.put("/lesson/add", new LessonAddCommand(lessonDao));
