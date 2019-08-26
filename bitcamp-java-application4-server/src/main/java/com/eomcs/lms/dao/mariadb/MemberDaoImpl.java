@@ -137,5 +137,33 @@ public class MemberDaoImpl implements MemberDao {
       return stmt.executeUpdate("delete from lms_member where member_id=" + no);
     }
   }
+  
+  @Override
+  public Member findByEmailPassword(String email, String password) throws Exception {
+    try (Connection con = dataSource.getConnection();
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(
+            "select *"
+            + " from lms_member"
+            + " where email='" + email 
+            + "' and pwd=password('" + password
+            + "')")) {
+
+      if (rs.next()) {
+        Member member = new Member();
+        member.setNo(rs.getInt("member_id"));
+        member.setName(rs.getString("name"));
+        member.setEmail(rs.getString("email"));
+        member.setRegisteredDate(rs.getDate("cdt"));
+        member.setTel(rs.getString("tel"));
+        member.setPhoto(rs.getString("photo"));
+        
+        return member;
+        
+      } else {
+        return null;
+      }
+    }
+  }
 
 }

@@ -1,4 +1,4 @@
-// v41_1 : 커넥션풀 도입하기
+// v42_1 : 로그인 기능 추가
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
@@ -30,6 +30,7 @@ import com.eomcs.lms.handler.LessonDeleteCommand;
 import com.eomcs.lms.handler.LessonDetailCommand;
 import com.eomcs.lms.handler.LessonListCommand;
 import com.eomcs.lms.handler.LessonUpdateCommand;
+import com.eomcs.lms.handler.LoginCommand;
 import com.eomcs.lms.handler.MemberAddCommand;
 import com.eomcs.lms.handler.MemberDeleteCommand;
 import com.eomcs.lms.handler.MemberDetailCommand;
@@ -110,6 +111,8 @@ public class App {
       commandMap.put("/photoboard/list", new PhotoBoardListCommand(photoBoardDao));
       commandMap.put("/photoboard/update", 
           new PhotoBoardUpdateCommand(txManager, photoBoardDao, photoFileDao));
+      
+      commandMap.put("/auth/login", new LoginCommand(memberDao));
       
     } catch (Exception e) {
       System.out.println("DBMS에 연결할 수 없습니다!");
