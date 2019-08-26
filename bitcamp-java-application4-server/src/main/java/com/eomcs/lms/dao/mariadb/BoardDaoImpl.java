@@ -24,14 +24,18 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public int insert(Board board) throws Exception {
-    try (Connection con = dataSource.getConnection();
-        PreparedStatement stmt = con.prepareStatement(
-            "insert into lms_board(conts)"
-                + " values(?)")) {
+    SqlSession sqlSession = sqlSessionFactory.openSession();
+    try {
+      int count = sqlSession.insert("BoardDao.insert", board);
+      sqlSession.commit();
+      return count;
       
-      stmt.setString(1, board.getContents());
+    } catch (Exception e) {
+      sqlSession.rollback();
+      throw e;
       
-      return stmt.executeUpdate();
+    } finally {
+      sqlSession.close();
     }
   }
 
@@ -64,16 +68,10 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public int update(Board board) throws Exception {
-    try (Connection con = dataSource.getConnection();
-        PreparedStatement stmt = con.prepareStatement(
-            "update lms_board set"
-                + " conts=?"
-                + " where board_id=?")) {
-      
-      stmt.setString(1, board.getContents());
-      stmt.setInt(2, board.getNo());
-      
-      return stmt.executeUpdate();
+    // openSession()을 호출할 때 다음과 같이 autoCommit을 true로 설정할 수 있다.
+    // 그러면 commit()을 따로 호출하지 않아도 update()를 실행할 때 자동으로 commit 된다.
+    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+      return sqlSession.update("BoardDao.update", board);
     }
   }
 

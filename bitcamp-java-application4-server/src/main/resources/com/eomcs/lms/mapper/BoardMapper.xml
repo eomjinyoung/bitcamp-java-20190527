@@ -48,6 +48,23 @@
     where board_id=#{value}
   </update>
   
+  <insert id="insert" parameterType="com.eomcs.lms.domain.Board">
+    insert into lms_board(conts)
+    values(#{contents}) /* Board 객체의 getContents()를 호출해서 리턴 값을 놓는다.*/
+  </insert>
+  
+  <update id="update" parameterType="com.eomcs.lms.domain.Board">
+    update lms_board set
+      conts=#{contents} /* getContents()의 리턴 값이 놓인다.*/
+    where board_id=#{no} /* getNo()의 리턴 값이 놓인다.*/
+  </update>
+  
+  
+  
+  
+  
+  
+  
   
   
   
