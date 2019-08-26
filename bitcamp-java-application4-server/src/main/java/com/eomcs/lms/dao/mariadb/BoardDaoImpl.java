@@ -2,7 +2,6 @@ package com.eomcs.lms.dao.mariadb;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -39,40 +38,27 @@ public class BoardDaoImpl implements BoardDao {
   @Override
   public List<Board> findAll() throws Exception {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      List<Board> list = sqlSession.selectList("BoardDao.findAll");
-      return list;
+      return sqlSession.selectList("BoardDao.findAll");
     }
   }
 
   @Override
   public Board findBy(int no) throws Exception {
-    try (Connection con = dataSource.getConnection();
-        PreparedStatement stmt = con.prepareStatement(
-            "select * from lms_board where board_id=?")) {
-      
-      stmt.setInt(1, no);
-      
-      try (ResultSet rs = stmt.executeQuery()) {
-        if (rs.next()) {
-          Board board = new Board();
-          board.setNo(rs.getInt("board_id"));
-          board.setContents(rs.getString("conts"));
-          board.setCreatedDate(rs.getDate("cdt"));
-          board.setViewCount(rs.getInt("vw_cnt"));
-          
-          try (PreparedStatement stmt2 = con.prepareStatement(
-              "update lms_board set"
-                  + " vw_cnt=vw_cnt + 1 where board_id=?")) {
-            stmt2.setInt(1, no);
-            stmt2.executeUpdate();
-          }
-          
-          return board;
-          
-        } else {
-          return null;
-        }
+    SqlSession sqlSession = sqlSessionFactory.openSession();
+    try {
+      Board board = sqlSession.selectOne("BoardDao.findBy", no);
+      if (board != null) {
+          sqlSession.update("BoardDao.increaseViewCount", no);
+          sqlSession.commit();
       }
+      return board;
+      
+    } catch (Exception e) {
+      sqlSession.rollback();
+      throw e;
+      
+    } finally {
+      sqlSession.close();
     }
   }
 
