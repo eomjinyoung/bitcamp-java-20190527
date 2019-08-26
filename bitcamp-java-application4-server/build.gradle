@@ -9,6 +9,9 @@ repositories {
 }
 
 dependencies {
+    // Mybatis Persistence Framework
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.5.2'
+    
     // MariaDB JDBC Driver
     compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.3'
     

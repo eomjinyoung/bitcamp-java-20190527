@@ -1,4 +1,4 @@
-// v42_2 : 로그인 기능 추가 + PreparedStatement를 사용하여 SQL 삽입 공격 해소하기
+// v43_1 : Mybatis 도입하기
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
