@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardDao">
+  <!-- Mybatis가 컬럼값을 객체에 담을 때 컬럼 이름으로 셋터를 찾아 호출한다. -->
+  <!--  
+  <select id="findAll" resultType="com.eomcs.lms.domain.Board">
+    select 
+      board_id, /* Board의 setBoard_id(컬럼값)를 호출하여 컬럼값을 Board 객체에 담는다.*/
+      conts, /* Board의 setConts(컬럼값) 호출 */
+      cdt, /* Board의 setCdt(컬럼값) 호출 */
+      vw_cnt /* Board의 setVw_cnt(컬럼값) 호출 */
+    from lms_board 
+    order by board_id desc
+  </select>
+  -->
+  <!-- 만약 컬럼에 별명이 있다면 셋터를 호출할 때도 그 별명과 일치하는 셋터를 호출한다. 
+    컬럼의 이름과 셋터의 이름이 다르다면 다음과 같이 
+    셋터 이름과 같은 이름으로 컬럼에 별명을 부여하라!
+    그래야만 컬럼의 값을 객체에 제대로 담을 수 있다.
+  -->
+  <select id="findAll" resultType="com.eomcs.lms.domain.Board">
+    select 
+      board_id as no, /* Board의 setNo(컬럼값)를 호출하여 컬럼값을 Board 객체에 담는다.*/
+      conts as contents, /* Board의 setContents(컬럼값) 호출 */
+      cdt as createdDate, /* Board의 setCreatedDate(컬럼값) 호출 */
+      vw_cnt as viewCount /* Board의 setViewCount(컬럼값) 호출 */
+    from lms_board 
+    order by board_id desc
+  </select>
+  
+</mapper>
