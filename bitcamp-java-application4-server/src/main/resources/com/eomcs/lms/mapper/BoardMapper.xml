@@ -59,14 +59,9 @@
     where board_id=#{no} /* getNo()의 리턴 값이 놓인다.*/
   </update>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  <delete id="delete" parameterType="int">
+    delete from lms_board 
+    where board_id=#{value}
+  </delete>
   
 </mapper>

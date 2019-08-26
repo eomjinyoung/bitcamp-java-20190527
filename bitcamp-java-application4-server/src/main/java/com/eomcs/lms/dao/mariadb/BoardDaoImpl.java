@@ -1,24 +1,16 @@
 package com.eomcs.lms.dao.mariadb;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.domain.Board;
-import com.eomcs.util.DataSource;
 
 public class BoardDaoImpl implements BoardDao {
 
   SqlSessionFactory sqlSessionFactory;
-  DataSource dataSource;
   
-  public BoardDaoImpl(
-      DataSource conFactory, 
-      SqlSessionFactory sqlSessionFactory) {
-    
-    this.dataSource = conFactory;
+  public BoardDaoImpl(SqlSessionFactory sqlSessionFactory) {
     this.sqlSessionFactory = sqlSessionFactory;
   }
 
@@ -77,13 +69,8 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public int delete(int no) throws Exception {
-    try (Connection con = dataSource.getConnection();
-        PreparedStatement stmt = con.prepareStatement(
-            "delete from lms_board where board_id=?")) {
-      
-      stmt.setInt(1, no);
-      
-      return stmt.executeUpdate();
+    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+      return sqlSession.delete("BoardDao.delete", no);
     }
   }
 

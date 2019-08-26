@@ -96,7 +96,7 @@ public class App {
         new SqlSessionFactoryBuilder().build(inputStream);
       
       // Command 객체가 사용할 데이터 처리 객체를 준비한다.
-      BoardDao boardDao = new BoardDaoImpl(dataSource, sqlSessionFactory);
+      BoardDao boardDao = new BoardDaoImpl(sqlSessionFactory);
       MemberDao memberDao = new MemberDaoImpl(dataSource);
       LessonDao lessonDao = new LessonDaoImpl(dataSource);
       PhotoBoardDao photoBoardDao = new PhotoBoardDaoImpl(dataSource);
