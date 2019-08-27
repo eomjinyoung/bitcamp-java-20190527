@@ -100,7 +100,7 @@ public class App {
       MemberDao memberDao = new MemberDaoImpl(sqlSessionFactory);
       LessonDao lessonDao = new LessonDaoImpl(sqlSessionFactory);
       PhotoBoardDao photoBoardDao = new PhotoBoardDaoImpl(sqlSessionFactory);
-      PhotoFileDao photoFileDao = new PhotoFileDaoImpl(dataSource);
+      PhotoFileDao photoFileDao = new PhotoFileDaoImpl(sqlSessionFactory);
 
       // 클라이언트 명령을 처리할 커맨드 객체를 준비한다.
       commandMap.put("/lesson/add", new LessonAddCommand(lessonDao));

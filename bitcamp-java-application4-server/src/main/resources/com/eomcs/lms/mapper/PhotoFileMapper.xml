@@ -22,7 +22,7 @@
   <insert id="insert" 
           parameterType="com.eomcs.lms.domain.PhotoFile">
     insert into lms_photo_file(photo_id, file_path)
-    values(#{no},#{filePath})
+    values(#{boardNo},#{filePath})
   </insert>
   
   <delete id="deleteAll" parameterType="int">
