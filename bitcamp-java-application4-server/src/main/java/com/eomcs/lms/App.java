@@ -99,7 +99,7 @@ public class App {
       BoardDao boardDao = new BoardDaoImpl(sqlSessionFactory);
       MemberDao memberDao = new MemberDaoImpl(sqlSessionFactory);
       LessonDao lessonDao = new LessonDaoImpl(sqlSessionFactory);
-      PhotoBoardDao photoBoardDao = new PhotoBoardDaoImpl(dataSource);
+      PhotoBoardDao photoBoardDao = new PhotoBoardDaoImpl(sqlSessionFactory);
       PhotoFileDao photoFileDao = new PhotoFileDaoImpl(dataSource);
 
       // 클라이언트 명령을 처리할 커맨드 객체를 준비한다.

@@ -50,18 +50,13 @@
   
   <update id="update" parameterType="com.eomcs.lms.domain.PhotoBoard">
     update lms_photo set
-      titl=#{title}, 
-      conts=#{contents}, 
-      sdt=#{startDate}, 
-      edt=#{endDate}, 
-      tot_hr=#{totalHours}, 
-      day_hr=#{dayHours}
+      titl=#{title}
     where photo_id=#{no}
   </update>
   
   <delete id="delete" parameterType="int">
     delete from lms_photo 
-    where photo_id=#{value}
+    where photo_id=#{no}
   </delete>
 
 </mapper>
