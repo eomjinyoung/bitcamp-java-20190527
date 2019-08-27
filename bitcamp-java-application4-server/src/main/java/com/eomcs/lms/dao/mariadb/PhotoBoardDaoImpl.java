@@ -7,24 +7,24 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.ibatis.session.SqlSessionFactory;
 import com.eomcs.lms.dao.PhotoBoardDao;
 import com.eomcs.lms.domain.PhotoBoard;
 import com.eomcs.util.DataSource;
 
 public class PhotoBoardDaoImpl implements PhotoBoardDao {
 
-  DataSource dataSource;
+  SqlSessionFactory sqlSessionFactory;
   
   public PhotoBoardDaoImpl(DataSource conFactory) {
-    this.dataSource = conFactory;
+    this.sqlSessionFactory = sqlSessionFactory;
   }
 
   @Override
   public int insert(PhotoBoard photoBoard) throws Exception {
     try (Connection con = dataSource.getConnection();
         PreparedStatement stmt = con.prepareStatement(
-            "insert into lms_photo(lesson_id,titl)"
-            + " values(?,?)",
+            "",
             Statement.RETURN_GENERATED_KEYS)) {
 
       stmt.setInt(1, photoBoard.getLessonNo());
@@ -45,7 +45,7 @@ public class PhotoBoardDaoImpl implements PhotoBoardDao {
   public List<PhotoBoard> findAll() throws Exception {
     try (Connection con = dataSource.getConnection();
         PreparedStatement stmt = con.prepareStatement(
-            "select * from lms_photo order by photo_id desc");
+            "");
         ResultSet rs = stmt.executeQuery()) {
 
       ArrayList<PhotoBoard> list = new ArrayList<>();
@@ -67,7 +67,7 @@ public class PhotoBoardDaoImpl implements PhotoBoardDao {
   public PhotoBoard findBy(int no) throws Exception {
     try (Connection con = dataSource.getConnection();
         PreparedStatement stmt = con.prepareStatement(
-            "select * from lms_photo where photo_id=?")) {
+            "")) {
       
       stmt.setInt(1, no);
       
@@ -81,8 +81,7 @@ public class PhotoBoardDaoImpl implements PhotoBoardDao {
           photoBoard.setLessonNo(rs.getInt("lesson_id"));
           
           try (PreparedStatement stmt2 = con.prepareStatement(
-              "update lms_photo set"
-              + " vw_cnt=vw_cnt + 1 where photo_id=?")) {
+              "")) {
             stmt2.setInt(1, no);
             stmt2.executeUpdate();
           }

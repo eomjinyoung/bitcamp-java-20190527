@@ -44,12 +44,6 @@
     order by name asc
   </select>
   
-  <update id="increaseViewCount" parameterType="int">
-    update lms_member set
-      vw_cnt = vw_cnt + 1
-    where member_id=#{value}
-  </update>
-  
   <insert id="insert" parameterType="com.eomcs.lms.domain.Member">
     insert into lms_member(name,email,pwd,cdt,tel,photo)
     values(#{name},#{email},password(#{password}),now(),#{tel},#{photo})
