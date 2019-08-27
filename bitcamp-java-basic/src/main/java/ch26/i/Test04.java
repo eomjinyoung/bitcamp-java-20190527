@@ -1,4 +1,4 @@
-// 트랜잭션 다루기 - 여러 메서드에서 insert를 실행할 때(같은 SqlSession 사용하기 I) 
+// 트랜잭션 다루기 - Mybatis + SqlSessionFactoryProxy 로 트랜잭션 제어하기 
 package ch26.i;
 
 import java.io.InputStream;
@@ -23,31 +23,40 @@ public class Test04 {
     // 해결책?
     // => SqlSessionFactory의 프록시를 만들어 SqlSession을 리턴할 때 
     //    같은 스레드에 대해 같은 SqlSession을 리턴하도록 한다.
-    // 
+    //
+    SqlSessionFactoryProxy sqlSessionFactoryProxy = 
+        new SqlSessionFactoryProxy(sqlSessionFactory);
     
-    // 서로 다른 SqlSession으로 데이터 변경 작업(insert/update/delete)을 하면
-    // 같은 트랜잭션으로 다룰 수 없다.
-    insert1(sqlSessionFactory);
-    insert2(sqlSessionFactory);
-    printList(sqlSessionFactory);
+    // SQL을 실행하는 메서드에는 원래의 SqlSessionFactory를 주지 않는다.
+    // 대신 프록시 객체를 준다.
+    try {
+      insert1(sqlSessionFactoryProxy);
+      insert2(sqlSessionFactoryProxy);
+      sqlSessionFactoryProxy.openSession().commit();
+    } catch (Exception e) {
+      sqlSessionFactoryProxy.openSession().rollback();
+    }
+    printList(sqlSessionFactoryProxy);
+    
+    // SqlSession 객체의 사용이 끝났으면 close 한다.
+    // 단 실제 SqlSessionProxy로 형변환 한 후 realClose()를 호출한다.
+    ((SqlSessionProxy)sqlSessionFactoryProxy.openSession()).realClose();
   }
   
   static void insert1(SqlSessionFactory sqlSessionFactory) {
     SqlSession sqlSession = sqlSessionFactory.openSession();
     sqlSession.insert("board.insert", new Board()
-        .setTitle("a105")
-        .setContents("내용5"));
-    sqlSession.commit();
+        .setTitle("a107")
+        .setContents("내용7"));
     sqlSession.close();
   }
   
   static void insert2(SqlSessionFactory sqlSessionFactory) {
     SqlSession sqlSession = sqlSessionFactory.openSession();
     Board board = new Board();
-    //board.setTitle("a104");
-    board.setContents("내용6");
+    board.setTitle("a108");
+    board.setContents("내용8");
     sqlSession.insert("board.insert", board);
-    sqlSession.commit();
     sqlSession.close();
   }
   

@@ -93,8 +93,6 @@ public class TxConnection implements Connection {
     origin.rollback();
   }
 
- 
-
   public boolean isClosed() throws SQLException {
     return origin.isClosed();
   }
@@ -303,3 +301,6 @@ public class TxConnection implements Connection {
   
   
 }
+
+
+
