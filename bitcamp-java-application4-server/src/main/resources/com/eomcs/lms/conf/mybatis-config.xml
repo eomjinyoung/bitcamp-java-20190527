@@ -7,6 +7,11 @@
   <!-- 설정 파일에서 사용할 .properties 파일을 지정한다. -->
   <properties resource="com/eomcs/lms/conf/jdbc.properties"></properties>
   
+  <!-- 도메인 클래스에 별명 부여하기 -->
+  <typeAliases>
+    <package name="com.eomcs.lms.domain"/>
+  </typeAliases>
+  
   <!-- DBMS 접속 정보 목록 
     default: Mybatis를 실행하는 동안 사용할 DBMS 정보 아이디
   -->

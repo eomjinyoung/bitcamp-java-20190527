@@ -4,13 +4,17 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="PhotoFileDao">
 
-  <select id="findAll"
-          parameterType="int" 
-          resultType="com.eomcs.lms.domain.PhotoFile">
+  <resultMap type="PhotoFile" id="PhotoFileMap">
+    <id column="photo_file_id" property="no"/>
+    <result column="photo_id" property="boardNo"/>
+    <result column="file_path" property="filePath"/>
+  </resultMap>
+  
+  <select id="findAll" parameterType="int" resultMap="PhotoFileMap">
     select 
-      photo_file_id no, 
-      photo_id boardNo, 
-      file_path filePath
+      photo_file_id, 
+      photo_id, 
+      file_path
     from 
       lms_photo_file
     where 
@@ -19,8 +23,7 @@
       photo_file_id asc
   </select>
   
-  <insert id="insert" 
-          parameterType="com.eomcs.lms.domain.PhotoFile">
+  <insert id="insert" parameterType="PhotoFile">
     insert into lms_photo_file(photo_id, file_path)
     values(#{boardNo},#{filePath})
   </insert>

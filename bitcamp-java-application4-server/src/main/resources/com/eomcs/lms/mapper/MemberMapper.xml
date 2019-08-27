@@ -3,40 +3,47 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MemberDao">
-  <select id="findAll" resultType="com.eomcs.lms.domain.Member">
+
+  <resultMap type="Member" id="MemberMap">
+    <id column="member_id" property="no"/>
+    <!--  
+    <result column="name" property="name"/>
+    <result column="email" property="email"/>
+    <result column="tel" property="tel"/>
+    -->
+    <result column="cdt" property="registeredDate"/>
+  </resultMap>
+
+  <select id="findAll" resultMap="MemberMap">
     select 
-      member_id no,
+      member_id,
       name,
       email,
       tel,
-      cdt registeredDate
+      cdt
     from lms_member
     order by name asc
   </select>
   
-  <select id="findBy" 
-          parameterType="int" 
-          resultType="com.eomcs.lms.domain.Member">
+  <select id="findBy" parameterType="int" resultMap="MemberMap">
     select 
-      member_id no,
+      member_id,
       name,
       email,
       tel,
-      cdt registeredDate,
+      cdt,
       photo
     from lms_member
     where member_id=#{value}
   </select>
 
-  <select id="findByKeyword"
-          parameterType="string" 
-          resultType="com.eomcs.lms.domain.Member">
+  <select id="findByKeyword" resultMap="MemberMap">
     select 
-      member_id no,
+      member_id,
       name,
       email,
       tel,
-      cdt registeredDate
+      cdt
     from lms_member
     where name like concat('%', #{value}, '%')
       or email like concat('%', #{value}, '%')
@@ -44,12 +51,12 @@
     order by name asc
   </select>
   
-  <insert id="insert" parameterType="com.eomcs.lms.domain.Member">
+  <insert id="insert" parameterType="Member">
     insert into lms_member(name,email,pwd,cdt,tel,photo)
     values(#{name},#{email},password(#{password}),now(),#{tel},#{photo})
   </insert>
   
-  <update id="update" parameterType="com.eomcs.lms.domain.Member">
+  <update id="update" parameterType="Member">
     update lms_member set
       name=#{name}, 
       email=#{email}, 
@@ -64,15 +71,13 @@
     where member_id=#{value}
   </delete>
 
-  <select id="findByEmailPassword"
-          parameterType="com.eomcs.lms.domain.Member" 
-          resultType="com.eomcs.lms.domain.Member">
+  <select id="findByEmailPassword" parameterType="Member" resultMap="MemberMap">
     select 
-      member_id no,
+      member_id,
       name,
       email,
       tel,
-      cdt registeredDate
+      cdt
     from lms_member
     where email=#{email} and pwd=password(#{password})
   </select>

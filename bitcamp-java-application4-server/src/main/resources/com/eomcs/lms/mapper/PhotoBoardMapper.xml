@@ -4,28 +4,34 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="PhotoBoardDao">
 
-  <select id="findAll" resultType="com.eomcs.lms.domain.PhotoBoard">
+  <resultMap type="PhotoBoard" id="PhotoBoardMap">
+    <id column="photo_id" property="no"/>
+    <result column="titl" property="title"/>
+    <result column="cdt" property="createdDate"/>
+    <result column="vw_cnt" property="viewCount"/>
+    <result column="lesson_id" property="lessonNo"/>
+  </resultMap>
+  
+  <select id="findAll" resultMap="PhotoBoardMap">
     select
-      photo_id no,
-      titl title,
-      cdt createdDate,
-      vw_cnt viewCount,
-      lesson_id lessonNo
+      photo_id,
+      titl,
+      cdt,
+      vw_cnt,
+      lesson_id
     from 
       lms_photo 
     order by 
       photo_id desc
   </select>
   
-  <select id="findBy" 
-          parameterType="int" 
-          resultType="com.eomcs.lms.domain.PhotoBoard">
+  <select id="findBy" parameterType="int" resultMap="PhotoBoardMap">
     select
-      photo_id no,
-      titl title,
-      cdt createdDate,
-      vw_cnt viewCount,
-      lesson_id lessonNo
+      photo_id,
+      titl,
+      cdt,
+      vw_cnt,
+      lesson_id
     from 
       lms_photo 
     where 
@@ -40,7 +46,7 @@
   </update>
   
   <insert id="insert" 
-          parameterType="com.eomcs.lms.domain.PhotoBoard"
+          parameterType="PhotoBoard"
           useGeneratedKeys="true"
           keyColumn="photo_id"
           keyProperty="no">
@@ -48,7 +54,7 @@
     values(#{lessonNo},#{title})
   </insert>
   
-  <update id="update" parameterType="com.eomcs.lms.domain.PhotoBoard">
+  <update id="update" parameterType="PhotoBoard">
     update lms_photo set
       titl=#{title}
     where photo_id=#{no}

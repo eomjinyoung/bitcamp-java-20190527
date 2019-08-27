@@ -47,8 +47,8 @@ public class Test01 {
     
     // 만약 Resources.getResourceAsStream()을 사용하지 않는다면 다음과 같이 
     // 직접 FileInputStream을 생성해야 한다.
-    InputStream inputStream2 = new FileInputStream(
-        "/Users/eomjinyoung/git/bitcamp-java-2018-12/java-basic/src/main/java/ch26/a/mybatis-config.xml");
+    //InputStream inputStream2 = new FileInputStream(
+    //    "/Users/eomjinyoung/git/bitcamp-java-2018-12/java-basic/src/main/java/ch26/a/mybatis-config.xml");
     
     // 2) mybatis 설정 파일에 따라 동작할 SQL 실행 도구를 준비한다.
     // => SqlSessionFactoryBuilder 
@@ -85,6 +85,8 @@ public class Test01 {
           b.getCreated_date(),
           b.getView_count());
     }
+    
+    sqlSession.close();
   }
 
 }
