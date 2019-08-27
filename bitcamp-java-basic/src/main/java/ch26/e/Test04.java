@@ -19,7 +19,7 @@ public class Test04 {
     
     SqlSession sqlSession = sqlSessionFactory.openSession();
  
-    int count = sqlSession.delete("board.delete", 41);
+    int count = sqlSession.delete("board.delete", 68);
     System.out.println(count);
     
     sqlSession.commit();

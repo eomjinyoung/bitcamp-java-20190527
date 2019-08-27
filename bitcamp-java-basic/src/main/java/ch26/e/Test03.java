@@ -20,7 +20,7 @@ public class Test03 {
     SqlSession sqlSession = sqlSessionFactory.openSession();
  
     Board board = new Board();
-    board.setNo(5);
+    board.setNo(69);
     board.setTitle("xxxxx");
     board.setContents("내용이라네요...");
     

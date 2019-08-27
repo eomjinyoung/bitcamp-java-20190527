@@ -34,7 +34,7 @@
   </select>
 
   <select id="select3" resultMap="boardMap" parameterType="string">
-    select * from x_board where title like concat('%', #{value}, '%')
+    select * from x_board where title like concat('%', #{amuguna}, '%')
   </select>  
   
 <!-- insert 문을 작성할 때는 insert 엘리먼트에 작성한다.
