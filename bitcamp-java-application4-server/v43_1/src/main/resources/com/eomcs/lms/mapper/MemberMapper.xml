@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberDao">
+  <select id="findAll" resultType="com.eomcs.lms.domain.Member">
+    select 
+      member_id no,
+      name,
+      email,
+      tel,
+      cdt registeredDate
+    from lms_member
+    order by name asc
+  </select>
+  
+  <select id="findBy" 
+          parameterType="int" 
+          resultType="com.eomcs.lms.domain.Member">
+    select 
+      member_id no,
+      name,
+      email,
+      tel,
+      cdt registeredDate,
+      photo
+    from lms_member
+    where member_id=#{value}
+  </select>
+
+  <select id="findByKeyword"
+          parameterType="string" 
+          resultType="com.eomcs.lms.domain.Member">
+    select 
+      member_id no,
+      name,
+      email,
+      tel,
+      cdt registeredDate
+    from lms_member
+    where name like concat('%', #{value}, '%')
+      or email like concat('%', #{value}, '%')
+      or tel like concat('%', #{value}, '%')
+    order by name asc
+  </select>
+  
+  <insert id="insert" parameterType="com.eomcs.lms.domain.Member">
+    insert into lms_member(name,email,pwd,cdt,tel,photo)
+    values(#{name},#{email},password(#{password}),now(),#{tel},#{photo})
+  </insert>
+  
+  <update id="update" parameterType="com.eomcs.lms.domain.Member">
+    update lms_member set
+      name=#{name}, 
+      email=#{email}, 
+      pwd=password(#{password}), 
+      tel=#{tel}, 
+      photo=#{photo}
+    where member_id=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from lms_member 
+    where member_id=#{value}
+  </delete>
+
+  <select id="findByEmailPassword"
+          parameterType="com.eomcs.lms.domain.Member" 
+          resultType="com.eomcs.lms.domain.Member">
+    select 
+      member_id no,
+      name,
+      email,
+      tel,
+      cdt registeredDate
+    from lms_member
+    where email=#{email} and pwd=password(#{password})
+  </select>
+</mapper>

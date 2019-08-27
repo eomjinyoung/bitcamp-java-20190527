@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+  <!-- 설정 파일에서 사용할 .properties 파일을 지정한다. -->
+  <properties resource="com/eomcs/lms/conf/jdbc.properties"></properties>
+  
+  <!-- DBMS 접속 정보 목록 
+    default: Mybatis를 실행하는 동안 사용할 DBMS 정보 아이디
+  -->
+  <environments default="development">
+    
+    <!-- 한 개의 DBMS 접속 정보 -->
+    <environment id="development">
+      
+      <!-- 트랜잭션 설정 -->
+      <transactionManager type="JDBC"/>
+      
+      <!-- DB 커넥션풀 정보 -->
+      <dataSource type="POOLED">
+        <property name="driver" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+  
+  <!-- SQL 문이 저장된 파일 목록 -->
+  <mappers>
+  
+    <!-- SQL 문이 저장된 파일 -->
+    <mapper resource="com/eomcs/lms/mapper/BoardMapper.xml"/>
+    <mapper resource="com/eomcs/lms/mapper/MemberMapper.xml"/>
+    <mapper resource="com/eomcs/lms/mapper/LessonMapper.xml"/>
+    <mapper resource="com/eomcs/lms/mapper/PhotoBoardMapper.xml"/>
+    <mapper resource="com/eomcs/lms/mapper/PhotoFileMapper.xml"/>
+  </mappers>
+</configuration>
+
+
+
+
+
+
+
+

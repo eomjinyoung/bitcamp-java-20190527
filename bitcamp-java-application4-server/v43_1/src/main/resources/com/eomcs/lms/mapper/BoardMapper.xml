@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardDao">
+  <!-- Mybatis가 컬럼값을 객체에 담을 때 컬럼 이름으로 셋터를 찾아 호출한다. -->
+  <!--  
+  <select id="findAll" resultType="com.eomcs.lms.domain.Board">
+    select 
+      board_id, /* Board의 setBoard_id(컬럼값)를 호출하여 컬럼값을 Board 객체에 담는다.*/
+      conts, /* Board의 setConts(컬럼값) 호출 */
+      cdt, /* Board의 setCdt(컬럼값) 호출 */
+      vw_cnt /* Board의 setVw_cnt(컬럼값) 호출 */
+    from lms_board 
+    order by board_id desc
+  </select>
+  -->
+  <!-- 만약 컬럼에 별명이 있다면 셋터를 호출할 때도 그 별명과 일치하는 셋터를 호출한다. 
+    컬럼의 이름과 셋터의 이름이 다르다면 다음과 같이 
+    셋터 이름과 같은 이름으로 컬럼에 별명을 부여하라!
+    그래야만 컬럼의 값을 객체에 제대로 담을 수 있다.
+  -->
+  <select id="findAll" resultType="com.eomcs.lms.domain.Board">
+    select 
+      board_id as no, /* Board의 setNo(컬럼값)를 호출하여 컬럼값을 Board 객체에 담는다.*/
+      conts as contents, /* Board의 setContents(컬럼값) 호출 */
+      cdt as createdDate, /* Board의 setCreatedDate(컬럼값) 호출 */
+      vw_cnt as viewCount /* Board의 setViewCount(컬럼값) 호출 */
+    from lms_board 
+    order by board_id desc
+  </select>
+  
+  <select id="findBy" 
+          parameterType="int" 
+          resultType="com.eomcs.lms.domain.Board">
+    select
+      board_id as no, /* Board의 setNo(컬럼값)를 호출하여 컬럼값을 Board 객체에 담는다.*/
+      conts as contents, /* Board의 setContents(컬럼값) 호출 */
+      cdt as createdDate, /* Board의 setCreatedDate(컬럼값) 호출 */
+      vw_cnt as viewCount /* Board의 setViewCount(컬럼값) 호출 */
+    from lms_board 
+    where board_id=#{haha} /* 파라미터의 타입이 자바 원시타입일 경우 이름은 마음대로 */
+  </select>
+  
+  <update id="increaseViewCount" parameterType="int">
+    update lms_board set
+      vw_cnt = vw_cnt + 1
+    where board_id=#{value}
+  </update>
+  
+  <insert id="insert" parameterType="com.eomcs.lms.domain.Board">
+    insert into lms_board(conts)
+    values(#{contents}) /* Board 객체의 getContents()를 호출해서 리턴 값을 놓는다.*/
+  </insert>
+  
+  <update id="update" parameterType="com.eomcs.lms.domain.Board">
+    update lms_board set
+      conts=#{contents} /* getContents()의 리턴 값이 놓인다.*/
+    where board_id=#{no} /* getNo()의 리턴 값이 놓인다.*/
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from lms_board 
+    where board_id=#{value}
+  </delete>
+  
+</mapper>
