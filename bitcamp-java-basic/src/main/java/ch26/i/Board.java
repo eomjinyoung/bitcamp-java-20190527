@@ -19,32 +19,37 @@ public class Board {
   public int getNo() {
     return no;
   }
-  public void setNo(int no) {
+  public Board setNo(int no) {
     this.no = no;
+    return this;
   }
   public String getTitle() {
     return title;
   }
-  public void setTitle(String title) {
+  public Board setTitle(String title) {
     this.title = title;
+    return this;
   }
   public String getContents() {
     return contents;
   }
-  public void setContents(String contents) {
+  public Board setContents(String contents) {
     this.contents = contents;
+    return this;
   }
   public Date getCreatedDate() {
     return createdDate;
   }
-  public void setCreatedDate(Date createdDate) {
+  public Board setCreatedDate(Date createdDate) {
     this.createdDate = createdDate;
+    return this;
   }
   public int getViewCount() {
     return viewCount;
   }
-  public void setViewCount(int viewCount) {
+  public Board setViewCount(int viewCount) {
     this.viewCount = viewCount;
+    return this;
   }
   
   
