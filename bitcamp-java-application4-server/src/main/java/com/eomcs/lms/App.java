@@ -46,7 +46,6 @@ import com.eomcs.lms.handler.PhotoBoardDeleteCommand;
 import com.eomcs.lms.handler.PhotoBoardDetailCommand;
 import com.eomcs.lms.handler.PhotoBoardListCommand;
 import com.eomcs.lms.handler.PhotoBoardUpdateCommand;
-import com.eomcs.util.DataSource;
 import com.eomcs.util.PlatformTransactionManager;
 import com.eomcs.util.SqlSessionFactoryProxy;
 
@@ -63,21 +62,12 @@ public class App {
   
   SqlSessionFactory sqlSessionFactory;
   
-  DataSource dataSource;
-  
   public App() throws Exception {
 
     // 처음에는 클라이언트 요청을 처리해야 하는 상태로 설정한다.
     state = CONTINUE;
     
     try {
-      // 커넥션 관리자를 준비한다.
-      dataSource = new DataSource(
-          "org.mariadb.jdbc.Driver",
-          "jdbc:mariadb://localhost/bitcampdb",
-          "bitcamp",
-          "1111");
-
       InputStream inputStream = 
           Resources.getResourceAsStream("com/eomcs/lms/conf/mybatis-config.xml");
       sqlSessionFactory =new SqlSessionFactoryProxy(

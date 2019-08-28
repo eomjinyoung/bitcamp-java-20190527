@@ -13,9 +13,8 @@ public class PlatformTransactionManager {
   }
   
   public void beginTransaction() throws Exception {
-    // 여기에서 openSession()을 호출하면 
-    // 팩토리는 SqlSession 객체를 미리 스레드에 보관해 둘 것이다.
-    sqlSessionFactory.openSession();
+    // 여기에서 스레드가 사용할 SqlSession 객체를 미리 준비한다.
+    ((SqlSessionFactoryProxy)sqlSessionFactory).prepareSessionInThread();
   }
   
   public void commit() throws Exception {

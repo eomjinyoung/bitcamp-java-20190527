@@ -33,14 +33,27 @@ public class SqlSessionFactoryProxy implements SqlSessionFactory {
     localSqlSession.remove();
   }
 
+  public void prepareSessionInThread() {
+    SqlSession sqlSession = localSqlSession.get();
+    
+    if (sqlSession != null) // 이미 스레드에 보관되어 있다면 무시한다.
+      return; 
+      
+    // 아직 스레드에 SqlSession을 보관하지 않았다면
+    // 실제 공장 객체를 통해 SqlSession을 만든 후, 스레드에 보관한다.
+    sqlSession = new SqlSessionProxy(realFactory.openSession());
+    localSqlSession.set(sqlSession);
+  }
+  
   public SqlSession openSession() {
     SqlSession sqlSession = localSqlSession.get();
-    if (sqlSession == null) { // 아직 스레드에 SqlSession을 보관하지 않았다면
-      // 실제 공장 객체를 통해 SqlSession을 만든 후, 스레드에 보관한다.
-      sqlSession = new SqlSessionProxy(realFactory.openSession());
-      localSqlSession.set(sqlSession);
-    }
-    return sqlSession;
+    
+    // 스레드에 SqlSession이 들어 있으면(트랜잭션이 시작된 상태) 그것을 그대로 리턴한다.
+    if (sqlSession != null)
+      return sqlSession;
+    
+    // 트랜잭션을 수행하지 않는 상태라면, 자동 커밋을 수행하는 SqlSession을 리터한다.
+    return realFactory.openSession(true);
   }
 
   public SqlSession openSession(boolean autoCommit) {
