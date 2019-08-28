@@ -1,7 +1,9 @@
-// dynamic SQL 다루기 - 조건문
+// dynamic SQL 다루기 - <foreach> 태그 사용법 II
 package ch26.f;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import org.apache.ibatis.io.Resources;
@@ -9,7 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-public class Test01 {
+public class Test09_2 {
 
   public static void main(String[] args) throws Exception {
     
@@ -20,24 +22,29 @@ public class Test01 {
     
     SqlSession sqlSession = sqlSessionFactory.openSession();
  
-    // dynamic sql?
-    // => 조건에 따라 SQL이 변경되는 것.
-    // => mybatis는 이를 위해 조건문, 반복문 등을 다룰 수 있도록 특별한 태그를 제공한다.
+    ArrayList<String> list = new ArrayList<>();
     
-    // 조건문 사용하기
-    // => 검색어의 여부에 따라 where 절을 추가를 조정해보자!
     Scanner keyboard = new Scanner(System.in);
-    System.out.print("게시물 번호? ");
-    String keyword = keyboard.nextLine();
+    
+    while (true) {
+      try {
+        System.out.print("게시물 제목? ");
+        String value = keyboard.nextLine();
+        if (value.length() == 0) {
+          break;
+        }
+        list.add(value);
+      } catch (Exception e) {
+        break;
+      }
+    }
+    
     keyboard.close();
     
-    List<Board> boards = null;
+    HashMap<String,Object> params = new HashMap<>();
+    params.put("list", list);
     
-    try {
-      boards = sqlSession.selectList("board.select1", Integer.parseInt(keyword));
-    } catch (Exception e) {
-      boards = sqlSession.selectList("board.select0");
-    }
+    List<Board> boards = sqlSession.selectList("board.select9_2", params);
     
     for (Board b : boards) {
       System.out.println(b);

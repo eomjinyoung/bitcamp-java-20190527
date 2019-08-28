@@ -146,7 +146,7 @@
   <select id="select7_error" resultMap="boardMap" parameterType="map">
     select * 
     from x_board
-    order by 
+    order by
       <if test="column != null">
         #{column} #{sort}
       </if>
@@ -190,6 +190,15 @@
       board_id in /*(10, 12, 15, 28, 39)*/
         <foreach collection="noList" item="value" open="(" close=")" separator=",">
           #{value}
+        </foreach>
+  </select>
+  
+  <select id="select9_2" resultMap="boardMap" parameterType="map">
+    select *
+    from x_board
+    where 
+        <foreach collection="list" item="value" separator="or">
+          title like concat('%', #{value}, '%') 
         </foreach>
   </select>
 </mapper>
