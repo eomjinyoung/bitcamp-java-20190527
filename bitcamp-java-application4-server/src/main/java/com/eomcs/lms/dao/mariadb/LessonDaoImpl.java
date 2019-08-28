@@ -16,35 +16,35 @@ public class LessonDaoImpl implements LessonDao {
   
   @Override
   public int insert(Lesson lesson) throws Exception {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.insert("LessonDao.insert", lesson);
     }
   }
 
   @Override
   public List<Lesson> findAll() throws Exception {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.selectList("LessonDao.findAll");
     }
   }
 
   @Override
   public Lesson findBy(int no) throws Exception {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.selectOne("LessonDao.findBy", no);
     }
   }
 
   @Override
   public int update(Lesson lesson) throws Exception {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.update("LessonDao.update", lesson);
     }
   }
 
   @Override
   public int delete(int no) throws Exception {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.delete("LessonDao.delete", no);
     }
   }
