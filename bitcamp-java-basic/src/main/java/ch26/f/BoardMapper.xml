@@ -201,6 +201,15 @@
           title like concat('%', #{value}, '%') 
         </foreach>
   </select>
+  
+  <select id="select9_3" resultMap="boardMap" parameterType="map">
+    select *
+    from x_board
+    where 
+        <foreach collection="list" item="b" separator="or">
+          title like concat('%', #{b.title}, '%') 
+        </foreach>
+  </select>
 </mapper>
 
 

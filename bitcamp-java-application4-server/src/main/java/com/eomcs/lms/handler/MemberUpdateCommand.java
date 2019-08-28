@@ -25,32 +25,36 @@ public class MemberUpdateCommand implements Command {
       }
       
       // 사용자로부터 변경할 값을 입력 받는다.
+      Member data = new Member();
+      data.setNo(no);
+      
       String str = Input.getStringValue(in, out, "이름(" + member.getName() + ")? ");
       if (str.length() > 0) {
-        member.setName(str);
+        data.setName(str);
       }
       
       str = Input.getStringValue(in, out, "이메일(" + member.getEmail() + ")? ");
       if (str.length() > 0) {
-        member.setEmail(str);
+        data.setEmail(str);
       }
       
       str = Input.getStringValue(in, out, "암호? ");
       if (str.length() > 0) {
-        member.setPassword(str);
+        data.setPassword(str);
       }
       
       str = Input.getStringValue(in, out, "사진(" + member.getPhoto() + ")? ");
       if (str.length() > 0) {
-        member.setPhoto(str);
+        data.setPhoto(str);
       }
       
       str = Input.getStringValue(in, out, "전화(" + member.getTel() + ")? ");
       if (str.length() > 0) {
-        member.setTel(str);
+        data.setTel(str);
       }
       
-      memberDao.update(member);
+      memberDao.update(data);
+      
       out.println("데이터를 변경하였습니다.");
 
     } catch (Exception e) {

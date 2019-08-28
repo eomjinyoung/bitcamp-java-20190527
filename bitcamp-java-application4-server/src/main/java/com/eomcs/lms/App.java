@@ -1,4 +1,4 @@
-// v43_2 : Mybatis 도입하기 + 도메인 클래스 별명 적용 + SQL 매퍼에 resultMap 적용 + 트랜잭션 적용
+// v44_1 : mybatis의 dynamic sql 사용하기 
 package com.eomcs.lms;
 
 import java.io.BufferedReader;

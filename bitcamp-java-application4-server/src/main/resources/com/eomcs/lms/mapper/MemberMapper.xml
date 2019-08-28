@@ -57,12 +57,14 @@
   </insert>
   
   <update id="update" parameterType="Member">
-    update lms_member set
-      name=#{name}, 
-      email=#{email}, 
-      pwd=password(#{password}), 
-      tel=#{tel}, 
-      photo=#{photo}
+    update lms_member
+    <set>
+      <if test="name != null">name=#{name},</if>
+      <if test="email != null">email=#{email},</if> 
+      <if test="password != null">pwd=password(#{password}), </if>
+      <if test="tel != null">tel=#{tel},</if>
+      <if test="photo != null">photo=#{photo}</if>
+    </set>
     where member_id=#{no}
   </update>
   
