@@ -25,6 +25,7 @@ public class BoardDetailCommand implements Command {
         out.println("해당 번호의 데이터가 없습니다!");
         return;
       }
+      boardDao.increaseViewCount(no);
       
       out.printf("내용: %s\n", board.getContents());
       out.printf("작성일: %s\n", board.getCreatedDate());

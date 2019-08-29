@@ -74,7 +74,7 @@
     <include refid="where1"/>
   </delete>
 
-  <select id="findByEmailPassword" parameterType="Member" resultMap="MemberMap">
+  <select id="findByEmailPassword" parameterType="map" resultMap="MemberMap">
     <include refid="basicColumn"/>
     from lms_member
     where email=#{email} and pwd=password(#{password})
