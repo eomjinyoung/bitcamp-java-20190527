@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardDao">
+
+  <!-- 컬럼 이름과 자바 객체의 프로퍼티 이름을 연결한다. -->
+  <resultMap type="Board" id="BoardMap">
+    <id column="board_id" property="no"/>
+    <result column="conts" property="contents"/>
+    <result column="cdt" property="createdDate"/>
+    <result column="vw_cnt" property="viewCount"/>
+  </resultMap>
+
+  <sql id="sql1">
+    select 
+      board_id,
+      conts,
+      cdt,
+      vw_cnt
+    from lms_board 
+  </sql>
+
+  <select id="findAll" resultMap="BoardMap">
+    <include refid="sql1"/>
+    order by board_id desc
+  </select>
+  
+  <select id="findBy" parameterType="int" resultMap="BoardMap">
+    <include refid="sql1"/>
+    where board_id=#{haha} 
+  </select>
+  
+  <update id="increaseViewCount" parameterType="int">
+    update lms_board set
+      vw_cnt = vw_cnt + 1
+    where board_id=#{value}
+  </update>
+  
+  <insert id="insert" parameterType="Board">
+    insert into lms_board(conts)
+    values(#{contents}) 
+  </insert>
+  
+  <update id="update" parameterType="Board">
+    update lms_board set
+      conts=#{contents}
+    where board_id=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from lms_board 
+    where board_id=#{value}
+  </delete>
+  
+</mapper>
