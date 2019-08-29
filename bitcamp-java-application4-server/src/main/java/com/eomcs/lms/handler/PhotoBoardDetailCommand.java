@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.util.List;
 import com.eomcs.lms.dao.PhotoBoardDao;
-import com.eomcs.lms.dao.PhotoFileDao;
 import com.eomcs.lms.domain.PhotoBoard;
 import com.eomcs.lms.domain.PhotoFile;
 import com.eomcs.util.Input;
@@ -12,13 +11,9 @@ import com.eomcs.util.Input;
 public class PhotoBoardDetailCommand implements Command {
   
   private PhotoBoardDao photoBoardDao;
-  private PhotoFileDao photoFileDao;
   
-  public PhotoBoardDetailCommand(
-      PhotoBoardDao photoBoardDao,
-      PhotoFileDao photoFileDao) {
+  public PhotoBoardDetailCommand(PhotoBoardDao photoBoardDao) {
     this.photoBoardDao = photoBoardDao;
-    this.photoFileDao = photoFileDao;
   }
   
   @Override
@@ -27,7 +22,7 @@ public class PhotoBoardDetailCommand implements Command {
       // 클라이언트에게 번호를 요구하여 받는다.
       int no = Input.getIntValue(in, out, "번호? ");
       
-      PhotoBoard photoBoard = photoBoardDao.findBy(no);
+      PhotoBoard photoBoard = photoBoardDao.findWithFilesBy(no);
       if (photoBoard == null) {
         out.println("해당 번호의 데이터가 없습니다!");
         return;
@@ -39,7 +34,7 @@ public class PhotoBoardDetailCommand implements Command {
       out.printf("수업: %d\n", photoBoard.getLessonNo());
       out.println("사진 파일:");
       
-      List<PhotoFile> files = photoFileDao.findAll(no);
+      List<PhotoFile> files = photoBoard.getFiles();
       for (PhotoFile file : files) {
         out.printf("> %s\n", file.getFilePath());
       }

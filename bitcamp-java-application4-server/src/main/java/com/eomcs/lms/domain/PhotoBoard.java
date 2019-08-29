@@ -2,6 +2,7 @@ package com.eomcs.lms.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 public class PhotoBoard implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -12,10 +13,19 @@ public class PhotoBoard implements Serializable {
   private int viewCount;
   private int lessonNo;
   
+  // 자식 테이블 'lms_photo_file'의 데이터를 담을 PhotoFile 객체 목록. 
+  private List<PhotoFile> files;
+  
   @Override
   public String toString() {
     return "PhotoBoard [no=" + no + ", title=" + title + ", createdDate=" + createdDate
-        + ", viewCount=" + viewCount + ", lessonNo=" + lessonNo + "]";
+        + ", viewCount=" + viewCount + ", lessonNo=" + lessonNo + ", files=" + files + "]";
+  }
+  public List<PhotoFile> getFiles() {
+    return files;
+  }
+  public void setFiles(List<PhotoFile> files) {
+    this.files = files;
   }
   public int getNo() {
     return no;

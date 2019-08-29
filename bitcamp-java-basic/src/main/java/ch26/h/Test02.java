@@ -44,6 +44,28 @@ public class Test02 {
   }
 
 }
+/*
+select 
+  b.board_id,
+  b.title,
+  b.contents,
+  b.created_date,
+  b.view_count,
+  f.board_file_id,
+  f.file_path
+from x_board b
+  left outer join x_board_file f on b.board_id=f.board_id
+ */
+
+
+
+
+
+
+
+
+
+
 
 
 

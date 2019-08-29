@@ -109,7 +109,7 @@ public class App {
       commandMap.put("/photoboard/delete", 
           new PhotoBoardDeleteCommand(txManager, photoBoardDao, photoFileDao));
       commandMap.put("/photoboard/detail", 
-          new PhotoBoardDetailCommand(photoBoardDao, photoFileDao));
+          new PhotoBoardDetailCommand(photoBoardDao));
       commandMap.put("/photoboard/list", new PhotoBoardListCommand(photoBoardDao));
       commandMap.put("/photoboard/update", 
           new PhotoBoardUpdateCommand(txManager, photoBoardDao, photoFileDao));

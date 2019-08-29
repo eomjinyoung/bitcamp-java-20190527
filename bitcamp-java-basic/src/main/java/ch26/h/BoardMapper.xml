@@ -44,7 +44,7 @@
       
       <!-- 조인 데이터를 가져올 때는 컬럼 이름과 프로퍼티 이름이 같더라도 정확하게 명시해야 한다. 
            즉 명시하지 않은 컬럼 값은 자바 객체에 저장되지 않는다.-->
-      <result column="boardNo" property="boardNo"/>
+      <result column="board_id" property="boardNo"/>
     </collection>
   </resultMap>
   
@@ -73,8 +73,7 @@
       b.created_date,
       b.view_count,
       f.board_file_id,
-      f.file_path,
-      f.board_id as boardNo
+      f.file_path
     from x_board b
       left outer join x_board_file f on b.board_id = f.board_id
     where

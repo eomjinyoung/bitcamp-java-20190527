@@ -12,23 +12,22 @@
     <result column="vw_cnt" property="viewCount"/>
   </resultMap>
 
-  <select id="findAll" resultMap="BoardMap">
+  <sql id="sql1">
     select 
       board_id,
       conts,
       cdt,
       vw_cnt
     from lms_board 
+  </sql>
+
+  <select id="findAll" resultMap="BoardMap">
+    <include refid="sql1"/>
     order by board_id desc
   </select>
   
   <select id="findBy" parameterType="int" resultMap="BoardMap">
-    select
-      board_id, 
-      conts,
-      cdt,
-      vw_cnt
-    from lms_board 
+    <include refid="sql1"/>
     where board_id=#{haha} 
   </select>
   
