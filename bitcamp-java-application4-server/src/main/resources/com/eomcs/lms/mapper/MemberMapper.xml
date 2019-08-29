@@ -40,12 +40,15 @@
     <include refid="where1"/>
   </select>
 
-  <select id="findByKeyword" resultMap="MemberMap">
+  <select id="findByKeyword"
+          parameterType="string"
+          resultMap="MemberMap">
+    <bind name="pattern" value="'%' + _parameter + '%'"/>
     <include refid="basicColumn"/>
     from lms_member
-    where name like concat('%', #{value}, '%')
-      or email like concat('%', #{value}, '%')
-      or tel like concat('%', #{value}, '%')
+    where name like #{pattern}
+      or email like #{pattern}
+      or tel like #{pattern}
     order by name asc
   </select>
   
