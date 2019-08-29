@@ -5,7 +5,7 @@ public class Test08 {
 
   public static void main(String[] args) throws Exception {
     
-    Class<?> clazz = String.class;
+    Class<?> clazz = C.class;
     
     Class<?>[] interfaces = clazz.getInterfaces();
     for (Class<?> c : interfaces) {

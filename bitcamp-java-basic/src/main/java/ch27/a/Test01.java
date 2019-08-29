@@ -42,6 +42,7 @@ public class Test01 {
     class MyHandler implements InvocationHandler {
       @Override
       public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println("invoke()...호출됨!");
         // newProxyInstance()가 생성한 객체에 대해 메서드를 호출할 때마다 이 메서드가 호출된다.
         int a = (int) args[0]; // auto-unboxing => ((Integer)args[0]).intValue();
         int b = (int) args[1]; // auto-unboxing => ((Integer)args[1]).intValue();
@@ -62,7 +63,9 @@ public class Test01 {
         new Class[] {Calculator.class}, 
         new MyHandler());
 
+    System.out.println("++++");
     System.out.println(c1.plus(10, 20));
+    System.out.println("----");
     System.out.println(c1.minus(10, 20));
   }
 
