@@ -18,7 +18,6 @@ import com.eomcs.lms.dao.LessonDao;
 import com.eomcs.lms.dao.MemberDao;
 import com.eomcs.lms.dao.PhotoBoardDao;
 import com.eomcs.lms.dao.PhotoFileDao;
-import com.eomcs.lms.dao.mariadb.BoardDaoImpl;
 import com.eomcs.lms.dao.mariadb.LessonDaoImpl;
 import com.eomcs.lms.dao.mariadb.MemberDaoImpl;
 import com.eomcs.lms.dao.mariadb.PhotoBoardDaoImpl;
@@ -46,6 +45,7 @@ import com.eomcs.lms.handler.PhotoBoardDeleteCommand;
 import com.eomcs.lms.handler.PhotoBoardDetailCommand;
 import com.eomcs.lms.handler.PhotoBoardListCommand;
 import com.eomcs.lms.handler.PhotoBoardUpdateCommand;
+import com.eomcs.util.MybatisDaoFactory;
 import com.eomcs.util.PlatformTransactionManager;
 import com.eomcs.util.SqlSessionFactoryProxy;
 
@@ -77,8 +77,11 @@ public class App {
       PlatformTransactionManager txManager = 
           new PlatformTransactionManager(sqlSessionFactory);
       
+      // DAO 구현체 생성기를 준비한다.
+      MybatisDaoFactory daoFactory = new MybatisDaoFactory(sqlSessionFactory);
+      
       // Command 객체가 사용할 데이터 처리 객체를 준비한다.
-      BoardDao boardDao = new BoardDaoImpl(sqlSessionFactory);
+      BoardDao boardDao = daoFactory.createDao(BoardDao.class);
       MemberDao memberDao = new MemberDaoImpl(sqlSessionFactory);
       LessonDao lessonDao = new LessonDaoImpl(sqlSessionFactory);
       PhotoBoardDao photoBoardDao = new PhotoBoardDaoImpl(sqlSessionFactory);
