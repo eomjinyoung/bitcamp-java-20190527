@@ -16,6 +16,10 @@ public class BoardListCommand implements Command {
     this.sqlSessionFactory = sqlSessionFactory;
   }
   
+  public String getCommandName() {
+    return "/board/list";
+  }
+  
   @Override
   public void execute(BufferedReader in, PrintStream out) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {

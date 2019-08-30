@@ -14,6 +14,10 @@ public class MemberSearchCommand implements Command {
     this.memberDao = memberDao;
   }
   
+  public String getCommandName() {
+    return "/member/search";
+  }
+  
   @Override
   public void execute(BufferedReader in, PrintStream out) {
     try {

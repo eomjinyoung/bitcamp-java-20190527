@@ -14,6 +14,10 @@ public class PhotoBoardListCommand implements Command {
     this.photoBoardDao = photoBoardDao;
   }
   
+  public String getCommandName() {
+    return "/photoboard/list";
+  }
+  
   @Override
   public void execute(BufferedReader in, PrintStream out) {
     try {

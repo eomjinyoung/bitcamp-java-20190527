@@ -15,6 +15,10 @@ public class LoginCommand implements Command {
     this.memberDao = memberDao;
   }
 
+  public String getCommandName() {
+    return "/auth/login";
+  }
+  
   @Override
   public void execute(BufferedReader in, PrintStream out) {
     try {

@@ -13,6 +13,10 @@ public class LessonDeleteCommand implements Command {
     this.lessonDao = lessonDao;
   }
 
+  public String getCommandName() {
+    return "/lesson/delete";
+  }
+  
   @Override
   public void execute(BufferedReader in, PrintStream out) {
     try {

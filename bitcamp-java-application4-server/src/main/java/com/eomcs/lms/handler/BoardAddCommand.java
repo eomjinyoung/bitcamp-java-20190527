@@ -16,6 +16,10 @@ public class BoardAddCommand implements Command {
     this.sqlSessionFactory = sqlSessionFactory;
   }
 
+  public String getCommandName() {
+    return "/board/add";
+  }
+  
   @Override
   public void execute(BufferedReader in, PrintStream out) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {

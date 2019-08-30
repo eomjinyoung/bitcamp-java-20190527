@@ -2,9 +2,13 @@ package com.eomcs.util;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -26,9 +30,9 @@ public class ApplicationContext {
   
   public ApplicationContext(String packageName) throws Exception {
     
-    //createSqlSessionFactory();
-    //createTransactionManager();
-    //createDao();
+    createSqlSessionFactory();
+    createTransactionManager();
+    createDao();
     
     // 파라미터에 주어진 패키지를 뒤져서 Command 인터페이스를 구현한 클래스를 찾는다.
     // => 패키지의 경로를 알아낸다.
@@ -38,6 +42,13 @@ public class ApplicationContext {
     // => 찾은 클래스의 인스턴스를 생성한다.
     findCommandClass(fullPath, packageName);
     createCommand();
+    
+    System.out.println("생성된 객체들: ");
+    Set<String> keySet = objPool.keySet();
+    keySet.forEach(key -> {
+      System.out.printf("%s : %s\n", 
+          key, objPool.get(key).getClass().getName());
+    });
   }
   
   private void findCommandClass(File path, String packageName) {
@@ -61,7 +72,7 @@ public class ApplicationContext {
         
         try {
           Class<?> clazz = Class.forName(className);
-          if (isCommand(clazz)) {
+          if (isCommand(clazz) && !Modifier.isAbstract(clazz.getModifiers())) {
             classes.add(clazz);
           }
         } catch (ClassNotFoundException e) {
@@ -75,10 +86,7 @@ public class ApplicationContext {
     Class<?>[] interfaces = clazz.getInterfaces();
     for (Class<?> c : interfaces) {
       if (c == Command.class) {
-        if (!Modifier.isAbstract(c.getModifiers()))
-          return true;
-        else 
-          return false;
+        return true;
       }
     }
     return false;
@@ -86,11 +94,62 @@ public class ApplicationContext {
   
   private void createCommand() {
     for (Class<?> clazz : classes) {
-      System.out.println(clazz.getName());
+      // 기본 생성자가 있으면 그 생성자를 호출하여 인스턴스를 만든다.
+      try {
+        Constructor<?> defaultConstructor = clazz.getConstructor();
+        Command command = (Command) defaultConstructor.newInstance();
+        objPool.put(command.getCommandName(), command);
+        continue;
+      } catch (Exception e) {
+      }
+      
+      // 다른 생성자 꺼내기
+      Constructor<?> constructor = clazz.getConstructors()[0];
+      
+      try {
+        // 생성자의 파라미터 정보로 값을 준비한다.
+        Parameter[] params = constructor.getParameters();
+        Object[] values = prepareParameterValues(params);
+        
+        // 준비된 값을 가지고 생성자를 통해 인스턴스를 생성한다.
+        Command command = (Command) constructor.newInstance(values);
+        objPool.put(command.getCommandName(), command);
+        
+      } catch (Exception e) {
+      }
     }
   }
   
-  public Object getBean(String name) throws RuntimeException {
+  private Object[] prepareParameterValues(Parameter[] params) {
+    Object[] values = new Object[params.length];
+    
+    // 파라미터의 타입에 해당하는 값을 objPool에서 찾는다.
+    for (int i = 0; i < params.length; i++) {
+      values[i] = getBean(params[i].getType());
+    }
+    return values;
+  }
+
+  private Object getBean(Class<?> type) {
+    Iterator<?> values = objPool.values().iterator();
+    while (values.hasNext()) {
+      Object value = values.next();
+      
+      // 풀에서 꺼낸 객체의 타입이 일치하는지 검사 
+      if (value.getClass() == type)
+        return value;
+      
+      // 풀에서 꺼낸 객체의 인터페이스가 일치하는지 검사
+      Class<?>[] interfaces = value.getClass().getInterfaces();
+      for (Class<?> c : interfaces) {
+        if (c == type)
+          return value;
+      }
+    }
+    throw new RuntimeException("해당 타입의 빈을 찾을 수 없습니다.");
+  }
+
+  public Object getBean(String name) {
     Object obj = objPool.get(name);
     if (obj == null) 
       throw new RuntimeException("해당 이름의 빈을 찾을 수 없습니다.");
@@ -117,6 +176,7 @@ public class ApplicationContext {
     PlatformTransactionManager txManager = 
         new PlatformTransactionManager(
             (SqlSessionFactory)objPool.get("sqlSessionFactory"));
+    objPool.put("txManager", txManager);
   }
   
   private void createDao() throws Exception {
@@ -129,11 +189,6 @@ public class ApplicationContext {
     objPool.put("lessonDao", daoFactory.createDao(LessonDao.class));
     objPool.put("photoBoardDao", daoFactory.createDao(PhotoBoardDao.class));
     objPool.put("photoFileDao", daoFactory.createDao(PhotoFileDao.class));
-  }
-  
-  public static void main(String[] args) throws Exception {
-    ApplicationContext ctx = new ApplicationContext("com.eomcs.lms");
-    
   }
 }
 

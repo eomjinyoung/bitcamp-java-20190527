@@ -13,6 +13,10 @@ public class MemberUpdateCommand implements Command {
     this.memberDao = memberDao;
   }
   
+  public String getCommandName() {
+    return "/member/update";
+  }
+  
   @Override
   public void execute(BufferedReader in, PrintStream out) {
     try {

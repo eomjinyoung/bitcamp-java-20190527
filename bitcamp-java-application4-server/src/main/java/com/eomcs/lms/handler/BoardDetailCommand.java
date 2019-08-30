@@ -16,6 +16,10 @@ public class BoardDetailCommand implements Command {
     this.sqlSessionFactory = sqlSessionFactory;
   }
   
+  public String getCommandName() {
+    return "/board/detail";
+  }
+  
   @Override
   public void execute(BufferedReader in, PrintStream out) {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
