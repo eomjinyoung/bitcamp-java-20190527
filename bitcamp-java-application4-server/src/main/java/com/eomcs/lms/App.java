@@ -1,47 +1,16 @@
-// v45_2 : Mybatis의 DAO 구현체 자동 생성기 이용하기(BoardXxxCommand 에만 적용)
+// v46_1 : Bean Container 적용하기
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import com.eomcs.lms.dao.LessonDao;
-import com.eomcs.lms.dao.MemberDao;
-import com.eomcs.lms.dao.PhotoBoardDao;
-import com.eomcs.lms.dao.PhotoFileDao;
-import com.eomcs.lms.handler.BoardAddCommand;
-import com.eomcs.lms.handler.BoardDeleteCommand;
-import com.eomcs.lms.handler.BoardDetailCommand;
-import com.eomcs.lms.handler.BoardListCommand;
-import com.eomcs.lms.handler.BoardUpdateCommand;
 import com.eomcs.lms.handler.Command;
-import com.eomcs.lms.handler.LessonAddCommand;
-import com.eomcs.lms.handler.LessonDeleteCommand;
-import com.eomcs.lms.handler.LessonDetailCommand;
-import com.eomcs.lms.handler.LessonListCommand;
-import com.eomcs.lms.handler.LessonUpdateCommand;
-import com.eomcs.lms.handler.LoginCommand;
-import com.eomcs.lms.handler.MemberAddCommand;
-import com.eomcs.lms.handler.MemberDeleteCommand;
-import com.eomcs.lms.handler.MemberDetailCommand;
-import com.eomcs.lms.handler.MemberListCommand;
-import com.eomcs.lms.handler.MemberSearchCommand;
-import com.eomcs.lms.handler.MemberUpdateCommand;
-import com.eomcs.lms.handler.PhotoBoardAddCommand;
-import com.eomcs.lms.handler.PhotoBoardDeleteCommand;
-import com.eomcs.lms.handler.PhotoBoardDetailCommand;
-import com.eomcs.lms.handler.PhotoBoardListCommand;
-import com.eomcs.lms.handler.PhotoBoardUpdateCommand;
-import com.eomcs.util.MybatisDaoFactory;
-import com.eomcs.util.PlatformTransactionManager;
+import com.eomcs.util.ApplicationContext;
 import com.eomcs.util.SqlSessionFactoryProxy;
 
 public class App {
@@ -49,7 +18,7 @@ public class App {
   private static final int CONTINUE = 1;
   private static final int STOP = 0;
 
-  HashMap<String,Command> commandMap = new HashMap<>();
+  ApplicationContext appCtx;
   int state;
   
   // 스레드풀
@@ -58,66 +27,9 @@ public class App {
   SqlSessionFactory sqlSessionFactory;
   
   public App() throws Exception {
-
     // 처음에는 클라이언트 요청을 처리해야 하는 상태로 설정한다.
     state = CONTINUE;
-    
-    try {
-      InputStream inputStream = 
-          Resources.getResourceAsStream("com/eomcs/lms/conf/mybatis-config.xml");
-      sqlSessionFactory =new SqlSessionFactoryProxy(
-          new SqlSessionFactoryBuilder().build(inputStream));
-      
-      // 트랜잭션 관리자를 준비한다.
-      PlatformTransactionManager txManager = 
-          new PlatformTransactionManager(sqlSessionFactory);
-      
-      // DAO 구현체 생성기를 준비한다.
-      MybatisDaoFactory daoFactory = new MybatisDaoFactory(sqlSessionFactory);
-      
-      // Command 객체가 사용할 데이터 처리 객체를 준비한다.
-      MemberDao memberDao = daoFactory.createDao(MemberDao.class);
-      LessonDao lessonDao = daoFactory.createDao(LessonDao.class);
-      PhotoBoardDao photoBoardDao = daoFactory.createDao(PhotoBoardDao.class);
-      PhotoFileDao photoFileDao = daoFactory.createDao(PhotoFileDao.class);
-
-      // 클라이언트 명령을 처리할 커맨드 객체를 준비한다.
-      commandMap.put("/lesson/add", new LessonAddCommand(lessonDao));
-      commandMap.put("/lesson/delete", new LessonDeleteCommand(lessonDao));
-      commandMap.put("/lesson/detail", new LessonDetailCommand(lessonDao));
-      commandMap.put("/lesson/list", new LessonListCommand(lessonDao));
-      commandMap.put("/lesson/update", new LessonUpdateCommand(lessonDao));
-
-      commandMap.put("/member/add", new MemberAddCommand(memberDao));
-      commandMap.put("/member/delete", new MemberDeleteCommand(memberDao));
-      commandMap.put("/member/detail", new MemberDetailCommand(memberDao));
-      commandMap.put("/member/list", new MemberListCommand(memberDao));
-      commandMap.put("/member/update", new MemberUpdateCommand(memberDao));
-      commandMap.put("/member/search", new MemberSearchCommand(memberDao));
-
-      commandMap.put("/board/add", new BoardAddCommand(sqlSessionFactory));
-      commandMap.put("/board/delete", new BoardDeleteCommand(sqlSessionFactory));
-      commandMap.put("/board/detail", new BoardDetailCommand(sqlSessionFactory));
-      commandMap.put("/board/list", new BoardListCommand(sqlSessionFactory));
-      commandMap.put("/board/update", new BoardUpdateCommand(sqlSessionFactory));
-
-      commandMap.put("/photoboard/add", 
-          new PhotoBoardAddCommand(txManager, photoBoardDao, photoFileDao));
-      commandMap.put("/photoboard/delete", 
-          new PhotoBoardDeleteCommand(txManager, photoBoardDao, photoFileDao));
-      commandMap.put("/photoboard/detail", 
-          new PhotoBoardDetailCommand(photoBoardDao));
-      commandMap.put("/photoboard/list", new PhotoBoardListCommand(photoBoardDao));
-      commandMap.put("/photoboard/update", 
-          new PhotoBoardUpdateCommand(txManager, photoBoardDao, photoFileDao));
-      
-      commandMap.put("/auth/login", new LoginCommand(memberDao));
-      
-    } catch (Exception e) {
-      System.out.println("DBMS에 연결할 수 없습니다!");
-      throw e;
-    }
-
+    appCtx = new ApplicationContext();
   }
 
   @SuppressWarnings("static-access")
@@ -181,12 +93,12 @@ public class App {
           out.println("Good bye!");
           
         } else {
-          // non-static 중첩 클래스는 바깥 클래스의 인스턴스 멤버를 사용할 수 있다.
-          Command command = commandMap.get(request);
-          if (command == null) {
-            out.println("해당 명령을 처리할 수 없습니다.");
-          } else {
+          try {
+            Command command = (Command) appCtx.getBean(request);
             command.execute(in, out);
+          } catch (Exception e) {
+            out.println("해당 명령을 처리할 수 없습니다.");
+            e.printStackTrace();
           }
         }
         out.println("!end!");
