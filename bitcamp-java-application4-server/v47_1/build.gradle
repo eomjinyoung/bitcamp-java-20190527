@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'eclipse'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    // Mybatis Persistence Framework
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.5.2'
+    
+    // MariaDB JDBC Driver
+    compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.3'
+    
+    implementation 'com.google.guava:guava:27.1-jre'
+    testImplementation 'junit:junit:4.12'
+}
+
+application {
+    mainClassName = 'com.eomcs.lms.App'
+}
