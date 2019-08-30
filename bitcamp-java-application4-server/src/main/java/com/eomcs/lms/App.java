@@ -8,7 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import org.apache.ibatis.session.SqlSessionFactory;
 import com.eomcs.lms.handler.Command;
 import com.eomcs.util.ApplicationContext;
 import com.eomcs.util.SqlSessionFactoryProxy;
@@ -23,8 +22,6 @@ public class App {
   
   // 스레드풀
   ExecutorService executorService = Executors.newCachedThreadPool();
-  
-  SqlSessionFactory sqlSessionFactory;
   
   public App() throws Exception {
     // 처음에는 클라이언트 요청을 처리해야 하는 상태로 설정한다.
@@ -114,7 +111,9 @@ public class App {
         // 현재 스레드에 보관된 Mybatis의 SqlSession 객체를 제거해야 한다.
         // 그래야만 다음 클라이언트 요청이 들어 왔을 때 
         // 새 SqlSession 객체를 사용할 것이다.
-        ((SqlSessionFactoryProxy)sqlSessionFactory).clearSession();
+        SqlSessionFactoryProxy proxy = 
+            (SqlSessionFactoryProxy) appCtx.getBean("sqlSessionFactory");
+        proxy.clearSession();
       }
     }
   }
