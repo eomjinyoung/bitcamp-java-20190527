@@ -1,6 +1,8 @@
 package com.eomcs.util;
 
+import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.ibatis.io.Resources;
@@ -10,6 +12,7 @@ import com.eomcs.lms.dao.LessonDao;
 import com.eomcs.lms.dao.MemberDao;
 import com.eomcs.lms.dao.PhotoBoardDao;
 import com.eomcs.lms.dao.PhotoFileDao;
+import com.eomcs.lms.handler.Command;
 
 // 자바 객체를 자동 생성하여 관리하는 역할
 // 1단계: App 클래스에서 객체 생성 코드를 분리하기
@@ -23,14 +26,68 @@ public class ApplicationContext {
   
   public ApplicationContext(String packageName) throws Exception {
     
-    createSqlSessionFactory();
-    createTransactionManager();
-    createDao();
+    //createSqlSessionFactory();
+    //createTransactionManager();
+    //createDao();
     
     // 파라미터에 주어진 패키지를 뒤져서 Command 인터페이스를 구현한 클래스를 찾는다.
+    // => 패키지의 경로를 알아낸다.
+    String packagePath = packageName.replace(".", "/");
+    File fullPath = Resources.getResourceAsFile(packagePath);
+    
     // => 찾은 클래스의 인스턴스를 생성한다.
-    findCommandClass();
+    findCommandClass(fullPath, packageName);
     createCommand();
+  }
+  
+  private void findCommandClass(File path, String packageName) {
+    File[] files = path.listFiles(file -> {
+        if (file.isDirectory())
+          return true;
+        
+        if (file.getName().endsWith(".class") && 
+            file.getName().indexOf('$') == -1)
+          return true;
+        
+        return false;
+      });
+    
+    for (File f : files) {
+      if (f.isDirectory()) {
+        findCommandClass(f, packageName + "." + f.getName());
+      } else {
+        String className = String.format("%s.%s",
+            packageName, f.getName().replace(".class", ""));
+        
+        try {
+          Class<?> clazz = Class.forName(className);
+          if (isCommand(clazz)) {
+            classes.add(clazz);
+          }
+        } catch (ClassNotFoundException e) {
+          // 클래스를 로딩하다가 오류가 발생하면 무시한다.
+        }
+      }
+    }
+  }
+  
+  private boolean isCommand(Class<?> clazz) {
+    Class<?>[] interfaces = clazz.getInterfaces();
+    for (Class<?> c : interfaces) {
+      if (c == Command.class) {
+        if (!Modifier.isAbstract(c.getModifiers()))
+          return true;
+        else 
+          return false;
+      }
+    }
+    return false;
+  }
+  
+  private void createCommand() {
+    for (Class<?> clazz : classes) {
+      System.out.println(clazz.getName());
+    }
   }
   
   public Object getBean(String name) throws RuntimeException {
@@ -72,6 +129,11 @@ public class ApplicationContext {
     objPool.put("lessonDao", daoFactory.createDao(LessonDao.class));
     objPool.put("photoBoardDao", daoFactory.createDao(PhotoBoardDao.class));
     objPool.put("photoFileDao", daoFactory.createDao(PhotoFileDao.class));
+  }
+  
+  public static void main(String[] args) throws Exception {
+    ApplicationContext ctx = new ApplicationContext("com.eomcs.lms");
+    
   }
 }
 
