@@ -15,6 +15,7 @@ import com.eomcs.util.ApplicationContext;
 import com.eomcs.util.Component;
 import com.eomcs.util.RequestMapping;
 import com.eomcs.util.RequestMappingHandlerMapping;
+import com.eomcs.util.RequestMappingHandlerMapping.RequestHandler;
 import com.eomcs.util.SqlSessionFactoryProxy;
 
 public class App {
@@ -31,7 +32,7 @@ public class App {
   
   public App() throws Exception {
     // 처음에는 클라이언트 요청을 처리해야 하는 상태로 설정한다.
-    state = CONTINUE;
+    state = CONTINUE; 
     appCtx = new ApplicationContext("com.eomcs.lms");
     handlerMapping = createRequestMappingHandlerMapping();
   }
@@ -44,9 +45,12 @@ public class App {
     // 객체풀에서 @Component 애노테이션이 붙은 객체 목록을 꺼낸다.
     Map<String,Object> components = appCtx.getBeansWithAnnotation(Component.class);
     
+    //System.out.println("==================================");
+    
     // 객체 안에 선언된 메서드 중에서 @RequestMapping이 붙은 메서드를 찾아낸다.
     Collection<Object> objList = components.values();
     objList.forEach(obj -> {
+      
       // => 객체에서 메서드 정보를 추출한다.
       Method[] methods = obj.getClass().getMethods();
       for (Method m : methods) {
@@ -55,7 +59,9 @@ public class App {
           continue;
         // @RequestMapping 이 붙은 메서드를 찾으면 mapping 객체에 보관한다.
         mapping.addRequestHandler(anno.value(), obj, m);
+        //System.out.printf("%s ==> %s\n", anno.value(), m.getName());
       }
+      
     });
     
     return mapping;
@@ -123,10 +129,16 @@ public class App {
           
         } else {
           try {
-            Object command = appCtx.getBean(request);
-            Method requestHandler = getRequestHandler(command);
+            RequestHandler requestHandler = 
+                handlerMapping.getRequestHandler(request);
+
             if (requestHandler != null) {
-              requestHandler.invoke(command, in, out);
+              /*
+              Method m = requestHandler.method;
+              Object obj = requestHandler.bean;
+              m.invoke(obj, in, out);
+              */
+              requestHandler.method.invoke(requestHandler.bean, in, out);
             } else {
               throw new Exception("요청을 처리할 메서드가 없습니다.");
             }
@@ -153,20 +165,6 @@ public class App {
             (SqlSessionFactoryProxy) appCtx.getBean("sqlSessionFactory");
         proxy.clearSession();
       }
-    }
-
-    // 클래스의 메서드 중에서 @RequestMapping이 붙은 메서드를 찾아낸다.
-    private Method getRequestHandler(Object command) {
-      // 요청을 처리하기 위해 호출할 메서드를 찾아낸다.
-      // => 클래스의 public 메서드 목록을 꺼낸다.
-      Method[] methods = command.getClass().getMethods();
-      for (Method m : methods) {
-        RequestMapping anno = m.getAnnotation(RequestMapping.class);
-        if (anno != null) {
-          return m;
-        }
-      }
-      return null;
     }
   }
   
