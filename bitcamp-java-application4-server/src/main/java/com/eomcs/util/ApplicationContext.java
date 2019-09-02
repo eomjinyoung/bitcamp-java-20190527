@@ -2,12 +2,14 @@ package com.eomcs.util;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -198,6 +200,22 @@ public class ApplicationContext {
     objPool.put("lessonDao", daoFactory.createDao(LessonDao.class));
     objPool.put("photoBoardDao", daoFactory.createDao(PhotoBoardDao.class));
     objPool.put("photoFileDao", daoFactory.createDao(PhotoFileDao.class));
+  }
+  
+  public Map<String,Object> getBeansWithAnnotation(
+      Class<? extends Annotation> annotationType) {
+    
+    HashMap<String,Object> beans = new HashMap<>();
+    
+    Set<String> names = objPool.keySet();
+    names.forEach(name -> {
+      Object obj = objPool.get(name);
+      if (obj.getClass().getAnnotation(annotationType) != null) {
+        beans.put(name, obj);
+      }
+    });
+    
+    return beans;
   }
 }
 

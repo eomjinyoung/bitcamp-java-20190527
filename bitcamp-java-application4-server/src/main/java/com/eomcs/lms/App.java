@@ -7,10 +7,14 @@ import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import com.eomcs.util.ApplicationContext;
+import com.eomcs.util.Component;
 import com.eomcs.util.RequestMapping;
+import com.eomcs.util.RequestMappingHandlerMapping;
 import com.eomcs.util.SqlSessionFactoryProxy;
 
 public class App {
@@ -19,6 +23,7 @@ public class App {
   private static final int STOP = 0;
 
   ApplicationContext appCtx;
+  RequestMappingHandlerMapping handlerMapping;
   int state;
   
   // 스레드풀
@@ -28,6 +33,32 @@ public class App {
     // 처음에는 클라이언트 요청을 처리해야 하는 상태로 설정한다.
     state = CONTINUE;
     appCtx = new ApplicationContext("com.eomcs.lms");
+    handlerMapping = createRequestMappingHandlerMapping();
+  }
+
+  private RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
+    
+    RequestMappingHandlerMapping mapping = 
+        new RequestMappingHandlerMapping();
+    
+    // 객체풀에서 @Component 애노테이션이 붙은 객체 목록을 꺼낸다.
+    Map<String,Object> components = appCtx.getBeansWithAnnotation(Component.class);
+    
+    // 객체 안에 선언된 메서드 중에서 @RequestMapping이 붙은 메서드를 찾아낸다.
+    Collection<Object> objList = components.values();
+    objList.forEach(obj -> {
+      // => 객체에서 메서드 정보를 추출한다.
+      Method[] methods = obj.getClass().getMethods();
+      for (Method m : methods) {
+        RequestMapping anno = m.getAnnotation(RequestMapping.class);
+        if (anno == null)
+          continue;
+        // @RequestMapping 이 붙은 메서드를 찾으면 mapping 객체에 보관한다.
+        mapping.addRequestHandler(anno.value(), obj, m);
+      }
+    });
+    
+    return mapping;
   }
 
   @SuppressWarnings("static-access")
