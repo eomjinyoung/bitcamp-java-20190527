@@ -6,9 +6,10 @@ import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.domain.Board;
 import com.eomcs.util.Component;
 import com.eomcs.util.Input;
+import com.eomcs.util.RequestMapping;
 
 @Component("/board/update")
-public class BoardUpdateCommand implements Command {
+public class BoardUpdateCommand {
   
   private BoardDao boardDao;
   
@@ -16,7 +17,7 @@ public class BoardUpdateCommand implements Command {
     this.boardDao = boardDao;
   }
 
-  @Override
+  @RequestMapping // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
   public void execute(BufferedReader in, PrintStream out) {
     try {
       int no = Input.getIntValue(in, out, "번호? ");

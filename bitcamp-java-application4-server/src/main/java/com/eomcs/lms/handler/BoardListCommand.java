@@ -6,9 +6,10 @@ import java.util.List;
 import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.domain.Board;
 import com.eomcs.util.Component;
+import com.eomcs.util.RequestMapping;
 
 @Component("/board/list")
-public class BoardListCommand implements Command {
+public class BoardListCommand {
   
   private BoardDao boardDao;
   
@@ -16,7 +17,7 @@ public class BoardListCommand implements Command {
     this.boardDao = boardDao;
   }
   
-  @Override
+  @RequestMapping // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
   public void execute(BufferedReader in, PrintStream out) {
     try {
       List<Board> boards = boardDao.findAll();

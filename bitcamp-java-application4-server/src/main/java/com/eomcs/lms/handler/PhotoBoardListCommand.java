@@ -6,9 +6,10 @@ import java.util.List;
 import com.eomcs.lms.dao.PhotoBoardDao;
 import com.eomcs.lms.domain.PhotoBoard;
 import com.eomcs.util.Component;
+import com.eomcs.util.RequestMapping;
 
 @Component("/photoboard/list")
-public class PhotoBoardListCommand implements Command {
+public class PhotoBoardListCommand {
   
   private PhotoBoardDao photoBoardDao;
   
@@ -16,7 +17,7 @@ public class PhotoBoardListCommand implements Command {
     this.photoBoardDao = photoBoardDao;
   }
   
-  @Override
+  @RequestMapping // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
   public void execute(BufferedReader in, PrintStream out) {
     try {
       List<PhotoBoard> photoBoards = photoBoardDao.findAll();

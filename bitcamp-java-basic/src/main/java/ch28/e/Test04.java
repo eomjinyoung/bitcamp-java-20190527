@@ -11,6 +11,9 @@ public class Test04 {
   public static void main(String[] args) {
     
     Class<?> clazz = Test04.class;
+    // 클래스에서 특정 애노테이션의 값을 추출하고 싶다면,
+    //    getAnnotation(애노테이션 타입) 
+    // => 리턴 값은 그 애노테이션의 값을 담고 있는 인스턴스이다.
     MyAnnotation7 anno1 = clazz.getAnnotation(MyAnnotation7.class);
     for (String s : anno1.value()) 
       System.out.println("==> " + s);

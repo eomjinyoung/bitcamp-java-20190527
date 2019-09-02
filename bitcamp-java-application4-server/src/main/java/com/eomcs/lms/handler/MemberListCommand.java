@@ -6,16 +6,17 @@ import java.util.List;
 import com.eomcs.lms.dao.MemberDao;
 import com.eomcs.lms.domain.Member;
 import com.eomcs.util.Component;
+import com.eomcs.util.RequestMapping;
 
 @Component("/member/list")
-public class MemberListCommand implements Command {
+public class MemberListCommand {
   private MemberDao memberDao;
   
   public MemberListCommand(MemberDao memberDao) {
     this.memberDao = memberDao;
   }
   
-  @Override
+  @RequestMapping // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
   public void execute(BufferedReader in, PrintStream out) {
     try {
       List<Member> members = memberDao.findAll();
