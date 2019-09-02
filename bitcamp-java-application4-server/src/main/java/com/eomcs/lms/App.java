@@ -1,4 +1,4 @@
-// v49_1 : CRUD 기능을 한 클래스에 모으기 + @RequestMapping 메서드를 별도 관리 
+// v50_1 : Spring IoC 컨테이너 사용하기 
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
@@ -11,7 +11,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import com.eomcs.util.ApplicationContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import com.eomcs.util.Component;
 import com.eomcs.util.RequestMapping;
 import com.eomcs.util.RequestMappingHandlerMapping;
@@ -33,8 +34,19 @@ public class App {
   public App() throws Exception {
     // 처음에는 클라이언트 요청을 처리해야 하는 상태로 설정한다.
     state = CONTINUE; 
-    appCtx = new ApplicationContext("com.eomcs.lms");
-    handlerMapping = createRequestMappingHandlerMapping();
+    appCtx = new AnnotationConfigApplicationContext(AppConfig.class);
+    
+    // Spring IoC 컨테이너에 들어 있는(Spring IoC 컨테이너가 생성한) 객체 알아내기
+    String[] beanNames = appCtx.getBeanDefinitionNames();
+    System.out.println("[Spring IoC 컨테이너 객체들]------------");
+    for (String beanName : beanNames) {
+      System.out.printf("%s(%s)\n",
+          appCtx.getBean(beanName).getClass().getSimpleName(),
+          beanName);
+    }
+    System.out.println("------------------------------------");
+    
+    //handlerMapping = createRequestMappingHandlerMapping();
   }
 
   private RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
