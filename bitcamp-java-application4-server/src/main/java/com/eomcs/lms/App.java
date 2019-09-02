@@ -1,4 +1,4 @@
-// v48_1 : 애노테이션으로 호출될 메서드를 지정하기
+// v49_1 : CRUD 기능을 한 클래스에 모으기 + @RequestMapping 메서드를 별도 관리 
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
