@@ -3,6 +3,7 @@ package ch29.a;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ch29.SpringUtils;
 
 public class Test03_j {
   public static void main(String[] args) {
@@ -11,6 +12,9 @@ public class Test03_j {
     //
     ApplicationContext iocContainer = 
         new AnnotationConfigApplicationContext(AppConfig03.class);
+    
+    SpringUtils.printObjects(iocContainer);
+    System.out.println("---------------------------------");
     
     // 스프링 IoC 컨테이너가 생성한 객체 꺼내기
     // => @Component 가 붙은 클래스의 인스턴스를 꺼낼 때는 

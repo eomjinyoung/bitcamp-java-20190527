@@ -37,8 +37,9 @@
     <property name="auto"><value type="boolean">true</value></property>
     <!-- 프로퍼티의 타입이 자바 원시 타입일 경우에만 자동으로 변환해 준다. 
          XML 파일에 설정한 값(문자열)을 primitive type으로 변환하는 것.-->
-    <!-- 자바 원시 타입이 아니기 때문에 오류 발생! 별도의 프로퍼티 변환기가 있어야 한다.
-    <property name="createdDate"><value type="java.util.Date">2019-1-1</value></property>
+    <!-- 자바 원시 타입이 아니기 때문에 오류 발생! 별도의 프로퍼티 변환기가 있어야 한다.-->
+    <!--  
+    <property name="createdDate"><value type="java.sql.Date">2019-1-1</value></property>
     -->
   </bean>
 

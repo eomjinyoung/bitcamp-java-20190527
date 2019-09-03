@@ -24,11 +24,12 @@
   </bean>
 
   <!-- 다른 객체의 프로퍼티 태그에서 생성한 객체를 참조할 수 없다. -->
-  <!-- 예외 발생!
+  <!-- 예외 발생! -->
+  <!--  
   <bean id="c2" class="ch29.d.Car"
         p:maker="비트자동차" p:model="모델4" p:blackBox-ref="bb1"/>
-  -->  
-      
+  -->
+  
   <bean id="c3" class="ch29.d.Car">
     <property name="maker" value="비트자동차"/>
     <property name="model" value="모델2"/>

@@ -8,7 +8,7 @@
     호출할 생성자를 지정하지 않으면 기본 생성자(default constructor, 파라미터가 없는 생성자)를 호출한다.
     기본 생성자가 없으면 예외 발생!
   -->
-  <bean id="c1" class="ch29.b.Car"></bean>
+  <bean id="c1" class="ch29.b.Car"/>
   
   <!-- ch29.c.Car는 기본 생성자가 없기 때문에 예외 발생! -->
   <bean id="c2" class="ch29.c.Car"/>

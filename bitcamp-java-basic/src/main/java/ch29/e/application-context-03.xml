@@ -11,7 +11,7 @@
     <property name="model"><value>모델1</value></property>
     <property name="options">
       <map>
-        <entry>
+        <entry> <!-- map.put("sunroof", "yes") -->
           <key>
             <value>sunroof</value>
           </key>

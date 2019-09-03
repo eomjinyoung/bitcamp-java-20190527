@@ -37,7 +37,7 @@ public class Test02 {
     if (c6 == c8) System.out.println("c6 == c8");
     
     Car c9 = (Car) iocContainer.getBean("c9");
-    if (c6 == c9) System.out.println("c6 == c9");
+    System.out.println(c6 == c9);
   }
 }
 
