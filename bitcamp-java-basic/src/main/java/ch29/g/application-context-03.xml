@@ -17,6 +17,7 @@
        => 그리고 이 객체에 등록하고 싶은 프로퍼티 에디터를 지정해야 한다. -->
   <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
     <property name="customEditors">
+      <!-- setCustomEditor(Map<Class,Class> param) {...} -->
       <map>
         <!-- 프로퍼티 에디터 지정하기
              key : String을 바꿀 목표 타입
@@ -40,6 +41,18 @@
          개발자가 직접 객체를 생성할 필요가 없다는 것이다.-->
     <property name="createdDate" value="2019-3-19"/>
   </bean>
+  <!-- 
+    CustomerEditorConfigurer configurer = beanContainer.getBean(CustomEditorConfigurer.class);
+    Map<Class,Class> map = configurer.getCustomEditors();
+    Class editorClass = map.get(Date.class);
+    Constructor const = editorClass.getConstructor();
+    PropertyEditor propEditor = const.newInstance(); // MyCustomDateEditor 리턴
+    propEditor.setAsText("2019-3-19");
+    Date value = propEditor.getValue();
+    
+    c1.setCreatedDate(value);
+   -->
+  
   
 </beans>
 

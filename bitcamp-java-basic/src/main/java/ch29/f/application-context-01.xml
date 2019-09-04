@@ -5,6 +5,12 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
   
+  <!-- CarFactory 객체를 생성하기 
+      => Car 객체를 만들기 위해 이와 같이 굳이 CarFactory 객체를 생성할 필요가 없다.
+      => create() 메서드는 static 이기 때문이다.
+  -->
+  <bean id="factory" class="ch29.f.CarFactory"/>
+  
   <!-- 팩토리 클래스로부터 객체를 생성하기
      class : 팩토리 클래스 이름
      factory-method : 호출될 스태틱 메서드 이름
@@ -28,6 +34,10 @@
   <bean id="d1" class="java.sql.Date" factory-method="valueOf">
     <constructor-arg value="2019-3-19"/>
   </bean>
+  <!-- 
+    Object obj = Data.valueOf("2019-3-19");
+    beanContainer.put("d1", obj);
+   -->
 </beans>
 
 

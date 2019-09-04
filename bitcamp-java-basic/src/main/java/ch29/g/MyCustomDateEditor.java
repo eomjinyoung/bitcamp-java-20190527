@@ -15,7 +15,7 @@ public class MyCustomDateEditor extends PropertyEditorSupport {
   
   // 스프링 IoC 컨테이너는 String을 java.sql.Date 클래스로 바꾸기 위해 이 메서드를 먼저 호출한다.
   // 그리고 getValue()를 호출하여 변환된 값을 꺼내 쓴다.
-  @Override
+  //@Override
   public void setAsText(String text) throws IllegalArgumentException {
     System.out.printf("MyCustomDateEditor.setAsText(%s)\n", text);
     // text 파라미터는 XML에 설정한 String 값이다. 
@@ -27,6 +27,12 @@ public class MyCustomDateEditor extends PropertyEditorSupport {
     // => 이렇게 setValue()로 보관된 값을 
     //    스프링 IoC 컨테이너는 getValue()를 호출하여 꺼내 쓴다.
     this.setValue(date);
+  }
+  
+  @Override
+  public Object getValue() {
+    System.out.println("MyCustomDateEditor.getValue()");
+    return super.getValue();
   }
 
 }

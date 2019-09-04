@@ -42,6 +42,29 @@
     <constructor-arg ref="blackBox"/>
     <constructor-arg value="sonata"/>
   </bean>
+  <!-- 
+    Class<?> clazz = CarFactoryBean.class;
+    Class<?>[] interfaces = clazz.getInterfaces();
+    boolean isFactoryBean = false;
+    for (Class<?> c : interfaces) {
+      if (c == FactoryBean.class) {
+        isFactoryBean = true;
+        break;
+      }
+    }
+    if (isFactoryBean) {
+      CarFactoryBean factory = new CarFactoryBean(blackBox, "sonata");
+      Car c1 = factory.getObject();
+    } else {
+      CarFactoryBean c1 = new CarFactoryBean(blackBox, "sonata");
+    }
+   -->
+   
+  <bean id="bb" class="ch29.f.BlackBoxFactoryBean">
+    <constructor-arg value="비트비트"/>
+    <constructor-arg value="하루종일"/>
+  </bean>
+  
 </beans>
 
 

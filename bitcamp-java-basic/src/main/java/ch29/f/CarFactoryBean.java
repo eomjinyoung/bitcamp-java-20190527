@@ -19,12 +19,10 @@ public class CarFactoryBean implements FactoryBean<Car> {
     return "CarFactoryBean [blackBox=" + blackBox + ", model=" + model + "]";
   }
 
-  @Override
   public Class<?> getObjectType() {
     return Car.class;
   }
   
-  @Override
   public Car getObject() throws Exception {
     Car c = new Car();
     c.setBlackBox(blackBox);

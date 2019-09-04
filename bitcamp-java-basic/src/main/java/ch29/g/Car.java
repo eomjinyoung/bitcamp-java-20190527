@@ -55,6 +55,7 @@ public class Car {
     return createdDate;
   }
   public void setCreatedDate(Date createdDate) {
+    System.out.println("Car.setCreatedDate()");
     this.createdDate = createdDate;
   }
   public BlackBox getBlackBox() {
