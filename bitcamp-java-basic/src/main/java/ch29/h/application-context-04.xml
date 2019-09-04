@@ -19,7 +19,8 @@
           이 태그는 context 네임스페이스 들어 있다. 
           이 태그를 사용하려면 먼저 context 네임스페이스를 선언해야 한다.
   -->
-  <context:annotation-config/>
+ 
+  <context:annotation-config/>  
 
   <bean id="c1" class="ch29.h.Car">
     <property name="maker" value="비트자동차"/>

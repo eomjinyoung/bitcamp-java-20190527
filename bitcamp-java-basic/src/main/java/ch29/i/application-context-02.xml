@@ -14,8 +14,8 @@
     <!-- 특정 클래스 포함하기 : 제외 대상인 경우 포함되지 않는다.-->
     <context:include-filter  type="regex" 
                             expression="ch29.i.sub2.SubOkTruck"/>
-    <!-- 특정 애노테이션이 붙은 클래스 포함하기 : 제외 대상인 경우 포함되지 않는다.-->
-    <context:include-filter  type="annotation" 
+    <!-- 특정 애노테이션이 붙은 클래스 제외하기 -->
+    <context:exclude-filter  type="annotation" 
                             expression="org.springframework.stereotype.Controller"/>
     <!-- 특정 클래스만 제외하기 -->
     <context:exclude-filter type="regex" 

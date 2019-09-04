@@ -13,7 +13,7 @@ public class Sub2Car {
   private int valve;
   private boolean auto;
   private Date createdDate;
-  @Autowired private BlackBox blackBox;
+  @Autowired(required = false) private BlackBox blackBox;
   
   public Sub2Car() {
     System.out.println("Car()");

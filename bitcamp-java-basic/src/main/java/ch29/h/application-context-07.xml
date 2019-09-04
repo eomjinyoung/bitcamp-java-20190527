@@ -17,11 +17,11 @@
   <context:annotation-config/>
 
   <!-- 객체 생성 오류! -->
-  <!-- 
+  <!--
   <bean id="c1" class="ch29.h.Car4"/>
   -->
   
-  <bean id="c1" class="ch29.h.Car5"/>
+  <bean id="c2" class="ch29.h.Car5"/>
    
   <bean id="bb1" class="ch29.h.BlackBox">
     <property name="maker" value="비트오토"/>

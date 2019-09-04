@@ -17,7 +17,7 @@ public class Car5 {
   // => required를 false로 설정하면 해당 객체가 없더라도 오류가 발생하지 않는다.
   @Autowired(required=false)
   // => 같은 타입의 객체가 여러 개 있을 경우 어떤 객체를 주입해야 하는지 이름을 지정하라!
-  @Qualifier("bb2")
+  @Qualifier("bb1")
   private BlackBox blackBox;
   
   public Car5() {

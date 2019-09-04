@@ -14,7 +14,7 @@ public class Car4 {
   // @Autowired를 필드에 붙여도 된다.
   // => 이런 경우 세터/게터를 제거해도 동작한다.
   // => required를 false로 설정하면 해당 객체가 없더라도 오류가 발생하지 않는다.
-  @Autowired(required=false) private BlackBox blackBox;
+  @Autowired(required = false) private BlackBox blackBox;
   
   public Car4() {
     System.out.println("Car4()");
