@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'eclipse'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    // Mybatis Persistence Framework
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.5.2'
+    
+    // MariaDB JDBC Driver
+    compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.3'
+    
+    // Spring IoC 컨테이너
+    compile group: 'org.springframework', name: 'spring-context', version: '5.1.9.RELEASE'
+    
+    // Spring JDBC
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '5.1.9.RELEASE'
+    
+    // Mybatis-Spring
+    compile group: 'org.mybatis', name: 'mybatis-spring', version: '2.0.2'
+    
+    // Spring WebMVC
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.1.9.RELEASE'
+    
+    // Log4j
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    
+    
+    implementation 'com.google.guava:guava:27.1-jre'
+    testImplementation 'junit:junit:4.12'
+}
+
+application {
+    mainClassName = 'com.eomcs.lms.App'
+}

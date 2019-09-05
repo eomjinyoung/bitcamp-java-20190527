@@ -93,7 +93,19 @@ log4j.appender.aaa.layout.ConversionPattern=%5p [%t] - %m%n
 - %m : 로그 메시지를 출력하고 싶을 때 사용한다.
 - %n : 줄 바꿀 때 사용한다.
 
+### 하위 로거 설정
 
+특정 이름의 로거나 특정 자바 패키지(또는 클래스)에 대해 출력 레벨을 설정할 수 있다.
+
+```
+log4j.logger.로거이름=레벨
+log4j.logger.자바 패키지 이름=레벨
+예)
+log4j.logger.okok=DEBUG
+log4j.logger.com.eomcs.lms.dao=DEBUG
+log4j.logger.com.eomcs.lms.dao.BoardDao=DEBUG
+
+```
 
 
 
