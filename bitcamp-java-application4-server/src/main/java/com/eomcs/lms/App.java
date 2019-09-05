@@ -1,9 +1,11 @@
-// v52_1 : 스프링 애노테이션을 이용하여 트랜잭션 처리하기
+// v53_1 : log4j 1.2.x 적용하기
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,6 +13,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -21,6 +25,9 @@ import com.eomcs.util.RequestMappingHandlerMapping.RequestHandler;
 
 public class App {
 
+  // Log4j의 로그 출력 도구를 준비한다.
+  private static final Logger logger = LogManager.getLogger(App.class);
+  
   private static final int CONTINUE = 1;
   private static final int STOP = 0;
 
@@ -38,13 +45,13 @@ public class App {
     
     // Spring IoC 컨테이너에 들어 있는(Spring IoC 컨테이너가 생성한) 객체 알아내기
     String[] beanNames = appCtx.getBeanDefinitionNames();
-    System.out.println("[Spring IoC 컨테이너 객체들]------------");
+    logger.debug("[Spring IoC 컨테이너 객체들]------------");
     for (String beanName : beanNames) {
-      System.out.printf("%s(%s)\n",
+      logger.debug(String.format("%s(%s)",
           appCtx.getBean(beanName).getClass().getSimpleName(),
-          beanName);
+          beanName));
     }
-    System.out.println("------------------------------------");
+    logger.debug("------------------------------------");
     
     handlerMapping = createRequestMappingHandlerMapping();
   }
@@ -57,7 +64,7 @@ public class App {
     // 객체풀에서 @Component 애노테이션이 붙은 객체 목록을 꺼낸다.
     Map<String,Object> components = appCtx.getBeansWithAnnotation(Component.class);
     
-    //System.out.println("==================================");
+    logger.trace("[요청 핸들러] ===========================");
     
     // 객체 안에 선언된 메서드 중에서 @RequestMapping이 붙은 메서드를 찾아낸다.
     Collection<Object> objList = components.values();
@@ -85,7 +92,9 @@ public class App {
           continue;
         // @RequestMapping 이 붙은 메서드를 찾으면 mapping 객체에 보관한다.
         mapping.addRequestHandler(anno.value()[0], obj, m);
-        //System.out.printf("%s ==> %s\n", anno.value(), m.getName());
+        logger.trace(String.format("%s ==> %s.%s()", anno.value()[0], 
+            obj.getClass().getSimpleName(),
+            m.getName()));
       }
       
     });
@@ -97,7 +106,7 @@ public class App {
   private void service() {
 
     try (ServerSocket serverSocket = new ServerSocket(8888);) {
-      System.out.println("애플리케이션 서버가 시작되었음!");
+      logger.info("애플리케이션 서버가 시작되었음!");
 
       while (true) {
         // 클라이언트가 접속하면 작업을 수행할 Runnable 객체를 만들어 스레드풀에 맡긴다.
@@ -119,11 +128,14 @@ public class App {
         Thread.currentThread().sleep(500);
       }
       
-      System.out.println("애플리케이션 서버를 종료함!");
+      logger.info("애플리케이션 서버를 종료함!");
 
     } catch (Exception e) {
-      System.out.println("소켓 통신 오류!");
-      e.printStackTrace();
+      logger.info("소켓 통신 오류!");
+      
+      StringWriter out = new StringWriter();
+      e.printStackTrace(new PrintWriter(out));
+      logger.debug(out.toString());
     }
   }
 
@@ -142,7 +154,7 @@ public class App {
               new InputStreamReader(socket.getInputStream()));
           PrintStream out = new PrintStream(socket.getOutputStream())) {
 
-        System.out.println("클라이언트와 연결됨!");
+        logger.info("클라이언트와 연결됨!");
 
         // 클라이언트가 보낸 명령을 읽는다.
         String request = in.readLine();
@@ -165,17 +177,20 @@ public class App {
             }
             
           } catch (Exception e) {
-            out.println("해당 명령을 처리할 수 없습니다.");
-            e.printStackTrace();
+            logger.info("해당 명령을 처리할 수 없습니다.");
+            
+            StringWriter out2 = new StringWriter();
+            e.printStackTrace(new PrintWriter(out2));
+            logger.debug(out2.toString());
           }
         }
         out.println("!end!");
         out.flush();
 
-        System.out.println("클라이언트와 연결 끊음!");
+        logger.info("클라이언트와 연결 끊음!");
 
       } catch (Exception e) {
-        System.out.println("클라이언트와 통신 오류!");
+        logger.info("클라이언트와 통신 오류!");
         
       } 
     }
@@ -187,8 +202,11 @@ public class App {
       app.service();
 
     } catch (Exception e) {
-      System.out.println("시스템 실행 중 오류 발생!");
-      e.printStackTrace();
+      logger.info("시스템 실행 중 오류 발생!");
+      
+      StringWriter out2 = new StringWriter();
+      e.printStackTrace(new PrintWriter(out2));
+      logger.debug(out2.toString());
     }
   }
 }
