@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import com.eomcs.util.RequestMapping;
 import com.eomcs.util.RequestMappingHandlerMapping;
 import com.eomcs.util.RequestMappingHandlerMapping.RequestHandler;
-import com.eomcs.util.SqlSessionFactoryProxy;
 
 public class App {
 
@@ -145,11 +144,6 @@ public class App {
                 handlerMapping.getRequestHandler(request);
 
             if (requestHandler != null) {
-              /*
-              Method m = requestHandler.method;
-              Object obj = requestHandler.bean;
-              m.invoke(obj, in, out);
-              */
               requestHandler.method.invoke(requestHandler.bean, in, out);
             } else {
               throw new Exception("요청을 처리할 메서드가 없습니다.");
@@ -168,15 +162,7 @@ public class App {
       } catch (Exception e) {
         System.out.println("클라이언트와 통신 오류!");
         
-      } finally {
-        // 현재 스레드가 클라이언트 요청에 대해 응답을 완료했다면,
-        // 현재 스레드에 보관된 Mybatis의 SqlSession 객체를 제거해야 한다.
-        // 그래야만 다음 클라이언트 요청이 들어 왔을 때 
-        // 새 SqlSession 객체를 사용할 것이다.
-        SqlSessionFactoryProxy proxy = 
-            (SqlSessionFactoryProxy) appCtx.getBean("sqlSessionFactory");
-        proxy.clearSession();
-      }
+      } 
     }
   }
   

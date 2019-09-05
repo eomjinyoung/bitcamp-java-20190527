@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.util.List;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.eomcs.lms.dao.PhotoBoardDao;
 import com.eomcs.lms.dao.PhotoFileDao;
 import com.eomcs.lms.domain.PhotoBoard;
 import com.eomcs.lms.domain.PhotoFile;
 import com.eomcs.util.Input;
-import com.eomcs.util.PlatformTransactionManager;
 import com.eomcs.util.RequestMapping;
 
 @Component
@@ -30,9 +33,15 @@ public class PhotoBoardCommand {
 
   @RequestMapping("/photoboard/add") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
   public void add(BufferedReader in, PrintStream out) {
+    // 트랜잭션 동작을 정의한다.
+    DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+    def.setName("tx1");
+    def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+    
+    // 정의된 트랜잭션 동작에 따라 작업을 수행할 트랜잭션 객체를 준비한다. 
+    TransactionStatus status = txManager.getTransaction(def);
+
     try {
-      txManager.beginTransaction();
-      
       PhotoBoard photoBoard = new PhotoBoard();
       photoBoard.setTitle(Input.getStringValue(in, out, "제목? "));
       photoBoard.setLessonNo(Input.getIntValue(in, out, "수업? "));
@@ -61,12 +70,11 @@ public class PhotoBoardCommand {
         count++;
       }
       
-      txManager.commit();
+      txManager.commit(status);
       out.println("저장하였습니다.");
       
     } catch (Exception e) {
-      try {txManager.rollback();} catch (Exception e2) {}
-      
+      txManager.rollback(status);
       out.println("데이터 저장에 실패했습니다!");
       System.out.println(e.getMessage());
       e.printStackTrace();
@@ -76,9 +84,15 @@ public class PhotoBoardCommand {
   
   @RequestMapping("/photoboard/delete") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
   public void delete(BufferedReader in, PrintStream out) {
+    // 트랜잭션 동작을 정의한다.
+    DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+    def.setName("tx1");
+    def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+    
+    // 정의된 트랜잭션 동작에 따라 작업을 수행할 트랜잭션 객체를 준비한다. 
+    TransactionStatus status = txManager.getTransaction(def);
+    
     try {
-      txManager.beginTransaction();
-      
       int no = Input.getIntValue(in, out, "번호? ");
       
       if (photoBoardDao.findBy(no) == null) {
@@ -92,11 +106,11 @@ public class PhotoBoardCommand {
       // 게시물을 삭제한다.
       photoBoardDao.delete(no);
       
-      txManager.commit();
+      txManager.commit(status);
       out.println("데이터를 삭제하였습니다.");
       
     } catch (Exception e) {
-      try {txManager.rollback();} catch (Exception e2) {}
+      txManager.rollback(status);
       
       out.println("데이터 삭제에 실패했습니다!");
       System.out.println(e.getMessage());
@@ -152,11 +166,17 @@ public class PhotoBoardCommand {
     }
   }
   
-  @RequestMapping("/photoboard/upate") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
+  @RequestMapping("/photoboard/update") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
   public void update(BufferedReader in, PrintStream out) {
+    // 트랜잭션 동작을 정의한다.
+    DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+    def.setName("tx1");
+    def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+    
+    // 정의된 트랜잭션 동작에 따라 작업을 수행할 트랜잭션 객체를 준비한다. 
+    TransactionStatus status = txManager.getTransaction(def);
+    
     try {
-      txManager.beginTransaction();
-      
       int no = Input.getIntValue(in, out, "번호? ");
 
       PhotoBoard photoBoard = photoBoardDao.findBy(no);
@@ -219,11 +239,11 @@ public class PhotoBoardCommand {
         count++;
       }
 
-      txManager.commit();
+      txManager.commit(status);
       out.println("사진을 변경하였습니다.");
       
     } catch (Exception e) {
-      try {txManager.rollback();} catch (Exception e2) {}
+      txManager.rollback(status);
       
       out.println("데이터 변경에 실패했습니다!");
       System.out.println(e.getMessage());
