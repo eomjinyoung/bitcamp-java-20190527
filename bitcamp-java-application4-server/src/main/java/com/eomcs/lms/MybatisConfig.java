@@ -1,4 +1,4 @@
-package ch29.k1;
+package com.eomcs.lms;
 
 import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;

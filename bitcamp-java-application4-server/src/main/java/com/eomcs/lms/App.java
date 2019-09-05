@@ -1,4 +1,4 @@
-// v50_1 : Spring IoC 컨테이너 사용하기 
+// v51_1 : Spring IoC 컨테이너 + Mybatis
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
