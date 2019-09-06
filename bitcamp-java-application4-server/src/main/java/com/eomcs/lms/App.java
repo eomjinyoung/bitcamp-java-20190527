@@ -1,18 +1,17 @@
-// v53_2 : log4j2 적용하기
+// v54_1 : Apache의 HttpClient를 이용하여 HTTP 서버 만들기
 package com.eomcs.lms;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.Collection;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import org.apache.http.ConnectionClosedException;
+import org.apache.http.config.SocketConfig;
+import org.apache.http.impl.bootstrap.HttpServer;
+import org.apache.http.impl.bootstrap.ServerBootstrap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.aop.support.AopUtils;
@@ -21,26 +20,17 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.util.RequestMappingHandlerMapping;
-import com.eomcs.util.RequestMappingHandlerMapping.RequestHandler;
 
 public class App {
 
   // Log4j의 로그 출력 도구를 준비한다.
   private static final Logger logger = LogManager.getLogger(App.class);
   
-  private static final int CONTINUE = 1;
-  private static final int STOP = 0;
-
   ApplicationContext appCtx;
   RequestMappingHandlerMapping handlerMapping;
   int state;
   
-  // 스레드풀
-  ExecutorService executorService = Executors.newCachedThreadPool();
-  
   public App() throws Exception {
-    // 처음에는 클라이언트 요청을 처리해야 하는 상태로 설정한다.
-    state = CONTINUE; 
     appCtx = new AnnotationConfigApplicationContext(AppConfig.class);
     
     // Spring IoC 컨테이너에 들어 있는(Spring IoC 컨테이너가 생성한) 객체 알아내기
@@ -103,99 +93,43 @@ public class App {
   }
 
   @SuppressWarnings("static-access")
-  private void service() {
-
-    try (ServerSocket serverSocket = new ServerSocket(8888);) {
-      logger.info("애플리케이션 서버가 시작되었음!");
-
-      while (true) {
-        // 클라이언트가 접속하면 작업을 수행할 Runnable 객체를 만들어 스레드풀에 맡긴다.
-        executorService.submit(new CommandProcessor(serverSocket.accept()));
-        
-        // 한 클라이언트가 serverstop 명령을 보내면 종료 상태로 설정되고 
-        // 다음 요청을 처리할 때 즉시 실행을 멈춘다.
-        if (state == STOP)
-          break;
-      }
-
-      // 스레드풀에게 실행 종료를 요청한다.
-      // => 스레드풀은 자신이 관리하는 스레드들이 실행이 종료되었는지 감시한다.
-      executorService.shutdown();
-      
-      // 스레드풀이 관리하는 모든 스레드가 종료되었는지 매 0.5초마다 검사한다.
-      // => 스레드풀의 모든 스레드가 실행을 종료했으면 즉시 main 스레드를 종료한다.
-      while (!executorService.isTerminated()) {
-        Thread.currentThread().sleep(500);
-      }
-      
-      logger.info("애플리케이션 서버를 종료함!");
-
-    } catch (Exception e) {
-      logger.info("소켓 통신 오류!");
-      
-      StringWriter out = new StringWriter();
-      e.printStackTrace(new PrintWriter(out));
-      logger.debug(out.toString());
-    }
-  }
-
-  class CommandProcessor implements Runnable {
+  private void service() throws Exception {
     
-    Socket socket;
-    
-    public CommandProcessor(Socket socket) {
-      this.socket = socket;
-    }
-    
-    @Override
-    public void run() {
-      try (Socket socket = this.socket;
-          BufferedReader in = new BufferedReader(
-              new InputStreamReader(socket.getInputStream()));
-          PrintStream out = new PrintStream(socket.getOutputStream())) {
+    SocketConfig socketConfig = SocketConfig.custom()
+        .setSoTimeout(15000)
+        .setTcpNoDelay(true)
+        .build();
 
-        logger.info("클라이언트와 연결됨!");
-
-        // 클라이언트가 보낸 명령을 읽는다.
-        String request = in.readLine();
-        if (request.equals("quit")) {
-          out.println("Good bye!");
-          
-        } else if (request.equals("serverstop")) {
-          state = STOP;
-          out.println("Good bye!");
-          
-        } else {
-          try {
-            RequestHandler requestHandler = 
-                handlerMapping.getRequestHandler(request);
-
-            if (requestHandler != null) {
-              requestHandler.method.invoke(requestHandler.bean, in, out);
+    final HttpServer server = ServerBootstrap.bootstrap()
+        .setListenerPort(8888)
+        .setServerInfo("Bitcamp/1.1")
+        .setSocketConfig(socketConfig)
+        .setSslContext(null)
+        .setExceptionLogger(ex -> {
+            if (ex instanceof SocketTimeoutException) {
+              System.err.println("Connection timed out");
+            } else if (ex instanceof ConnectionClosedException) {
+              System.err.println(ex.getMessage());
             } else {
-              throw new Exception("요청을 처리할 메서드가 없습니다.");
+              ex.printStackTrace();
             }
-            
-          } catch (Exception e) {
-            logger.info("해당 명령을 처리할 수 없습니다.");
-            
-            StringWriter out2 = new StringWriter();
-            e.printStackTrace(new PrintWriter(out2));
-            logger.debug(out2.toString());
-          }
-        }
-        out.println("!end!");
-        out.flush();
+          })
+        .registerHandler("*", new CommandHttpRequestHandler(handlerMapping))
+        .create();
 
-        logger.info("클라이언트와 연결 끊음!");
+    server.start();
+    logger.info("서버 실행 중...");
+    
+    server.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
 
-      } catch (Exception e) {
-        logger.info("클라이언트와 통신 오류!");
-        
-      } 
-    }
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      @Override
+      public void run() {
+        server.shutdown(5, TimeUnit.SECONDS);
+      }
+    });
   }
-  
+
   public static void main(String[] args) {
     try {
       App app = new App();

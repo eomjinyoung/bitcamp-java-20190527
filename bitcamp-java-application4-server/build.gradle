@@ -30,6 +30,9 @@ dependencies {
     // Log4j2
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.1'
     
+    // Apache HttpClient
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.9'
+    
     implementation 'com.google.guava:guava:27.1-jre'
     testImplementation 'junit:junit:4.12'
 }
