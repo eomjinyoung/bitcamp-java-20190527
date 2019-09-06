@@ -7,7 +7,6 @@ import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.net.SocketTimeoutException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -17,8 +16,6 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.MethodNotSupportedException;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.config.SocketConfig;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -173,10 +170,12 @@ public class App implements HttpRequestHandler {
     String command = values[0];
     logger.info(command);
     
-    // => name=aaa&email=aaa@test.com&password=1111&tel=1111-1111
-    String queryString = values[1]; // 출력 용.
-    logger.info(queryString);
-
+    if (values.length > 1) {
+      // => name=aaa&email=aaa@test.com&password=1111&tel=1111-1111
+      String queryString = values[1]; // 출력 용.
+      logger.info(queryString);
+    }
+    
     try {
       RequestHandler requestHandler = 
           handlerMapping.getRequestHandler(command);

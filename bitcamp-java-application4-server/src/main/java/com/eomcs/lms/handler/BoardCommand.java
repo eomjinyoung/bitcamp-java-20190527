@@ -2,12 +2,15 @@ package com.eomcs.lms.handler;
 
 import java.io.BufferedReader;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.domain.Board;
 import com.eomcs.util.Input;
+import com.eomcs.util.ServletRequest;
+import com.eomcs.util.ServletResponse;
 
 @Component
 public class BoardCommand {
@@ -73,19 +76,26 @@ public class BoardCommand {
   }
   
   @RequestMapping("/board/list") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
-  public void list(BufferedReader in, PrintStream out) {
+  public void list(ServletRequest request, ServletResponse response) {
+    PrintWriter out = response.getWriter();
+    out.println("<html><head><title>게시물목록</title></head>");
+    out.println("<body><h1>게시물 목록</h1>");
     try {
+      out.println("<table border='1'>");
+      out.println("<tr><th>번호</th><th>내용</th><th>등록일</th><th>조회수</th></tr>");
       List<Board> boards = boardDao.findAll();
       for (Board board : boards) {
-        out.printf("%s, %s, %s, %s\n", 
+        out.printf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n", 
             board.getNo(), board.getContents(), 
             board.getCreatedDate(), board.getViewCount());
       }
+      out.println("</table>");
       
     } catch (Exception e) {
-      out.println("데이터 목록 조회에 실패했습니다!");
-      e.printStackTrace();
+      out.println("<p>데이터 목록 조회에 실패했습니다!</p>");
+      throw new RuntimeException(e);
     }
+    out.println("</body></html>");
   }
 
   @RequestMapping("/board/update") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
