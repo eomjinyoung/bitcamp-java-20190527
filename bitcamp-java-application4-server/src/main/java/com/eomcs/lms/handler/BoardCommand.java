@@ -21,6 +21,18 @@ public class BoardCommand {
     this.boardDao = boardDao;
   }
   
+  @RequestMapping("/board/form")
+  public void form(ServletRequest request, ServletResponse response) {
+    PrintWriter out = response.getWriter();
+    out.println("<html><head><title>게시물 등록폼</title></head>");
+    out.println("<body><h1>게시물 등록폼</h1>");
+    out.println("<form action='/board/add'>");
+    out.println("내용 : <textarea name='contents' rows='5' cols='50'></textarea><br>");
+    out.println("<button>등록</button>");
+    out.println("</form>");
+    out.println("</body></html>");
+  }
+  
   @RequestMapping("/board/add") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
   public void add(ServletRequest request, ServletResponse response) {
     PrintWriter out = response.getWriter();
@@ -60,7 +72,15 @@ public class BoardCommand {
   }
   
   @RequestMapping("/board/detail") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
-  public void detail(BufferedReader in, PrintStream out) {
+  public void detail(ServletRequest request, ServletResponse response) {
+    PrintWriter out = response.getWriter();
+    out.println("<html><head><title>게시물 상세</title></head>");
+    out.println("<body><h1>게시물 상세</h1>");
+    out.println("<form action='/board/add'>");
+    out.println("내용 : <textarea name='contents' rows='5' cols='50'></textarea><br>");
+    out.println("<button>등록</button>");
+    out.println("</form>");
+    
     try {
       // 클라이언트에게 번호를 요구하여 받는다.
       int no = Input.getIntValue(in, out, "번호? ");
@@ -79,6 +99,7 @@ public class BoardCommand {
       out.println("데이터 조회에 실패했습니다!");
       System.out.println(e.getMessage());
     }
+    out.println("</body></html>");
   }
   
   @RequestMapping("/board/list") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
@@ -86,6 +107,7 @@ public class BoardCommand {
     PrintWriter out = response.getWriter();
     out.println("<html><head><title>게시물 목록</title></head>");
     out.println("<body><h1>게시물 목록</h1>");
+    out.println("<a href='/board/form'>새 글</a><br>");
     try {
       out.println("<table border='1'>");
       out.println("<tr><th>번호</th><th>내용</th><th>등록일</th><th>조회수</th></tr>");
