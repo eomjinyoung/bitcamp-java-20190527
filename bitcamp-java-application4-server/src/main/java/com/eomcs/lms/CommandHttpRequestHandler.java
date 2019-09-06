@@ -7,14 +7,22 @@ import java.util.Locale;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.MethodNotSupportedException;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.HttpRequestHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.eomcs.util.RequestMappingHandlerMapping;
 import com.eomcs.util.RequestMappingHandlerMapping.RequestHandler;
 
 public class CommandHttpRequestHandler implements HttpRequestHandler {
 
+  private static final Logger logger = 
+      LogManager.getLogger(CommandHttpRequestHandler.class);
+  
   RequestMappingHandlerMapping handlerMapping;
   
   public CommandHttpRequestHandler(RequestMappingHandlerMapping handlerMapping) {
@@ -31,24 +39,50 @@ public class CommandHttpRequestHandler implements HttpRequestHandler {
       throw new MethodNotSupportedException(method + " method not supported");
     }
     
+    String command = request.getRequestLine().getUri().split("\\?")[0];
+    logger.info(command);
+    
     try {
       RequestHandler requestHandler = 
-          handlerMapping.getRequestHandler(request);
+          handlerMapping.getRequestHandler(command);
 
       if (requestHandler != null) {
-        requestHandler.method.invoke(requestHandler.bean, in, out);
+        // 클라이언트 요청 처리
+        StringWriter out = new StringWriter();
+        requestHandler.method.invoke(requestHandler.bean, 
+            null, new PrintWriter(out));
+        
+        // 클라이언트에게 응답
+        response.setStatusCode(HttpStatus.SC_OK);
+        StringEntity entity = new StringEntity(
+            out.toString(),
+            ContentType.create("text/html", "UTF-8"));
+        response.setEntity(entity);
+        logger.info("성공!");
+        
       } else {
-        throw new Exception("요청을 처리할 메서드가 없습니다.");
+        response.setStatusCode(HttpStatus.SC_NOT_FOUND);
+        StringEntity entity = new StringEntity(
+            "<html><body><h1>해당 명령을 찾을 수 없습니다.</h1></body></html>",
+            ContentType.create("text/html", "UTF-8"));
+        response.setEntity(entity);
+        logger.info("실패!");
       }
       
     } catch (Exception e) {
-      logger.info("해당 명령을 처리할 수 없습니다.");
+      logger.info("클라이언트 요청 처리 중 오류 발생!");
       
       StringWriter out2 = new StringWriter();
       e.printStackTrace(new PrintWriter(out2));
       logger.debug(out2.toString());
+
+      response.setStatusCode(HttpStatus.SC_OK);
+      StringEntity entity = new StringEntity(
+          "<html><body><h1>요청 처리 중 오류 발생!</h1></body></html>",
+          ContentType.create("text/html", "UTF-8"));
+      response.setEntity(entity);
+      
     }
-    
   }
 
 }
