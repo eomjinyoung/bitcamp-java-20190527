@@ -22,18 +22,24 @@ public class BoardCommand {
   }
   
   @RequestMapping("/board/add") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
-  public void add(BufferedReader in, PrintStream out) {
+  public void add(ServletRequest request, ServletResponse response) {
+    PrintWriter out = response.getWriter();
+    out.println("<html><head><title>게시물 등록</title>"
+        + "<meta http-equiv='Refresh' content='1;url=/board/list'>"
+        + "</head>");
+    out.println("<body><h1>게시물 등록</h1>");
     try {
       Board board = new Board();
-      board.setContents(Input.getStringValue(in, out, "내용? "));
+      board.setContents(request.getParameter("contents"));
 
       boardDao.insert(board);
-      out.println("저장하였습니다.");
+      out.println("<p>저장하였습니다.</p>");
       
     } catch (Exception e) {
-      out.println("데이터 저장에 실패했습니다!");
-      System.out.println(e.getMessage());
+      out.println("<p>데이터 저장에 실패했습니다!</p>");
+      throw new RuntimeException(e);
     }
+    out.println("</body></html>");
   }
   
   @RequestMapping("/board/delete") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
@@ -78,7 +84,7 @@ public class BoardCommand {
   @RequestMapping("/board/list") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
   public void list(ServletRequest request, ServletResponse response) {
     PrintWriter out = response.getWriter();
-    out.println("<html><head><title>게시물목록</title></head>");
+    out.println("<html><head><title>게시물 목록</title></head>");
     out.println("<body><h1>게시물 목록</h1>");
     try {
       out.println("<table border='1'>");
