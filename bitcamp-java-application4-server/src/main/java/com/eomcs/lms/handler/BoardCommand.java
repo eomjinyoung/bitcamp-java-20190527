@@ -55,20 +55,25 @@ public class BoardCommand {
   }
   
   @RequestMapping("/board/delete") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
-  public void delete(BufferedReader in, PrintStream out) {
+  public void delete(ServletRequest request, ServletResponse response) {
+    PrintWriter out = response.getWriter();
+    out.println("<html><head><title>게시물 삭제</title>"
+        + "<meta http-equiv='Refresh' content='1;url=/board/list'>"
+        + "</head>");
+    out.println("<body><h1>게시물 삭제</h1>");
     try {
-      int no = Input.getIntValue(in, out, "번호? ");
-      
+      int no = Integer.parseInt(request.getParameter("no"));
       if (boardDao.delete(no) > 0) {
-        out.println("데이터를 삭제하였습니다.");
+        out.println("<p>데이터를 삭제하였습니다.</p>");
       } else {
-        out.println("해당 데이터가 없습니다.");
+        out.println("<p>해당 데이터가 없습니다.</p>");
       }
       
     } catch (Exception e) {
-      out.println("데이터 삭제에 실패했습니다!");
+      out.println("<p>데이터 삭제에 실패했습니다!</p>");
       System.out.println(e.getMessage());
     }
+    out.println("</body></html>");
   }
   
   @RequestMapping("/board/detail") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
@@ -93,6 +98,7 @@ public class BoardCommand {
         out.printf("등록일: %s<br>\n", board.getCreatedDate());
         out.printf("조회수: %d<br>\n", board.getViewCount());
         out.println("<button>변경</button>");
+        out.printf("<a href='/board/delete?no=%d'>삭제</a>\n", board.getNo());
         out.println("</form>");
         boardDao.increaseViewCount(no);
       }
@@ -107,17 +113,24 @@ public class BoardCommand {
   @RequestMapping("/board/list") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
   public void list(ServletRequest request, ServletResponse response) {
     PrintWriter out = response.getWriter();
-    out.println("<html><head><title>게시물 목록</title></head>");
+    out.println("<html><head><title>게시물 목록</title>"
+        + "<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>"
+        + "</head>");
     out.println("<body><h1>게시물 목록</h1>");
     out.println("<a href='/board/form'>새 글</a><br>");
     try {
-      out.println("<table border='1'>");
+      out.println("<table class='table table-hover'>");
       out.println("<tr><th>번호</th><th>내용</th><th>등록일</th><th>조회수</th></tr>");
       List<Board> boards = boardDao.findAll();
       for (Board board : boards) {
-        out.printf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n", 
-            board.getNo(), board.getContents(), 
-            board.getCreatedDate(), board.getViewCount());
+        out.printf("<tr><td>%d</td>"
+            + "<td><a href='/board/detail?no=%d'>%s</a></td>"
+            + "<td>%s</td><td>%d</td></tr>\n", 
+            board.getNo(),
+            board.getNo(),
+            board.getContents(), 
+            board.getCreatedDate(), 
+            board.getViewCount());
       }
       out.println("</table>");
       
@@ -129,29 +142,24 @@ public class BoardCommand {
   }
 
   @RequestMapping("/board/update") // 클라이언트 요청이 들어 왔을 때 이 메서드를 호출하라고 표시한다.
-  public void update(BufferedReader in, PrintStream out) {
+  public void update(ServletRequest request, ServletResponse response) {
+    PrintWriter out = response.getWriter();
+    out.println("<html><head><title>게시물 변경</title>"
+        + "<meta http-equiv='Refresh' content='1;url=/board/list'>"
+        + "</head>");
+    out.println("<body><h1>게시물 변경</h1>");
     try {
-      int no = Input.getIntValue(in, out, "번호? ");
+      Board board = new Board();
+      board.setNo(Integer.parseInt(request.getParameter("no")));
+      board.setContents(request.getParameter("contents"));
       
-      Board board = boardDao.findBy(no);
-      if (board == null) {
-        out.println("해당 번호의 데이터가 없습니다!");
-        return;
-      }
+      boardDao.update(board);
+      out.println("<p>변경 했습니다</p>");
       
-      String str = Input.getStringValue(in, out, "내용? ");
-      if (str.length() > 0) {
-        board.setContents(str);
-        boardDao.update(board);
-        out.println("데이터를 변경하였습니다.");
-        
-      } else {
-        out.println("데이터 변경을 취소합니다.");
-      }
-    
     } catch (Exception e) {
-      out.println("데이터 변경에 실패했습니다!");
+      out.println("<p>데이터 변경에 실패했습니다!</p>");
       System.out.println(e.getMessage());
     }
+    out.println("</body></html>");
   }
 }
