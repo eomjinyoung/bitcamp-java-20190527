@@ -7,7 +7,7 @@ import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.net.SocketTimeoutException;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +17,8 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.MethodNotSupportedException;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.config.SocketConfig;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -33,6 +35,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.util.RequestMappingHandlerMapping;
 import com.eomcs.util.RequestMappingHandlerMapping.RequestHandler;
+import com.eomcs.util.ServletRequest;
+import com.eomcs.util.ServletResponse;
 
 public class App implements HttpRequestHandler {
 
@@ -153,40 +157,40 @@ public class App implements HttpRequestHandler {
       throw new MethodNotSupportedException(method + " method not supported");
     }
 
+    // 커맨드 객체에 있는 request handler를 호출할 때 넘겨 줄 파라미터 객체 준비
+    ServletRequest servletRequest = new ServletRequest();
+    ServletResponse servletResponse = new ServletResponse();
+    
     // 클라이언트가 요청한 명령 알아내기
+    // [request line]
+    // => GET /member/add?name=aaa&email=aaa@test.com&password=1111&tel=1111-1111 HTTP/1.1
+    // [uri]
     // => /member/add?name=aaa&email=aaa@test.com&password=1111&tel=1111-1111
-    String[] values = request.getRequestLine().getUri().split("\\?");
+    String uriStr = request.getRequestLine().getUri();
+    String[] values = uriStr.split("\\?");
     
     // => /member/add
     String command = values[0];
     logger.info(command);
-
-    // 클라이언트가 URL에 포함해서 보낸 데이터 꺼내기
-    // => name=aaa&email=aaa@test.com&password=1111&tel=1111-1111
-    HashMap<String,String> params = new HashMap<>();
-    if (values.length > 1) {
-      String[] kvList = values[1].split("&");
-      for (String kv : kvList) {
-        String[] arr = kv.split("=");
-        params.put(arr[0], arr[1]);
-      }
-    }
-    logger.debug(params);
     
+    // => name=aaa&email=aaa@test.com&password=1111&tel=1111-1111
+    String queryString = values[1]; // 출력 용.
+    logger.info(queryString);
+
     try {
       RequestHandler requestHandler = 
           handlerMapping.getRequestHandler(command);
 
       if (requestHandler != null) {
-        // 클라이언트 요청 처리
-        StringWriter out = new StringWriter();
+        // 클라이언트 요청을 처리하기 위해 메서드를 호출한다.
+        servletRequest.setUri(uriStr); // URL에 포함된 파라미터 값을 추출하여 보관한다.
         requestHandler.method.invoke(requestHandler.bean, 
-            null, new PrintWriter(out));
+            servletRequest, servletResponse);
 
         // 클라이언트에게 응답
         response.setStatusCode(HttpStatus.SC_OK);
         StringEntity entity = new StringEntity(
-            out.toString(),
+            servletResponse.getResponseEntity(),
             ContentType.create("text/html", "UTF-8"));
         response.setEntity(entity);
         logger.info("성공!");
