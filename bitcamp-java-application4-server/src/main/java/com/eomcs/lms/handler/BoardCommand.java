@@ -76,26 +76,29 @@ public class BoardCommand {
     PrintWriter out = response.getWriter();
     out.println("<html><head><title>게시물 상세</title></head>");
     out.println("<body><h1>게시물 상세</h1>");
-    out.println("<form action='/board/add'>");
-    out.println("내용 : <textarea name='contents' rows='5' cols='50'></textarea><br>");
-    out.println("<button>등록</button>");
-    out.println("</form>");
     try {
-      // 클라이언트에게 번호를 요구하여 받는다.
-      int no = Input.getIntValue(in, out, "번호? ");
-      
+      int no = Integer.parseInt(request.getParameter("no"));
       Board board = boardDao.findBy(no);
-      if (board == null) {
-        out.println("해당 번호의 데이터가 없습니다!");
-        return;
-      }
-      boardDao.increaseViewCount(no);
       
-      out.printf("내용: %s\n", board.getContents());
-      out.printf("작성일: %s\n", board.getCreatedDate());
+      if (board == null) {
+        out.println("<p>해당 번호의 데이터가 없습니다!</p>");
+
+      } else {
+        out.println("<form action='/board/update'>");
+        out.printf("번호 : <input type='text' name='no' value='%d' readonly><br>\n",
+            board.getNo());
+        out.printf("내용 : <textarea name='contents' rows='5'"
+            + " cols='50'>%s</textarea><br>\n",
+            board.getContents());
+        out.printf("등록일: %s<br>\n", board.getCreatedDate());
+        out.printf("조회수: %d<br>\n", board.getViewCount());
+        out.println("<button>변경</button>");
+        out.println("</form>");
+        boardDao.increaseViewCount(no);
+      }
       
     } catch (Exception e) {
-      out.println("데이터 조회에 실패했습니다!");
+      out.println("<p>데이터 조회에 실패했습니다!</p>");
       System.out.println(e.getMessage());
     }
     out.println("</body></html>");
