@@ -80,7 +80,6 @@ public class BoardCommand {
     out.println("내용 : <textarea name='contents' rows='5' cols='50'></textarea><br>");
     out.println("<button>등록</button>");
     out.println("</form>");
-    
     try {
       // 클라이언트에게 번호를 요구하여 받는다.
       int no = Input.getIntValue(in, out, "번호? ");
