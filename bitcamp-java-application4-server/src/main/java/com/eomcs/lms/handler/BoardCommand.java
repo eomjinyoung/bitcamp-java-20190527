@@ -1,14 +1,11 @@
 package com.eomcs.lms.handler;
 
-import java.io.BufferedReader;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.domain.Board;
-import com.eomcs.util.Input;
 import com.eomcs.util.ServletRequest;
 import com.eomcs.util.ServletResponse;
 
