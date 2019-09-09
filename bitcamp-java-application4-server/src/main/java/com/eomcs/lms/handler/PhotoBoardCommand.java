@@ -79,7 +79,6 @@ public class PhotoBoardCommand {
       }
       
       if (count == 0) {
-        out.println("<p>최소 한 개의 사진 파일을 등록해야 합니다.</p>");
         throw new Exception("사진 파일 없음!");
       }
       
