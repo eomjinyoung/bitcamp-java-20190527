@@ -79,7 +79,7 @@ public class Servlet04 extends GenericServlet {
     //    - '$ gradle eclipse' 실행하여 이클립스 설정 파일을 갱신한다.
     //    - 이클립스 IDE에서 프로젝트 정보를 갱신한다.
     // 2) Apache commons-fileupload 문서에 따라 코딩한다.
-    
+    ///*
     // => 멀티파트 데이터를 분석하여 FileItem 객체에 담아 줄 공장을 준비한다.
     DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
     
@@ -115,6 +115,7 @@ public class Servlet04 extends GenericServlet {
           // 전체 파일 경로를 준비한다.
           // => /java-web/upload/파일명
           File file = new File(this.uploadDir + "/" + filename);
+          System.out.println(file.getCanonicalPath());
           
           // 파일 경로에 업로드 파일을 저장한다.
           part.write(file);
@@ -140,6 +141,7 @@ public class Servlet04 extends GenericServlet {
     } catch (Exception e) {
       e.printStackTrace();
     }
+    //*/
   }
 }
 

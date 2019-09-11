@@ -16,7 +16,9 @@ import javax.servlet.ServletResponse;
 //
 // 필터 배포하기
 // => DD 파일(web.xml)에 설정하거나 애노테이션으로 설정하면 된다.
-// 
+// => 다음과 같이 애노테이션으로 할 수도 있다.
+
+//@WebFilter("/ex02/*")
 public class Filter02 implements Filter {
   
   @Override

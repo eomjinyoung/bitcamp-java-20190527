@@ -31,6 +31,7 @@ import javax.servlet.ServletContextListener;
 //    - 요청이 들어 올 때 로그 남기기
 //    
 //
+//@WebListener
 public class Listener01 implements ServletContextListener {
   
   @Override

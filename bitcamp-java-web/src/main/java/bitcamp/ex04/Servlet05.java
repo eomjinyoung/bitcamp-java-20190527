@@ -58,9 +58,9 @@ public class Servlet05 extends GenericServlet {
       // 파일을 선택해서 업로드 했다면,
       filename = UUID.randomUUID().toString();
       photoPart.write(this.uploadDir + "/" + filename);
+      out.printf("사진=%s<br>\n", filename);
+      out.printf("<img src='../upload/%s'><br>\n", filename);
     }
-    out.printf("사진=%s<br>\n", filename);
-    out.printf("<img src='../upload/%s'><br>\n", filename);
     out.println("</body></html>");
   }
 }

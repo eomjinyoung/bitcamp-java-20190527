@@ -46,15 +46,26 @@
 -->
 
 <!-- 필터 배치 정보 -->
+<!-- 필터를 언제 실행할 지 결정하기 위해 URL을 지정한다. -->
 <!--  
   <filter>
     <filter-name>f1</filter-name>
     <filter-class>bitcamp.ex02.Filter01</filter-class>
   </filter>
+  <filter-mapping>
+    <filter-name>f1</filter-name>
+    <url-pattern>/ex02/*</url-pattern>
+  </filter-mapping>
+
   <filter>
     <filter-name>f2</filter-name>
     <filter-class>bitcamp.ex02.Filter02</filter-class>
   </filter>
+  <filter-mapping>
+    <filter-name>f2</filter-name>
+    <url-pattern>/ex02/a/s2</url-pattern>
+  </filter-mapping>
+  
   <filter>
     <filter-name>ex06 Filter01</filter-name>
     <filter-class>bitcamp.ex06.Filter01</filter-class>
@@ -63,18 +74,6 @@
       <param-value>UTF-8</param-value>
     </init-param>
   </filter>
--->
-  
-<!-- 필터를 언제 실행할 지 결정하기 위해 URL을 지정한다. -->
-<!--  
-  <filter-mapping>
-    <filter-name>f1</filter-name>
-    <url-pattern>/ex02/*</url-pattern>
-  </filter-mapping>
-  <filter-mapping>
-    <filter-name>f2</filter-name>
-    <url-pattern>/ex02/a/s2</url-pattern>
-  </filter-mapping>
   <filter-mapping>
     <filter-name>ex06 Filter01</filter-name>
     <url-pattern>/ex06/*</url-pattern>
@@ -120,7 +119,6 @@
     <url-pattern>/ex01/s03</url-pattern>
   </servlet-mapping>
   
-<!-- 
   <servlet>
     <servlet-name>bitcamp.ex04.Servlet05</servlet-name>
     <servlet-class>bitcamp.ex04.Servlet05</servlet-class>
@@ -128,6 +126,11 @@
       <max-file-size>10000000</max-file-size>
     </multipart-config>
   </servlet>
+  <servlet-mapping>
+    <servlet-name>bitcamp.ex04.Servlet05</servlet-name>
+    <url-pattern>/ex04/s5</url-pattern>
+  </servlet-mapping>
+<!-- 
   <servlet>
     <servlet-name>bitcamp.ex06.Servlet02</servlet-name>
     <servlet-class>bitcamp.ex06.Servlet02</servlet-class>
@@ -156,10 +159,7 @@
 -->
 
 <!--  
-  <servlet-mapping>
-    <servlet-name>bitcamp.ex04.Servlet05</servlet-name>
-    <url-pattern>/ex04/s5</url-pattern>
-  </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>bitcamp.ex06.Servlet04</servlet-name>
     <url-pattern>/ex06/s4</url-pattern>

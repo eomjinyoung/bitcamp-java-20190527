@@ -25,7 +25,6 @@ public class Servlet02 extends GenericServlet {
     //
     res.setContentType("text/plain;charset=UTF-8"); // UTF-16 ==> UTF-8
     PrintWriter out = res.getWriter();
-    
     out.println("Hello!");
     out.println("안녕하세요!");
     out.println("こんにちは");
