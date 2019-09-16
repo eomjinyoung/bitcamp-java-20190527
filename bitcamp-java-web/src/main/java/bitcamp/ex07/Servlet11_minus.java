@@ -21,6 +21,7 @@ public class Servlet11_minus extends HttpServlet {
     
     // 이미 이전 서블릿에서 setContentType()을 호출했기 때문에 
     // 이 서블릿에서는 할 필요가 없다.
+    // => forwarding으로 서블릿을 실행할 때는 여기에서 따로 setContentType()을 호출해야 한다.
     PrintWriter out = response.getWriter();
     
     int a = Integer.parseInt(request.getParameter("a"));

@@ -45,6 +45,7 @@ public class Servlet11 extends HttpServlet {
     // 다른 서블릿을 실행시킨다. 실행이 완료되면 되돌아 온다.
     // => forward()는 다른 서블릿으로 실행을 위임한 후 되돌아 오지 않지만,
     //    include()는 다른 서블릿으로 실행을 위임한 후 되돌아 온다.
+    // => 인클루드의 경우 이전 서블릿에서 setContentType()을 설정해야 한다.
     요청배달자.include(request, response);
     
     out.println("---------------------------------------");

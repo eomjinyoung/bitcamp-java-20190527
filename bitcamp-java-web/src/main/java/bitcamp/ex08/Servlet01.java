@@ -66,6 +66,25 @@ public class Servlet01 extends HttpServlet {
     }
     
     response.setHeader("Refresh", "3;url=s100");
+    
+    // 이 메서드의 호출이 끝나면 비로서 응답 프로토콜에 맞춰 
+    // 클라이언트로 헤더와 내용을 전송한다.
   }
 }
+
+
+// HTTP 응답 프로토콜 예:
+/*
+HTTP/1.1 200
+Refresh: 3;url=s100
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 28
+Date: Mon, 16 Sep 2019 03:15:02 GMT
+
+안녕하세요! - /ex08/s1
+*/
+
+
+
+
 
