@@ -12,6 +12,20 @@
 
   <display-name>bitcamp-java-application4</display-name>
 
+  <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>com.eomcs.lms.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+
   <servlet>
     <servlet-name>AppInitServlet</servlet-name>
     <servlet-class>com.eomcs.lms.AppInitServlet</servlet-class>
