@@ -1,4 +1,4 @@
-package com.eomcs.lms;
+package com.eomcs.lms.config;
 
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Value;

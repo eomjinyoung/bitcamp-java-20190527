@@ -1,4 +1,4 @@
-package com.eomcs.lms;
+package com.eomcs.lms.config;
 
 import javax.sql.DataSource;
 import org.apache.ibatis.logging.LogFactory;
@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @MapperScan("com.eomcs.lms.dao")
-
 public class MybatisConfig {
   
   @Bean
