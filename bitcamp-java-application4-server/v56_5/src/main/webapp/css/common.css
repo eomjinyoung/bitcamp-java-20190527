@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+#header {
+  background-color: #524845;
+  color: #ffffff;
+  height: 60px;
+  width: 1100px;
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: auto auto;
+}
+
+#header img {
+  height: 35px;
+  position: relative;
+  top: -6px;
+}
+
+#header span {
+  font-size: 200%;
+}
+
+#header a {
+  float: right;
+  margin-left: 10px;
+}
+
+#footer {
+  background-color: #524845;
+  color: #ffffff;
+  height: 40px;
+  width: 1100px;
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 10px;
+  margin: auto auto;
+}
+
+#content {
+  width: 1100px;
+  padding-top: 10px;
+  margin: auto auto;
+}
+
+
+
+
+
+
+
+
