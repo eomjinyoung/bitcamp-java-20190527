@@ -27,7 +27,7 @@ public class HeaderServlet extends HttpServlet {
     
     PrintWriter out = response.getWriter();
     out.println("<div id='header'>");
-    out.println("  <img src='/images/logo.gif'>");
+    out.println("  <img src='/images/logo.png'>");
     out.println("  <span>수업관리시스템</span>");
     out.println("  <a href='/auth/login'>로그인</a>");
     out.println("  <a href='/auth/logout'>로그아웃</a>");
