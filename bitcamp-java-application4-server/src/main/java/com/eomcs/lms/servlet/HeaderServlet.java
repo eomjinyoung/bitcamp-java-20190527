@@ -7,6 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import com.eomcs.lms.domain.Member;
 
 // 역할:
 // => 화면 상단에 로고와 프로젝트명을 출력한다.
@@ -29,8 +31,17 @@ public class HeaderServlet extends HttpServlet {
     out.println("<div id='header'>");
     out.println("  <img src='/images/logo.png'>");
     out.println("  <span>수업관리시스템</span>");
-    out.println("  <a href='/auth/login'>로그인</a>");
-    out.println("  <a href='/auth/logout'>로그아웃</a>");
+    
+    HttpSession session = request.getSession();
+    Member loginUser = (Member) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      out.println("  <a href='/auth/login'>로그인</a>");
+    } else {
+      out.println("<a href='/auth/logout'>로그아웃</a>");
+      out.printf("<a href='/member/detail?no=%d'>%s</a>", 
+          loginUser.getNo(),
+          loginUser.getName());
+    }
     out.println("</div>");
   }
 }

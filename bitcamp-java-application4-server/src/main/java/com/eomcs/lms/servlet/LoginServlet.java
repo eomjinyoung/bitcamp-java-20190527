@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.springframework.context.ApplicationContext;
 import com.eomcs.lms.dao.MemberDao;
 import com.eomcs.lms.domain.Member;
@@ -76,13 +77,20 @@ public class LoginServlet extends HttpServlet {
       
       if (member == null) {
         out.println("<p>이메일 또는 암호가 맞지 않습니다!</p>");
+        response.setHeader("Refresh", "2;url=/auth/login");
+        
       } else {
         out.printf("<p>%s 님 환영합니다.</p>\n", member.getName());
+       
+        // 로그인 사용자의 정보를 HttpSession 보관소에 저장한다.
+        HttpSession session = request.getSession();
+        session.setAttribute("loginUser", member);
+        response.setHeader("Refresh", "2;url=/board/list");
       }
       
     } catch (Exception e) {
       request.setAttribute("message", "로그인 처리에 실패했습니다!");
-      request.setAttribute("refresh", "/board/list");
+      request.setAttribute("refresh", "/auth/login");
       request.setAttribute("error", e);
       request.getRequestDispatcher("/error").forward(request, response);
       
