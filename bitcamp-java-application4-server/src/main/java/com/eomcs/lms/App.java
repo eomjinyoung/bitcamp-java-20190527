@@ -1,11 +1,9 @@
-// v56_2 : 리스너를 이용하여 스프링 IoC 컨테이너 준비하기
+// v56_3 : 리다이렉트와 리프래시 활용
 package com.eomcs.lms;
 
 // 작업:
-// => ContextLoaderListener 리스너 생성
-// => AppInitServlet의 역할을 ContextLoaderListener로 이전
-// => web.xml 변경
-// => AppInitServlet 삭제
+// => 등록, 변경, 삭제 후 목록을 출력하는 서블릿으로 리다이렉트 하기
+// => 등록, 변경, 삭제 중 오류 발생할 때 목록을 출력하는 서블릿으로 리프래시 하기
 
 // dummy 클래스!
 // => 기존 버전에서 계속 존재했던 클래스라서 그대로 둠.
