@@ -12,6 +12,19 @@
 
   <display-name>bitcamp-java-application4</display-name>
 
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.context.annotation.AnnotationConfigApplicationContext</param-value>
+  </context-param>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>com.eomcs.lms.config</param-value>
+  </context-param>
+
+  <listener>
+    <listener-class>com.eomcs.lms.listener.ContextLoaderListener</listener-class>
+  </listener>
+
   <filter>
     <filter-name>CharacterEncodingFilter</filter-name>
     <filter-class>com.eomcs.lms.filter.CharacterEncodingFilter</filter-class>
@@ -24,21 +37,6 @@
     <filter-name>CharacterEncodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  
-
-  <servlet>
-    <servlet-name>AppInitServlet</servlet-name>
-    <servlet-class>com.eomcs.lms.AppInitServlet</servlet-class>
-    <init-param>
-      <param-name>contextClass</param-name>
-      <param-value>org.springframework.context.annotation.AnnotationConfigApplicationContext</param-value>
-    </init-param>
-    <init-param>
-      <param-name>contextConfigLocation</param-name>
-      <param-value>com.eomcs.lms.config</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
 
 </web-app>
 
