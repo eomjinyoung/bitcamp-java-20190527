@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +31,18 @@ public class LoginServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException, ServletException {
     
+    // 클라이언트가 보낸 쿠키 중에서 이메일 값 꺼내기
+    String email = "";
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+      for (Cookie cookie : cookies) {
+        if (cookie.getName().equals("email")) {
+          email = cookie.getValue();
+          break;
+        }
+      }
+    }
+    
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
     out.println("<html><head><title>로그인 폼</title>"
@@ -43,7 +56,7 @@ public class LoginServlet extends HttpServlet {
     out.println("<div id='content'>");
     out.println("<h1>로그인 폼</h1>");
     out.println("<form action='/auth/login' method='post'>");
-    out.println("이메일: <input type='text' name='email'><br>");
+    out.printf("이메일: <input type='text' name='email' value='%s'><br>\n", email);
     out.println("암호: <input type='text' name='password'><br>");
     out.println("<button>로그인</button>");
     out.println("</form>");
