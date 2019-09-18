@@ -49,7 +49,7 @@ public class MemberDetailServlet extends HttpServlet {
         out.println("<p>해당 번호의 데이터가 없습니다!</p>");
 
       } else {
-        out.println("<form action='/member/update' method='post'>");
+        out.println("<form action='/member/update' method='post' enctype='multipart/form-data'>");
         out.printf("<img src='/upload/member/%s' class='photo1'><br>\n", 
             member.getPhoto());
         out.println("<input type='file' name='photo'><br>");
