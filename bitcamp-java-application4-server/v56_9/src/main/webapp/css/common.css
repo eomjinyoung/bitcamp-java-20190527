@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+#header {
+  width: 1100px;
+  margin: 0 auto;
+}
+
+#header img {
+  height: 35px;
+}
+
+#footer {
+  background-color: #524845;
+  color: #ffffff;
+  height: 40px;
+  width: 1100px;
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 10px;
+  margin: auto auto;
+}
+
+#content {
+  width: 1100px;
+  padding-top: 10px;
+  margin: auto auto;
+}
+
+.photo1 {
+  height: 120px;
+}
+
+.photo2 {
+  height: 100px;
+  margin: 2px;
+}
+
+
+
+
+
+
+
