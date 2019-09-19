@@ -54,12 +54,12 @@ public class PhotoBoardAddServlet extends HttpServlet {
     out.println("<form action='/photoboard/add' method='post' enctype='multipart/form-data'>");
     out.println("제목: <input type='text' name='title'><br>");
     out.println("수업: <input type='text' name='lessonNo'><br>");
-    out.println("사진1: <input type='file' name='filePath'><br>");
-    out.println("사진2: <input type='file' name='filePath'><br>");
-    out.println("사진3: <input type='file' name='filePath'><br>");
-    out.println("사진4: <input type='file' name='filePath'><br>");
-    out.println("사진5: <input type='file' name='filePath'><br>");
-    out.println("사진6: <input type='file' name='filePath'><br>");
+    out.println("사진: <input type='file' name='filePath'><br>");
+    out.println("사진: <input type='file' name='filePath'><br>");
+    out.println("사진: <input type='file' name='filePath'><br>");
+    out.println("사진: <input type='file' name='filePath'><br>");
+    out.println("사진: <input type='file' name='filePath'><br>");
+    out.println("사진: <input type='file' name='filePath'><br>");
     out.println("<button>등록</button>");
     out.println("</form>");
     out.println("</div>");
