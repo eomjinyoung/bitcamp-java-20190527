@@ -28,10 +28,57 @@ public class HeaderServlet extends HttpServlet {
     //response.setContentType("text/html;charset=UTF-8");
     
     PrintWriter out = response.getWriter();
-    out.println("<div id='header'>");
-    out.println("  <img src='/images/logo.png'>");
-    out.println("  <span>수업관리시스템</span>");
+    out.println("<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n" + 
+        "  <a class=\"navbar-brand\" href=\"#\">\n" + 
+        "    <img src=\"/images/logo.png\" height=\"35\" class=\"d-inline-block align-top\">\n" + 
+        "    수업관리시스템\n" + 
+        "  </a>\n" + 
+        "  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n" + 
+        "    <span class=\"navbar-toggler-icon\"></span>\n" + 
+        "  </button>\n" + 
+        "\n" + 
+        "  <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n" + 
+        "    <ul class=\"navbar-nav mr-auto\">\n" + 
+        "      <li class=\"nav-item active\">\n" + 
+        "        <a class=\"nav-link\" href=\"/board/list\">게시판</a>\n" + 
+        "      </li>\n" + 
+        "      <li class=\"nav-item active\">\n" + 
+        "        <a class=\"nav-link\" href=\"/lesson/list\">수업관리</a>\n" + 
+        "      </li>\n" + 
+        "      <li class=\"nav-item active\">\n" + 
+        "        <a class=\"nav-link\" href=\"/member/list\">회원관리</a>\n" + 
+        "      </li>\n" + 
+        "      <li class=\"nav-item active\">\n" + 
+        "        <a class=\"nav-link\" href=\"/photoboard/list\">사진게시판</a>\n" + 
+        "      </li>\n" + 
+        "    </ul>\n" + 
+        "  </div>\n" + 
+        "</nav>  ");
+    out.println("<nav class='navbar'>");
+    out.println("<a class='navbar-brand' href='#'>\n"
+        + "<img src='/images/logo.png' height='35' class='d-inline-block align-top'>\n"
+        + "수업관리시스템</a>");
+    out.println("<button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarNav\" aria-controls=\"navbarNav\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n" + 
+        "    <span class=\"navbar-toggler-icon\"></span>\n" + 
+        "  </button>");
+    out.println("<div class='collapse navbar-collapse' id='navbarSupportedContent'>");
+    out.println("<ul class='navbar-nav'>");
+    out.println("  <li class='nav-item active'>");
+    out.println("    <a class='nav-link' href='/board/list'>게시판</a>");
+    out.println("  </li>");
+    out.println("  <li class='nav-item'>");
+    out.println("    <a class='nav-link' href='/lesson/list'>수업관리</a>");
+    out.println("  </li>");
+    out.println("  <li class='nav-item'>");
+    out.println("    <a class='nav-link' href='/member/list'>회원관리</a>");
+    out.println("  </li>");
+    out.println("  <li class='nav-item'>");
+    out.println("    <a class='nav-link' href='/photoboard/list'>사진게시판</a>");
+    out.println("  </li>");
+    out.println("</ul>");
+    out.println("</div>");
     
+    /*
     HttpSession session = request.getSession();
     Member loginUser = (Member) session.getAttribute("loginUser");
     if (loginUser == null) {
@@ -42,7 +89,8 @@ public class HeaderServlet extends HttpServlet {
           loginUser.getNo(),
           loginUser.getName());
     }
-    out.println("</div>");
+    */
+    out.println("</nav>");
   }
 }
 
