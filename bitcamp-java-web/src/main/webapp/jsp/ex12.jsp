@@ -35,9 +35,7 @@ pageContext.setAttribute("s4", "윤봉길");
 <%=s4%><br>
 
 <%-- 보관소에 없는 객체를 꺼내려 하면 예외 발생! --%>
-<%-- 
-<jsp:useBean id="s5" type="java.lang.String" scope="page"/>
---%>
+<%-- <jsp:useBean id="s5" type="java.lang.String" scope="page"/> --%>
 
 </body>
 </html>

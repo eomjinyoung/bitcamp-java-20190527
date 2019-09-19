@@ -25,7 +25,7 @@ out.println("okok");
 <%--
 JSP 빌트인 객체
 - JSP를 가지고 서블릿 클래스를 만들 때 _jspService() 메서드에서 기본으로 준비하는 객체
-- JSP 엔지는 반드시 다음과 같은 이름으로 레퍼런스를 선언해야 한다.
+- JSP 엔진은 반드시 다음과 같은 이름으로 레퍼런스를 선언해야 한다.
   즉 서블릿 컨테이너(ex: 톰캣, jetty, resin 등)에 상관없이 이름이 같다.
 
 1) request - HttpServletRequest => _jspService() 파라미터이다.

@@ -13,7 +13,7 @@ public class Test2 {
       else
         System.out.println(c);
     }
-
+    
   }
 
 }

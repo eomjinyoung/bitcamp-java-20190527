@@ -34,6 +34,7 @@
 <%=b1%><br>
 <%=b2%><br>
 <%=b3%><br>
+<%=b3.toString()%><br>
 
 </body>
 </html>

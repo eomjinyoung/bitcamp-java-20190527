@@ -18,7 +18,9 @@
 <%-- type 속성 대신에 class 속성을 사용하면 
      id로 지정한 객체를 찾지 못했을 때 해당 객체를 만들고,
      그 id로 보관소에 저장한다. 
-     단 class 속성에는 generic 문법을 사용할 수 없다.--%>
+     단 class 속성에는 generic 문법을 사용할 수 없다.
+     또한 보관소에 객체가 없을 때 생성해야 하기 때문에 
+     class 속성에는 인터페이스를 설정할 수 없다. --%>
 <jsp:useBean id="list" class="java.util.ArrayList" scope="page"/>
 <%-- 자바코드로 표현해보면,
   java.util.ArrayList list = 
@@ -32,6 +34,7 @@
 <%
 // 제네릭 문법을 사용하지 못했기 때문에 list의 타입은 java.util.ArrayList이다.
 // 따라서 for 문에서 항목의 타입을 지정할 때 String으로 지정할 수 없다.
+out.println(list.size() + "<br>");
 for (Object n : list) {
   out.println(n + "<br>");
 }

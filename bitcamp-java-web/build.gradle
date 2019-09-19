@@ -24,6 +24,8 @@ dependencies {
     // Thumbnailator
     compile group: 'net.coobird', name: 'thumbnailator', version: '0.4.8'
     
+    // JSTL
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
     
     implementation 'com.google.guava:guava:28.0-jre'
     testImplementation 'junit:junit:4.12'

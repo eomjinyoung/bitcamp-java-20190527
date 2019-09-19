@@ -23,7 +23,6 @@ names.add("안중근");
 names.add("윤봉길");
 
 pageContext.setAttribute("list", names);
-
 %>
 
 <jsp:useBean id="list" type="java.util.ArrayList<String>" scope="page"/>
