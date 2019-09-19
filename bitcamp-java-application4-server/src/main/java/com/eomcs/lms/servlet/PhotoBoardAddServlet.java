@@ -2,21 +2,27 @@ package com.eomcs.lms.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
+import java.util.UUID;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import org.springframework.context.ApplicationContext;
 import com.eomcs.lms.dao.PhotoBoardDao;
 import com.eomcs.lms.dao.PhotoFileDao;
 import com.eomcs.lms.domain.PhotoBoard;
 import com.eomcs.lms.domain.PhotoFile;
 
+@MultipartConfig(maxFileSize = 1024 * 1024 * 10)
 @WebServlet("/photoboard/add")
 public class PhotoBoardAddServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   
+  String uploadDir;
   private PhotoBoardDao photoBoardDao;
   private PhotoFileDao photoFileDao;
   
@@ -26,6 +32,7 @@ public class PhotoBoardAddServlet extends HttpServlet {
         (ApplicationContext) getServletContext().getAttribute("iocContainer");
     photoBoardDao = appCtx.getBean(PhotoBoardDao.class);
     photoFileDao = appCtx.getBean(PhotoFileDao.class);
+    uploadDir = getServletContext().getRealPath("/upload/photoboard");
   }
 
   @Override
@@ -44,15 +51,15 @@ public class PhotoBoardAddServlet extends HttpServlet {
     
     out.println("<div id='content'>");
     out.println("<h1>사진게시물 등록폼</h1>");
-    out.println("<form action='/photoboard/add' method='post'>");
+    out.println("<form action='/photoboard/add' method='post' enctype='multipart/form-data'>");
     out.println("제목: <input type='text' name='title'><br>");
     out.println("수업: <input type='text' name='lessonNo'><br>");
-    out.println("사진1: <input type='text' name='filePath1'><br>");
-    out.println("사진2: <input type='text' name='filePath2'><br>");
-    out.println("사진3: <input type='text' name='filePath3'><br>");
-    out.println("사진4: <input type='text' name='filePath4'><br>");
-    out.println("사진5: <input type='text' name='filePath5'><br>");
-    out.println("사진6: <input type='text' name='filePath6'><br>");
+    out.println("사진1: <input type='file' name='filePath'><br>");
+    out.println("사진2: <input type='file' name='filePath'><br>");
+    out.println("사진3: <input type='file' name='filePath'><br>");
+    out.println("사진4: <input type='file' name='filePath'><br>");
+    out.println("사진5: <input type='file' name='filePath'><br>");
+    out.println("사진6: <input type='file' name='filePath'><br>");
     out.println("<button>등록</button>");
     out.println("</form>");
     out.println("</div>");
@@ -72,13 +79,18 @@ public class PhotoBoardAddServlet extends HttpServlet {
       photoBoardDao.insert(photoBoard);
       
       int count = 0;
-      for (int i = 1; i <= 6; i++) {
-        String filepath = request.getParameter("filePath" + i);
-        if (filepath.length() == 0) {
+      Collection<Part> parts = request.getParts();
+      for (Part part : parts) {
+        if (!part.getName().equals("filePath") || part.getSize() == 0) {
           continue;
         }
+        // 클라이언트가 보낸 파일을 디스크에 저장한다.
+        String filename = UUID.randomUUID().toString();
+        part.write(uploadDir + "/" + filename);
+        
+        // 저장한 파일명을 DB에 입력한다.
         PhotoFile photoFile = new PhotoFile();
-        photoFile.setFilePath(filepath);
+        photoFile.setFilePath(filename);
         photoFile.setBoardNo(photoBoard.getNo());
         photoFileDao.insert(photoFile);
         count++;
