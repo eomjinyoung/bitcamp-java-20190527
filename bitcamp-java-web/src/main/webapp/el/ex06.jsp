@@ -19,7 +19,6 @@ nameList.add("윤봉길");
 
 pageContext.setAttribute("names", nameList);
 %>
-
 ${names[0]}<br>
 ${names[1]}<br>
 ${names[2]}<br>
