@@ -1,7 +1,6 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.UUID;
 import javax.servlet.ServletException;
@@ -46,33 +45,8 @@ public class PhotoBoardAddServlet extends HttpServlet {
       throws IOException, ServletException {
     
     response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
-    out.println("<html><head><title>사진게시물 등록폼</title>"
-        + "<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>"
-        + "<link rel='stylesheet' href='/css/common.css'>"
-        + "</head>");
-    out.println("<body>");
-
-    request.getRequestDispatcher("/header").include(request, response);
-    
-    out.println("<div id='content'>");
-    out.println("<h1>사진게시물 등록폼</h1>");
-    out.println("<form action='/photoboard/add' method='post' enctype='multipart/form-data'>");
-    out.println("제목: <input type='text' name='title'><br>");
-    out.println("수업: <input type='text' name='lessonNo'><br>");
-    out.println("사진: <input type='file' name='filePath'><br>");
-    out.println("사진: <input type='file' name='filePath'><br>");
-    out.println("사진: <input type='file' name='filePath'><br>");
-    out.println("사진: <input type='file' name='filePath'><br>");
-    out.println("사진: <input type='file' name='filePath'><br>");
-    out.println("사진: <input type='file' name='filePath'><br>");
-    out.println("<button>등록</button>");
-    out.println("</form>");
-    out.println("</div>");
-    request.getRequestDispatcher("/footer").include(request, response);
-    out.println("</body></html>");
+    request.getRequestDispatcher("/jsp/photoboard/form.jsp").include(request, response);
   }
-  
  
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) 
@@ -119,14 +93,14 @@ public class PhotoBoardAddServlet extends HttpServlet {
       
       response.sendRedirect("/photoboard/list");
       
-    } catch (Exception e) {
+    } catch (Exception e) { 
       
       txManager.rollback(status);
       
       request.setAttribute("message", "데이터 저장에 실패했습니다!");
       request.setAttribute("refresh", "/photoboard/list");
       request.setAttribute("error", e);
-      request.getRequestDispatcher("/error").forward(request, response);
+      request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
     }
   }
 }

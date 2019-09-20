@@ -1,7 +1,6 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -27,7 +26,6 @@ public class MemberAddServlet extends HttpServlet {
     ApplicationContext appCtx = 
         (ApplicationContext) getServletContext().getAttribute("iocContainer");
     memberDao = appCtx.getBean(MemberDao.class);
-    
     uploadDir = getServletContext().getRealPath("/upload/member");
   }
 
@@ -36,28 +34,7 @@ public class MemberAddServlet extends HttpServlet {
       throws IOException, ServletException {
     
     response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
-    out.println("<html><head><title>회원 등록폼</title>"
-        + "<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>"
-        + "<link rel='stylesheet' href='/css/common.css'>"
-        + "</head>");
-    out.println("<body>");
-
-    request.getRequestDispatcher("/header").include(request, response);
-    
-    out.println("<div id='content'>");
-    out.println("<h1>회원 등록폼</h1>");
-    out.println("<form action='/member/add' method='post' enctype='multipart/form-data'>");
-    out.println("이름: <input type='text' name='name'><br>");
-    out.println("이메일: <input type='text' name='email'><br>");
-    out.println("암호: <input type='text' name='password'><br>");
-    out.println("사진: <input type='file' name='photo'><br>");
-    out.println("전화: <input type='text' name='tel'><br>");
-    out.println("<button>등록</button>");
-    out.println("</form>");
-    out.println("</div>");
-    request.getRequestDispatcher("/footer").include(request, response);
-    out.println("</body></html>");
+    request.getRequestDispatcher("/jsp/member/form.jsp").include(request, response);
   }
   
   @Override
@@ -87,7 +64,7 @@ public class MemberAddServlet extends HttpServlet {
       request.setAttribute("message", "데이터 저장에 실패했습니다!");
       request.setAttribute("refresh", "/member/list");
       request.setAttribute("error", e);
-      request.getRequestDispatcher("/error").forward(request, response);
-    }
+      request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+    } 
   }
 }

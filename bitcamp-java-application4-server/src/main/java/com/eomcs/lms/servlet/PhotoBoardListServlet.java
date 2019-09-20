@@ -1,7 +1,6 @@
 package com.eomcs.lms.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,47 +29,15 @@ public class PhotoBoardListServlet extends HttpServlet {
       throws IOException, ServletException {
     
     response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
-    out.println("<html><head><title>사진게시물 목록</title>"
-        + "<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>"
-        + "<link rel='stylesheet' href='/css/common.css'>"
-        + "</head>");
-    out.println("<body>");
-
-    request.getRequestDispatcher("/header").include(request, response);
-    
-    out.println("<div id='content'>");
-    out.println("<h1>사진게시물 목록</h1>");
-    out.println("<a href='/photoboard/add'>새 사진게시물</a><br>");
-    
     try {
-      out.println("<table class='table table-hover'>");
-      out.println("<tr><th>번호</th><th>제목</th><th>등록일</th><th>조회수</th><th>수업</th></tr>");
       List<PhotoBoard> photoBoards = photoBoardDao.findAll();
-      for (PhotoBoard photoBoard : photoBoards) {
-        out.printf("<tr>"
-            + "<td>%d</td>"
-            + "<td><a href='/photoboard/detail?no=%d'>%s</a></td>"
-            + "<td>%s</td>"
-            + "<td>%d</td>"
-            + "<td>%d</td></tr>\n", 
-            photoBoard.getNo(),
-            photoBoard.getNo(),
-            photoBoard.getTitle(), 
-            photoBoard.getCreatedDate(), 
-            photoBoard.getViewCount(),
-            photoBoard.getLessonNo());
-      }
-      out.println("</table>");
+      request.setAttribute("photoBoards", photoBoards);
+      request.getRequestDispatcher("/jsp/photoboard/list.jsp").include(request, response);
       
     } catch (Exception e) {
-      out.println("<p>데이터 목록 조회에 실패했습니다!</p>");
-      throw new RuntimeException(e);
-    
-    } finally {
-      out.println("</div>");
-      request.getRequestDispatcher("/footer").include(request, response);
-      out.println("</body></html>");
+      request.setAttribute("message", "데이터 목록을 가져오는데 실패했습니다!");
+      request.setAttribute("error", e);
+      request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
     }
   }
 }
