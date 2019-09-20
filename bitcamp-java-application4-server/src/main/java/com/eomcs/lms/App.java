@@ -1,13 +1,11 @@
-// v56_9 : 트랜잭션 적용하기
+// v57_1 : JSP를 활용하여 서블릿에서 출력 기능 분리하기 
 package com.eomcs.lms;
 
 // 작업:
-// => PhotoBoardAddServlet 변경
-// => PhotoBoardUpdateServlet 변경
-// => PhotoBoardDeleteServlet 변경
-// => 서블릿은 Spring IoC 컨테이너가 관리하는 대상이 아니기 때문에
-//    @Transactional 애노테이션으로 트랜잭션을 제어할 수 없다.
-//    따라서 직접 코드를 통해 제어해야 한다.
+// => /webapp/jsp/board 폴더 생성
+// => BoardXxxServlet 에서 출력 기능을 JSP로 이전
+// => /webapp/jsp/board/*.jsp 생성
+//
 //
 // dummy 클래스!
 // => 기존 버전에서 계속 존재했던 클래스라서 그대로 둠.
