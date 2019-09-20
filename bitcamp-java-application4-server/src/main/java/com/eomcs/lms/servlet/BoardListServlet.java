@@ -39,7 +39,7 @@ public class BoardListServlet extends HttpServlet {
     } catch (Exception e) {
       request.setAttribute("message", "데이터 목록을 가져오는데 실패했습니다!");
       request.setAttribute("error", e);
-      request.getRequestDispatcher("/error").include(request, response);
+      request.getRequestDispatcher("/jsp/error.jsp").include(request, response);
     }
   }
 }
