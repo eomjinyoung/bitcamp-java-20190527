@@ -30,7 +30,7 @@ private static final Logger logger = LogManager.getLogger("error.jsp");
 <%    
 String url = (String) request.getAttribute("refresh");
 if (url != null) {
-  response.setHeader("Refresh", "1;url=" + url);
+  response.setHeader("Refresh", "3;url=" + url);
 }
 
 Exception e = (Exception) request.getAttribute("error");
