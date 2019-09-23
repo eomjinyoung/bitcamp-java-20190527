@@ -31,6 +31,15 @@
       <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
   - JSTL 태그 사용
       <접두어명:태그명 속성="값" 속성="값"/> 
+
+* I18N(Internationalization 의 약자)
+=> 프로그램을 짤 때 여러 언어를 고려해서 코딩하는 것을 말한다.
+=> 특히 화면에서 버튼에 제목이나 라벨을 출력할 때 특정 언어로 고정된 값을 출력하지 않고,
+   외부 파일(예: label_ko_KR.properties)에서 읽어 온 값을 출력하도록 프로그래밍 하는 것.
+   
+* L10N(Localization 의 약자)
+=> 특정 언어에 대해 라벨 텍스트를 담은 프로퍼티 파일(예: label_ko_KR.properties)을 
+   작성하는 것을 말한다.
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

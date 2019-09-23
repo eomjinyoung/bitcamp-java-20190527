@@ -17,7 +17,7 @@
 </pre>
 
 <c:set var="name" value="홍길동"/>
-<c:set var="age" value="66"/>
+<c:set var="age" value="26"/>
 
 <c:choose>
     <c:when test="${age < 19}">

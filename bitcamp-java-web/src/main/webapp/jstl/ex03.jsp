@@ -14,18 +14,23 @@
 <pre>
 - 보관소에 값을 저장한다.
 </pre>
-
+<%
+request.setAttribute("name1", "홍길동");
+%>
 <c:set scope="request" var="name1" value="홍길동"/>
 1: ${requestScope.name1}<br>
 2: ${pageScope.name1}<br>
+3: ${name1}<br> 
 
 <c:set var="name2" value="임꺽정"/>
 1: ${requestScope.name2}<br>
 2: ${pageScope.name2}<br>
+3: ${name2}<br>
 
 <c:set var="name3">유관순</c:set>
 1: ${requestScope.name3}<br>
 2: ${pageScope.name3}<br>
+3: ${name3}<br>
 
 <h2>객체의 프로퍼티 값 설정하기</h2>
 <jsp:useBean id="m1" class="bitcamp.vo.Member"/>

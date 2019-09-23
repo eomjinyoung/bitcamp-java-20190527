@@ -16,10 +16,11 @@
 </pre>
 
 <h2>HTTP 요청하기</h2>
-<c:url value="http://localhost:8080/java-web/jstl/ex05.jsp" var="url1">
+<c:url value="http://localhost:8888/bitcamp-java-web/jstl/ex10_sub.jsp" 
+       var="url1">
     <c:param name="name" value="홍길동"/>
     <c:param name="age" value="20"/>
-    <c:param name="gender" value="man"/>
+    <c:param name="gender" value="woman"/>
 </c:url>
 
 <%-- 지정된 URL을 요청하고 서버로부터 받은 콘텐트를 contents라는 이름으로 
@@ -28,6 +29,8 @@
 
 <textarea cols="120" rows="20">${pageScope.contents}</textarea>
 
+<c:import url="https://www.naver.com" var="contents2"/>
+<textarea cols="120" rows="20">${pageScope.contents2}</textarea>
 </body>
 </html>
 
