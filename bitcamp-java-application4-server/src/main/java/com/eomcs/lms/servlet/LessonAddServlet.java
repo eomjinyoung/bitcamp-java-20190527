@@ -27,9 +27,7 @@ public class LessonAddServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException, ServletException {
-    
-    response.setContentType("text/html;charset=UTF-8");
-    request.getRequestDispatcher("/jsp/lesson/form.jsp").include(request, response);
+    request.setAttribute("viewUrl", "/jsp/lesson/form.jsp");
   }
   
   @Override
@@ -45,13 +43,12 @@ public class LessonAddServlet extends HttpServlet {
       lesson.setDayHours(Integer.parseInt(request.getParameter("dayHours")));
       
       lessonDao.insert(lesson);
-      response.sendRedirect("/lesson/list");
+      
+      request.setAttribute("viewUrl", "redirect:list");
       
     } catch (Exception e) {
-      request.setAttribute("message", "데이터 저장에 실패했습니다!");
-      request.setAttribute("refresh", "/lesson/list");
       request.setAttribute("error", e);
-      request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+      request.setAttribute("refresh", "list");
     }
   }
 }

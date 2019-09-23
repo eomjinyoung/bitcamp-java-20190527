@@ -14,7 +14,7 @@
 
 <div id='content'>
 <h1>수업 목록</h1>
-<a href='/lesson/add'>새 수업</a><br>
+<a href='add'>새 수업</a><br>
 <table class='table table-hover'>
 <tr>
   <th>번호</th>
@@ -25,7 +25,7 @@
 <c:forEach items="${lessons}" var="lesson">
   <tr>
     <td>${lesson.no}</td>
-    <td><a href='/lesson/detail?no=${lesson.no}'>${lesson.title}</a></td>
+    <td><a href='detail?no=${lesson.no}'>${lesson.title}</a></td>
     <td>${lesson.startDate} ~ ${lesson.endDate}</td>
     <td>${lesson.totalHours}</td>
   </tr>

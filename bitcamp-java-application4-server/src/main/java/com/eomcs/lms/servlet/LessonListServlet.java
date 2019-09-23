@@ -32,12 +32,10 @@ public class LessonListServlet extends HttpServlet {
     try {
       List<Lesson> lessons = lessonDao.findAll();
       request.setAttribute("lessons", lessons);
-      request.getRequestDispatcher("/jsp/lesson/list.jsp").include(request, response);
+      request.setAttribute("viewUrl", "/jsp/lesson/list.jsp");
       
     } catch (Exception e) {
-      request.setAttribute("message", "데이터 목록을 가져오는데 실패했습니다!");
       request.setAttribute("error", e);
-      request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
     }
   }
 }

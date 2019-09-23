@@ -13,7 +13,7 @@
     
 <div id='content'>
 <h1>수업 등록</h1>
-<form action='/lesson/add' method='post'>
+<form action='add' method='post'>
 수업명: <input type='text' name='title'><br>
 설명 : <textarea name='contents' rows='5' cols='50'></textarea><br>
 시작일: <input type='text' name='startDate'><br>

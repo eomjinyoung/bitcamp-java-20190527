@@ -37,13 +37,11 @@ public class LessonDetailServlet extends HttpServlet {
       }
       
       request.setAttribute("lesson", lesson);
-      request.getRequestDispatcher("/jsp/lesson/detail.jsp").include(request, response);
+      request.setAttribute("viewUrl", "/jsp/lesson/detail.jsp");
       
     } catch (Exception e) {
-      request.setAttribute("message", e.getMessage());
-      request.setAttribute("refresh", "/lesson/list");
       request.setAttribute("error", e);
-      request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+      request.setAttribute("refresh", "list");
     }
   }
 }
