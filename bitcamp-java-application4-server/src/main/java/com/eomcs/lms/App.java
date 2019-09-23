@@ -1,8 +1,9 @@
-// v57_3 : JSP에 JSTL 적용하기
+// v58_1 : Front Controller 도입
 package com.eomcs.lms;
 
 // 작업:
-// => /webapp/jsp/**/*.jsp 변경
+// => DispatcherServlet 생성
+// => 다른 서블릿 변경
 //
 //
 // dummy 클래스!

@@ -20,8 +20,8 @@
 <jsp:include page="header.jsp"/>
     
 <div id='content'>
-  <h1>실행 오류2!</h1>
-  <p>${message}</p>
+  <h1>실행 오류!</h1>
+  <p>${error.message}</p>
 </div>
 
 <jsp:include page="footer.jsp"/>

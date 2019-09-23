@@ -28,18 +28,14 @@ public class BoardListServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException, ServletException {
     
-    // 다른 서블릿/JSP 으로 인클루딩 할 때는 이쪽에서 콘텐츠 타입을 설정해야 한다.
-    response.setContentType("text/html;charset=UTF-8");
     try {
       List<Board> boards = boardDao.findAll();
       
       request.setAttribute("boards", boards);
-      request.getRequestDispatcher("/jsp/board/list.jsp").include(request, response);
+      request.setAttribute("viewUrl", "/jsp/board/list.jsp");
       
     } catch (Exception e) {
-      request.setAttribute("message", "데이터 목록을 가져오는데 실패했습니다!");
       request.setAttribute("error", e);
-      request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
     }
   }
 }

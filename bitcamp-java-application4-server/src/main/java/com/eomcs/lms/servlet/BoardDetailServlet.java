@@ -39,13 +39,11 @@ public class BoardDetailServlet extends HttpServlet {
       boardDao.increaseViewCount(no);
       
       request.setAttribute("board", board);
-      request.getRequestDispatcher("/jsp/board/detail.jsp").include(request, response);
+      request.setAttribute("viewUrl", "/jsp/board/detail.jsp");
       
     } catch (Exception e) {
-      request.setAttribute("message", e.getMessage());
-      request.setAttribute("refresh", "/board/list");
       request.setAttribute("error", e);
-      request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+      request.setAttribute("refresh", "list");
     }
   }
 }

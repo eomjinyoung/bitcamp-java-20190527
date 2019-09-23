@@ -13,7 +13,7 @@
     
 <div id='content'>
 <h1>게시물 등록폼</h1>
-<form action='/board/add' method='post'>
+<form action='add' method='post'>
   내용 : <textarea name='contents' rows='5' cols='50'></textarea><br>
   <button>등록</button>
 </form>
