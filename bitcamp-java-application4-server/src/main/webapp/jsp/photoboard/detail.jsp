@@ -14,7 +14,7 @@
     
 <div id='content'>
 <h1>사진게시물</h1>
-<form action='/photoboard/update'
+<form action='update'
       method='post' enctype='multipart/form-data'>
 번호: <input type='text' name='no' value='${photoBoard.no}' readonly><br>
 제목: <input type='text' name='title' value='${photoBoard.title}'><br>
@@ -30,7 +30,7 @@
 </c:forEach>
 
 <button>변경</button>
-<a href='/photoboard/delete?no=${photoBoard.no}'>삭제</a>
+<a href='delete?no=${photoBoard.no}'>삭제</a>
 </form>
 </div>
 

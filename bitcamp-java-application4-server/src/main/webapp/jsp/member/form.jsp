@@ -13,7 +13,7 @@
     
 <div id='content'>
 <h1>회원 등록</h1>
-<form action='/member/add' method='post' enctype='multipart/form-data'>
+<form action='add' method='post' enctype='multipart/form-data'>
 이름: <input type='text' name='name'><br>
 이메일: <input type='text' name='email'><br>
 암호: <input type='text' name='password'><br>

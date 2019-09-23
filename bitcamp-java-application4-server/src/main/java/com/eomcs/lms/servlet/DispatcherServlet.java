@@ -3,6 +3,7 @@ package com.eomcs.lms.servlet;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+@MultipartConfig(maxFileSize = 1024 * 1024 * 10)
 @WebServlet("/app/*")
 public class DispatcherServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;

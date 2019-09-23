@@ -31,13 +31,11 @@ public class MemberDeleteServlet extends HttpServlet {
       if (memberDao.delete(no) == 0) {
         throw new Exception("해당 데이터가 없습니다.");
       }
-      response.sendRedirect("/member/list");
+      request.setAttribute("viewUrl", "redirect:list");
       
     } catch (Exception e) {
-      request.setAttribute("message", "데이터 삭제에 실패했습니다!");
-      request.setAttribute("refresh", "/member/list");
       request.setAttribute("error", e);
-      request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+      request.setAttribute("refresh", "list");
     }
   }
 }

@@ -28,18 +28,15 @@ public class MemberSearchServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException, ServletException {
     
-    response.setContentType("text/html;charset=UTF-8");
     try {
       List<Member> members = memberDao.findByKeyword(
           request.getParameter("keyword"));
       
       request.setAttribute("members", members);
-      request.getRequestDispatcher("/jsp/member/search.jsp").include(request, response);
+      request.setAttribute("viewUrl", "/jsp/member/search.jsp");
       
     } catch (Exception e) {
-      request.setAttribute("message", "데이터 검색에 실패했습니다!");
       request.setAttribute("error", e);
-      request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
     }
   }
 }

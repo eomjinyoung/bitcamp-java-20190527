@@ -27,7 +27,6 @@ public class PhotoBoardDetailServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException, ServletException {
     
-    response.setContentType("text/html;charset=UTF-8");
     try {
       int no = Integer.parseInt(request.getParameter("no"));
       
@@ -38,13 +37,11 @@ public class PhotoBoardDetailServlet extends HttpServlet {
       photoBoardDao.increaseViewCount(no);
       
       request.setAttribute("photoBoard", photoBoard);
-      request.getRequestDispatcher("/jsp/photoboard/detail.jsp").include(request, response);
+      request.setAttribute("viewUrl", "/jsp/photoboard/detail.jsp");
       
     } catch (Exception e) {
-      request.setAttribute("message", e.getMessage());
-      request.setAttribute("refresh", "/photoboard/list");
       request.setAttribute("error", e);
-      request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+      request.setAttribute("refresh", "list");
     }
   }
 }
