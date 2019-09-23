@@ -1,9 +1,11 @@
-// v58_1 : Front Controller 도입
+// v58_2 : Page Controller를 일반 클래스(POJO; Plain Old Java Object)로 전환하기
 package com.eomcs.lms;
 
 // 작업:
-// => DispatcherServlet 생성
-// => 다른 서블릿 변경
+// => Command 인터페이스 생성
+// => XxxServlet 을 XxxCommand 로 전환
+// => 커맨드 객체의 관리 주체를 서블릿 컨테이너에서 Spring IoC 컨테이너로 이전.
+// => DispatcherServlet 변경
 //
 //
 // dummy 클래스!

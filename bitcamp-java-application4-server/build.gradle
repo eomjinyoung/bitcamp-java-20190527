@@ -51,6 +51,9 @@ dependencies {
     // JSTL
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
     
+    // Javax Annotation API(for OpenJDK, Oracle JDK includes this library)
+    compile group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
+    
     implementation 'com.google.guava:guava:27.1-jre'
     testImplementation 'junit:junit:4.12'
 }
