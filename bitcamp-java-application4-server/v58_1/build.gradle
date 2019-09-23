@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+    
+    // 웹 애플리케이션 프로젝트를 다룰 때 사용할 명령어 포함시키기
+    id 'war'
+    id 'eclipse-wtp'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+war {
+    archiveName = 'app4.war'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    // Mybatis Persistence Framework
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.5.2'
+    
+    // MariaDB JDBC Driver
+    compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.3'
+    
+    // Spring IoC 컨테이너
+    compile group: 'org.springframework', name: 'spring-context', version: '5.1.9.RELEASE'
+    
+    // Spring JDBC
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '5.1.9.RELEASE'
+    
+    // Mybatis-Spring
+    compile group: 'org.mybatis', name: 'mybatis-spring', version: '2.0.2'
+    
+    // Spring WebMVC
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.1.9.RELEASE'
+    
+    // Log4j2
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.1'
+    
+    // Apache HttpClient
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.9'
+    
+    // Servlet API
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    
+    // JSTL
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+    
+    implementation 'com.google.guava:guava:27.1-jre'
+    testImplementation 'junit:junit:4.12'
+}
