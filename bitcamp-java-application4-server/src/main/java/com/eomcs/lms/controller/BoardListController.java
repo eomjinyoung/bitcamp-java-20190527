@@ -1,4 +1,4 @@
-package com.eomcs.lms.handler;
+package com.eomcs.lms.controller;
 
 import java.util.List;
 import javax.annotation.Resource;
@@ -9,7 +9,7 @@ import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.domain.Board;
 
 @Component("/board/list")
-public class BoardListCommand implements Command {
+public class BoardListController implements PageController {
   
   //@Autowired // 스프링 애노테이션
   @Resource // java 표준 애노테이션

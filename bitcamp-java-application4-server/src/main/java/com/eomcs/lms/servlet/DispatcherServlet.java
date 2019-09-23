@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
-import com.eomcs.lms.handler.Command;
+import com.eomcs.lms.controller.PageController;
 
 @MultipartConfig(maxFileSize = 1024 * 1024 * 10)
 @WebServlet("/app/*")
@@ -37,8 +37,8 @@ public class DispatcherServlet extends HttpServlet {
         servletPath, pathInfo));
     
     try {
-      // 클라이언트 요청을 처리할 Command를 구현한 페이지 컨트롤러를 찾는다.
-      Command pageController = (Command) iocContainer.getBean(pathInfo);
+      // 클라이언트 요청을 처리할 PageController를 구현한 객체를 찾는다.
+      PageController pageController = (PageController) iocContainer.getBean(pathInfo);
       
       // 페이지 컨트롤러에게 실행을 위임한다.
       String viewUrl = pageController.execute(request, response);
