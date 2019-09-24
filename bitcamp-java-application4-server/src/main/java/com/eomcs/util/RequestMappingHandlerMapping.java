@@ -2,8 +2,10 @@ package com.eomcs.util;
 
 import static org.reflections.ReflectionUtils.getMethods;
 import static org.reflections.ReflectionUtils.withAnnotation;
+import static org.reflections.ReflectionUtils.withPrefix;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -14,9 +16,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import static org.reflections.ReflectionUtils.*;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodParameterNamesScanner;
 import org.springframework.context.ApplicationContext;
@@ -156,6 +158,19 @@ public class RequestMappingHandlerMapping {
         
       } else if (paramType == Map.class) {
         return model;
+      
+      } else if (paramType == Part.class) {
+        return request.getPart(paramName);
+      
+      } else if (paramType == Part[].class) {
+        ArrayList<Part> values = new ArrayList<>();
+        Collection<Part> parts = request.getParts();
+        for (Part part : parts) {
+          if (part.getName().equals(paramName)) {
+            values.add(part);
+          }
+        }
+        return values.toArray(new Part[values.size()]);
         
       } else if (isPrimitiveType(paramType)) {
         return getPrimitiveValue(paramName, paramType, request);

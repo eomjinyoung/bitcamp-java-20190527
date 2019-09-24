@@ -15,7 +15,7 @@
 <h1>회원</h1>
 <form action='update' method='post' enctype='multipart/form-data'>
 <img src='/upload/member/${member.photo}' class='photo1'><br> 
-<input type='file' name='photo'><br>
+<input type='file' name='file'><br>
 번호: <input type='text' name='no' value='${member.no}' readonly><br>
 이름: <input type='text' name='name' value='${member.name}'><br>
 이메일: <input type='text' name='email' value='${member.email}'><br>

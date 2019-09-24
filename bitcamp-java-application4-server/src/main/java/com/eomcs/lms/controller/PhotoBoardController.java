@@ -1,7 +1,7 @@
 package com.eomcs.lms.controller;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,12 +24,16 @@ public class PhotoBoardController {
   @Resource private PhotoBoardDao photoBoardDao;
   @Resource private PhotoFileDao photoFileDao;
   
+  @RequestMapping("/photoboard/form")
+  public String form() {
+    return "/jsp/photoboard/form.jsp";
+  }
+  
   @RequestMapping("/photoboard/add")
-  public String add(HttpServletRequest request) 
-      throws Exception {
-    if (request.getMethod().equalsIgnoreCase("GET")) {
-      return "/jsp/photoboard/form.jsp";
-    }
+  public String add(
+      HttpServletRequest request, 
+      PhotoBoard photoBoard,
+      Part[] filePath) throws Exception {
     
     String uploadDir = request.getServletContext().getRealPath("/upload/photoboard");
     // 트랜잭션 동작을 정의한다.
@@ -41,18 +45,13 @@ public class PhotoBoardController {
     TransactionStatus status = txManager.getTransaction(def);
     
     try {
-      PhotoBoard photoBoard = new PhotoBoard();
-      photoBoard.setTitle(request.getParameter("title"));
-      photoBoard.setLessonNo(Integer.parseInt(request.getParameter("lessonNo")));
-      
       photoBoardDao.insert(photoBoard);
       
       int count = 0;
-      Collection<Part> parts = request.getParts();
-      for (Part part : parts) {
-        if (!part.getName().equals("filePath") || part.getSize() == 0) {
+      for (Part part : filePath) {
+        if (part.getSize() == 0)
           continue;
-        }
+        
         // 클라이언트가 보낸 파일을 디스크에 저장한다.
         String filename = UUID.randomUUID().toString();
         part.write(uploadDir + "/" + filename);
@@ -79,7 +78,7 @@ public class PhotoBoardController {
   }
   
   @RequestMapping("/photoboard/delete")
-  public String delete(HttpServletRequest request) 
+  public String delete(int no) 
       throws Exception {
     
     // 트랜잭션 동작을 정의한다.
@@ -91,8 +90,6 @@ public class PhotoBoardController {
     TransactionStatus status = txManager.getTransaction(def);
     
     try {
-      int no = Integer.parseInt(request.getParameter("no"));
-      
       if (photoBoardDao.findBy(no) == null) {
         throw new Exception("해당 데이터가 없습니다.");
       }
@@ -110,10 +107,8 @@ public class PhotoBoardController {
   }
   
   @RequestMapping("/photoboard/detail")
-  public String detail(HttpServletRequest request) 
+  public String detail(Map<String,Object> model, int no) 
       throws Exception {
-
-    int no = Integer.parseInt(request.getParameter("no"));
 
     PhotoBoard photoBoard = photoBoardDao.findWithFilesBy(no);
     if (photoBoard == null) {
@@ -121,22 +116,24 @@ public class PhotoBoardController {
     }
     photoBoardDao.increaseViewCount(no);
 
-    request.setAttribute("photoBoard", photoBoard);
+    model.put("photoBoard", photoBoard);
     return "/jsp/photoboard/detail.jsp";
   }
   
   @RequestMapping("/photoboard/list")
-  public String list(HttpServletRequest request) 
+  public String list(Map<String,Object> model) 
       throws Exception {
 
     List<PhotoBoard> photoBoards = photoBoardDao.findAll();
-    request.setAttribute("photoBoards", photoBoards);
+    model.put("photoBoards", photoBoards);
     return "/jsp/photoboard/list.jsp";
   }
   
   @RequestMapping("/photoboard/update")
-  public String update(HttpServletRequest request) 
-      throws Exception {
+  public String update(
+      HttpServletRequest request, 
+      PhotoBoard photoBoard,
+      Part[] filePath) throws Exception {
 
     String uploadDir = request.getServletContext().getRealPath("/upload/photoboard");
 
@@ -149,19 +146,14 @@ public class PhotoBoardController {
     TransactionStatus status = txManager.getTransaction(def);
 
     try {
-      PhotoBoard photoBoard = new PhotoBoard();
-      photoBoard.setNo(Integer.parseInt(request.getParameter("no")));
-      photoBoard.setTitle(request.getParameter("title"));
-
       photoBoardDao.update(photoBoard);
       photoFileDao.deleteAll(photoBoard.getNo());
 
       int count = 0;
-      Collection<Part> parts = request.getParts();
-      for (Part part : parts) {
-        if (!part.getName().equals("filePath") || part.getSize() == 0) {
+      for (Part part : filePath) {
+        if (part.getSize() == 0)
           continue;
-        }
+        
         // 클라이언트가 보낸 파일을 디스크에 저장한다.
         String filename = UUID.randomUUID().toString();
         part.write(uploadDir + "/" + filename);

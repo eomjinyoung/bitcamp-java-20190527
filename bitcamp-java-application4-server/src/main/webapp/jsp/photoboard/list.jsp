@@ -13,8 +13,10 @@
 <jsp:include page="../header.jsp"/>
 
 <div id='content'>
-<h1>사진게시물 목록</h1> 
-<a href='add'>새 사진게시물</a><br>
+<h1>사진게시물 목록</h1>
+ 
+<a href='form'>새 사진게시물</a><br>
+
 <table class='table table-hover'>
 <tr>
   <th>번호</th>
