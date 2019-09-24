@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -26,7 +25,7 @@ public class PhotoBoardController {
   @Resource private PhotoFileDao photoFileDao;
   
   @RequestMapping("/photoboard/add")
-  public String add(HttpServletRequest request, HttpServletResponse response) 
+  public String add(HttpServletRequest request) 
       throws Exception {
     if (request.getMethod().equalsIgnoreCase("GET")) {
       return "/jsp/photoboard/form.jsp";
@@ -80,7 +79,7 @@ public class PhotoBoardController {
   }
   
   @RequestMapping("/photoboard/delete")
-  public String delete(HttpServletRequest request, HttpServletResponse response) 
+  public String delete(HttpServletRequest request) 
       throws Exception {
     
     // 트랜잭션 동작을 정의한다.
@@ -111,7 +110,7 @@ public class PhotoBoardController {
   }
   
   @RequestMapping("/photoboard/detail")
-  public String detail(HttpServletRequest request, HttpServletResponse response) 
+  public String detail(HttpServletRequest request) 
       throws Exception {
 
     int no = Integer.parseInt(request.getParameter("no"));
@@ -127,7 +126,7 @@ public class PhotoBoardController {
   }
   
   @RequestMapping("/photoboard/list")
-  public String list(HttpServletRequest request, HttpServletResponse response) 
+  public String list(HttpServletRequest request) 
       throws Exception {
 
     List<PhotoBoard> photoBoards = photoBoardDao.findAll();
@@ -136,7 +135,7 @@ public class PhotoBoardController {
   }
   
   @RequestMapping("/photoboard/update")
-  public String update(HttpServletRequest request, HttpServletResponse response) 
+  public String update(HttpServletRequest request) 
       throws Exception {
 
     String uploadDir = request.getServletContext().getRealPath("/upload/photoboard");

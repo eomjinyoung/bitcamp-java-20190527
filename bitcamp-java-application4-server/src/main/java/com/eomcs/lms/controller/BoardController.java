@@ -3,7 +3,6 @@ package com.eomcs.lms.controller;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.lms.dao.BoardDao;
@@ -16,7 +15,7 @@ public class BoardController {
   private BoardDao boardDao;
 
   @RequestMapping("/board/add")
-  public String add(HttpServletRequest request, HttpServletResponse response) 
+  public String add(HttpServletRequest request) 
       throws Exception {
 
     if (request.getMethod().equalsIgnoreCase("GET")) {
@@ -31,7 +30,7 @@ public class BoardController {
   }
   
   @RequestMapping("/board/delete")
-  public String delete(HttpServletRequest request, HttpServletResponse response) 
+  public String delete(HttpServletRequest request) 
       throws Exception {
     int no = Integer.parseInt(request.getParameter("no"));
     if (boardDao.delete(no) == 0) {
@@ -41,10 +40,8 @@ public class BoardController {
   }
   
   @RequestMapping("/board/detail")
-  public String detail(HttpServletRequest request, HttpServletResponse response) 
+  public String detail(HttpServletRequest request, int no) 
       throws Exception {
-
-    int no = Integer.parseInt(request.getParameter("no"));
 
     Board board = boardDao.findBy(no);
     if (board == null) {
@@ -58,7 +55,7 @@ public class BoardController {
   }
   
   @RequestMapping("/board/list")
-  public String list(HttpServletRequest request, HttpServletResponse response) 
+  public String list(HttpServletRequest request) 
       throws Exception {
     
     List<Board> boards = boardDao.findAll();
@@ -67,11 +64,11 @@ public class BoardController {
   }
   
   @RequestMapping("/board/update")
-  public String update(HttpServletRequest request, HttpServletResponse response) 
+  public String update(int no, String contents) 
       throws Exception {
     Board board = new Board();
-    board.setNo(Integer.parseInt(request.getParameter("no")));
-    board.setContents(request.getParameter("contents"));
+    board.setNo(no);
+    board.setContents(contents);
     boardDao.update(board);
 
     return "redirect:list";

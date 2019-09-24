@@ -17,7 +17,7 @@ public class LessonController {
   private LessonDao lessonDao;
 
   @RequestMapping("/lesson/add")
-  public String add(HttpServletRequest request, HttpServletResponse response) 
+  public String add(HttpServletRequest request) 
       throws Exception {
     if (request.getMethod().equalsIgnoreCase("GET")) {
       return "/jsp/lesson/form.jsp";
@@ -48,7 +48,7 @@ public class LessonController {
   }
   
   @RequestMapping("/lesson/detail")
-  public String detail(HttpServletRequest request, HttpServletResponse response) 
+  public String detail(HttpServletRequest request) 
       throws Exception {
 
     int no = Integer.parseInt(request.getParameter("no"));
@@ -63,7 +63,7 @@ public class LessonController {
   }
   
   @RequestMapping("/lesson/list")
-  public String list(HttpServletRequest request, HttpServletResponse response) 
+  public String list(HttpServletRequest request) 
       throws Exception {
 
     List<Lesson> lessons = lessonDao.findAll();
@@ -72,7 +72,7 @@ public class LessonController {
   }
   
   @RequestMapping("/lesson/update")
-  public String update(HttpServletRequest request, HttpServletResponse response) 
+  public String update(HttpServletRequest request) 
       throws Exception {
     Lesson lesson = new Lesson();
     lesson.setNo(Integer.parseInt(request.getParameter("no")));

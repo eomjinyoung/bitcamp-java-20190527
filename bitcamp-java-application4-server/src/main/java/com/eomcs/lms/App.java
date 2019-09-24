@@ -1,11 +1,9 @@
-// v58_4 : CRUD 기능을 한 클래스로 묶는다.
+// v58_5 : request handler의 파라미터 값을 자동 주입하기
 package com.eomcs.lms;
 
 // 작업:
-// => BoardXxxController의 request handler를 BoardController로 묶는다.
-// => 페이지 컨트롤러임을 명확하게 표시하기 위해 @Component 대신 @Controller로 표시한다.
-// => RequestMappingHandlerMapping 생성
-// => DispatcherServlet 변경
+// => request handler를 정의할 때 필요한 파라미터를 동적으로 선언한다.
+// => RequestMappingHandlerMapping 변경
 //
 //
 // dummy 클래스!

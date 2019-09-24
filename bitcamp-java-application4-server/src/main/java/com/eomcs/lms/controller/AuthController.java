@@ -44,7 +44,7 @@ public class AuthController {
   }
   
   @RequestMapping("/auth/logout")
-  public String logout(HttpServletRequest request, HttpServletResponse response) 
+  public String logout(HttpServletRequest request) 
       throws Exception {
     
     request.getSession().invalidate();
