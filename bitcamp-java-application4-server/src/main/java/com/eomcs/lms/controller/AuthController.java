@@ -3,7 +3,6 @@ package com.eomcs.lms.controller;
 import java.util.HashMap;
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -17,19 +16,25 @@ public class AuthController {
   @Resource
   private MemberDao memberDao;
 
+  @RequestMapping("/auth/form")
+  public String form() {
+    return "/jsp/auth/form.jsp";
+  }
+  
   @RequestMapping("/auth/login")
-  public String login(HttpServletRequest request, HttpServletResponse response) 
+  public String login(
+      HttpServletResponse response,
+      HttpSession session,
+      String email,
+      String password) 
       throws Exception {
-    if (request.getMethod().equalsIgnoreCase("GET")) {
-      return "/jsp/auth/form.jsp";
-    }
 
     HashMap<String,Object> params = new HashMap<>();
-    params.put("email", request.getParameter("email"));
-    params.put("password", request.getParameter("password"));
+    params.put("email", email);
+    params.put("password", password);
 
     // 응답할 때 클라이언트가 입력한 이메일을 쿠키로 보낸다.
-    Cookie cookie = new Cookie("email", request.getParameter("email"));
+    Cookie cookie = new Cookie("email", email);
     cookie.setMaxAge(60 * 60 * 24 * 15);
     response.addCookie(cookie);
 
@@ -38,17 +43,15 @@ public class AuthController {
       throw new Exception("이메일 또는 암호가 맞지 않습니다!");
     } 
 
-    HttpSession session = request.getSession();
     session.setAttribute("loginUser", member);
     return "redirect:../board/list";
   }
   
   @RequestMapping("/auth/logout")
-  public String logout(HttpServletRequest request) 
+  public String logout(HttpSession session) 
       throws Exception {
-    
-    request.getSession().invalidate();
-    return "redirect:login";
+    session.invalidate();
+    return "redirect:form";
   }
 
 }

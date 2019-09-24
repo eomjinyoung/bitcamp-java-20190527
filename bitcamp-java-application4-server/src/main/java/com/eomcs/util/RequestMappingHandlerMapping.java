@@ -7,11 +7,13 @@ import java.lang.reflect.Parameter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.reflections.Reflections;
@@ -73,9 +75,20 @@ public class RequestMappingHandlerMapping {
         HttpServletResponse response) 
             throws Exception {
 
+      // 페이지 컨트롤러가 작업한 결과를 받을 바구니를 준비한다.
+      HashMap<String,Object> model = new HashMap<>();
+      
       // 메서드의 파라미터 목록을 꺼낸다.
       Parameter[] params = method.getParameters();
-      return method.invoke(bean, getArguments(params, request, response));
+      String viewUrl = (String) method.invoke(bean, getArguments(params, request, response, model));
+      
+      // request handler를 호출하면,
+      // model 객체에는 request handler가 담은 값이 보관되어 있다.
+      // 여기에 request handler의 리턴 값(JSP URL)도 함께 보관한다.
+      model.put("viewUrl", viewUrl);
+      
+      // request handler의 작업 결과물과 JSP URL을 담은 맵 객체를 프론트 컨트롤러에게 리턴한다.
+      return model;
     }
 
     private List<String> getParameterNames(Class<?> type, Method method)
@@ -104,7 +117,8 @@ public class RequestMappingHandlerMapping {
     private Object[] getArguments(
         Parameter[] params,
         HttpServletRequest request, 
-        HttpServletResponse response) throws Exception {
+        HttpServletResponse response, 
+        Map<String, Object> model) throws Exception {
 
       // 파라미터 이름 알아내기
       List<String> paramNames = getParameterNames(bean.getClass(), method);
@@ -114,7 +128,7 @@ public class RequestMappingHandlerMapping {
 
       // 각 파라미터에 대한 값을 준비한다.
       for (int i = 0; i < params.length; i++) {
-        args[i] = getArgument(paramNames.get(i), params[i], request, response);
+        args[i] = getArgument(paramNames.get(i), params[i], request, response, model);
       }
 
       return args;
@@ -124,17 +138,27 @@ public class RequestMappingHandlerMapping {
         String paramName,
         Parameter param, 
         HttpServletRequest request, 
-        HttpServletResponse response) throws Exception {
+        HttpServletResponse response, 
+        Map<String, Object> model) throws Exception {
 
       Class<?> paramType = param.getType();
       if (paramType == ServletRequest.class ||
           paramType == HttpServletRequest.class) {
         return request;
+        
       } else if (paramType == ServletResponse.class ||
           paramType == HttpServletResponse.class) {
         return response;
+        
+      } else if (paramType == HttpSession.class) {
+        return request.getSession();
+        
+      } else if (paramType == Map.class) {
+        return model;
+        
       } else if (isPrimitiveType(paramType)) {
         return getPrimitiveValue(paramName, paramType, request);
+        
       } else {
         return null;
       }

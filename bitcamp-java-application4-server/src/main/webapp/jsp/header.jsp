@@ -28,7 +28,7 @@
     
   <div>
 <c:if test="${empty loginUser}">
-  <a href='/app/auth/login' class='btn btn-outline-dark btn-sm'>로그인</a>
+  <a href='/app/auth/form' class='btn btn-outline-dark btn-sm'>로그인</a>
 </c:if>
 <c:if test="${not empty loginUser}">
   <a href='/member/detail?no=${loginUser.no}'>${loginUser.name}</a> 
