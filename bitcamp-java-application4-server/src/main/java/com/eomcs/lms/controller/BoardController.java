@@ -20,13 +20,9 @@ public class BoardController {
   }
   
   @RequestMapping("/board/add")
-  public String add(String contents) 
+  public String add(Board board) 
       throws Exception {
-
-    Board board = new Board();
-    board.setContents(contents);
     boardDao.insert(board);
-
     return "redirect:list";
   }
   
@@ -63,13 +59,9 @@ public class BoardController {
   }
   
   @RequestMapping("/board/update")
-  public String update(int no, String contents) 
+  public String update(Board board) 
       throws Exception {
-    Board board = new Board();
-    board.setNo(no);
-    board.setContents(contents);
     boardDao.update(board);
-
     return "redirect:list";
   }
 

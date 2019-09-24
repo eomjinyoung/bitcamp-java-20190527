@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import static org.reflections.ReflectionUtils.*;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodParameterNamesScanner;
 import org.springframework.context.ApplicationContext;
@@ -160,8 +161,53 @@ public class RequestMappingHandlerMapping {
         return getPrimitiveValue(paramName, paramType, request);
         
       } else {
-        return null;
+        return getPojoValue(paramName, paramType, request);
       }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Object getPojoValue(
+        String paramName, 
+        Class<?> paramType, 
+        HttpServletRequest request) throws Exception {
+      
+      // 클라이언트가 보낸 데이터를 담을 POJO 객체를 생성한다.
+      // => 기본 생성자를 호출하여 인스턴스를 초기화시킨다.
+      Object pojo = paramType.getConstructor().newInstance();
+      
+      // 세터 메서드를 추출한다.
+      Set<Method> methods = getMethods(paramType, withPrefix("set"));
+      log.debug(String.format("%s 의 세터 메서드:", paramType.getName()));
+      
+      // 클라이언트가 보낸 데이터 중에서 세터 메서드에 넘겨줄 데이터가 있다면 호출한다. 
+      for (Method m : methods) {
+        
+        // 메서드 이름에서 프로퍼티 명을 추출한다.
+        // => 예: setCreatedDate() => "c" + "reatedDate" = createdDate
+        String propName = m.getName().substring(3,4).toLowerCase() + 
+            m.getName().substring(4); 
+        log.debug("    " + propName);
+        
+        // 세터를 호출할 때 넘겨 줄 값을 담을 변수를 준비.
+        Object value = null;
+        
+        if (isPrimitiveType(m.getParameters()[0].getType())) {
+          // 클라이언트가 보낸 데이터 중에서 프로퍼티 이름과 일치하는 데이터가 있다면 꺼낸다.
+          value = getPrimitiveValue(
+              propName, 
+              m.getParameters()[0].getType(), 
+              request);
+        } 
+        
+        // 세터에 넘겨 줄 값을 준비하지 못했드면 다음 메서드로 넘어간다.
+        if (value == null) 
+          continue;
+        
+        log.debug(String.format("    %s()", m.getName()));
+        m.invoke(pojo, value);
+      }
+      
+      return pojo;
     }
 
     private Object getPrimitiveValue(
