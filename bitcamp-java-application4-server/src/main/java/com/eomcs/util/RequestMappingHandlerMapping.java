@@ -235,6 +235,9 @@ public class RequestMappingHandlerMapping {
         return value.charAt(0);
       else if (paramType == boolean .class || paramType == Boolean.class) 
         return Boolean.parseBoolean(value);
+      else if (paramType == java.util.Date.class ||
+          paramType == java.sql.Date.class) 
+        return java.sql.Date.valueOf(value); // 문자열 형식: "yyyy-MM-dd" 이어야 한다.
       return value;
     }
 
@@ -255,7 +258,9 @@ public class RequestMappingHandlerMapping {
           paramType == Character.class ||
           paramType == boolean.class ||
           paramType == Boolean.class ||
-          paramType == String.class) {
+          paramType == String.class ||
+          paramType == java.util.Date.class ||
+          paramType == java.sql.Date.class) {
         return true;
       }
       return false;
