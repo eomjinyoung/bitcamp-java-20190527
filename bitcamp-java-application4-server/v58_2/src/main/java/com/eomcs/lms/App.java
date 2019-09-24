@@ -2,8 +2,8 @@
 package com.eomcs.lms;
 
 // 작업:
-// => Command 인터페이스 생성
-// => XxxServlet 을 XxxCommand 로 전환
+// => PageController 인터페이스 생성
+// => XxxServlet 을 XxxController 로 전환
 // => 커맨드 객체의 관리 주체를 서블릿 컨테이너에서 Spring IoC 컨테이너로 이전.
 // => DispatcherServlet 변경
 //
