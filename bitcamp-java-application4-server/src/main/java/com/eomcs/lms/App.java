@@ -1,12 +1,11 @@
-// v58_3 : Request Handler를 @RequestMapping 애노테이션으로 표시하기
+// v58_4 : CRUD 기능을 한 클래스로 묶는다.
 package com.eomcs.lms;
 
 // 작업:
-// => reflections 라이브러리 추가
-//    - 클래스에서 필드나 메서드 등의 정보를 좀 더 쉽게 뽑아주는 도구.
-// => PageController 인터페이스 삭제
-// => XxxController의 request handler에 @RequestMapping 애노테이션 붙이기
-// => @RequestMapping이 붙은 메서드를 호출하도록 DispatcherServlet 변경
+// => BoardXxxController의 request handler를 BoardController로 묶는다.
+// => 페이지 컨트롤러임을 명확하게 표시하기 위해 @Component 대신 @Controller로 표시한다.
+// => RequestMappingHandlerMapping 생성
+// => DispatcherServlet 변경
 //
 //
 // dummy 클래스!

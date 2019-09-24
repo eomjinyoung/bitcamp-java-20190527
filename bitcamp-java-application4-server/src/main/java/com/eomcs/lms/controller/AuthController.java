@@ -6,19 +6,19 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.lms.dao.MemberDao;
 import com.eomcs.lms.domain.Member;
 
-@Component("/auth/login")
-public class LoginController {
+@Controller
+public class AuthController {
 
   @Resource
   private MemberDao memberDao;
 
-  @RequestMapping
-  public String execute(HttpServletRequest request, HttpServletResponse response) 
+  @RequestMapping("/auth/login")
+  public String login(HttpServletRequest request, HttpServletResponse response) 
       throws Exception {
     if (request.getMethod().equalsIgnoreCase("GET")) {
       return "/jsp/auth/form.jsp";
@@ -41,6 +41,14 @@ public class LoginController {
     HttpSession session = request.getSession();
     session.setAttribute("loginUser", member);
     return "redirect:../board/list";
+  }
+  
+  @RequestMapping("/auth/logout")
+  public String logout(HttpServletRequest request, HttpServletResponse response) 
+      throws Exception {
+    
+    request.getSession().invalidate();
+    return "redirect:login";
   }
 
 }
