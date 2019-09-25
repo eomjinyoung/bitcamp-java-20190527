@@ -12,28 +12,21 @@ import javax.servlet.annotation.HandlesTypes;
 //       /META-INF/services/javax.servlet.ServletContainerInitializer 파일
 // 
 
-@HandlesTypes(MyWebInitializer.class)
+// 만약 서블릿 컨테이너에게 특정 타입의 객체를 찾아 보고하라고 지정하고 싶으면 
+// 다음 애노테이션을 사용하여 찾고자 하는 타입을 알려줘라!
+//
+@HandlesTypes(Car.class)
 public class ServletContainerInitializerImpl 
   implements ServletContainerInitializer{
 
   @Override
   public void onStartup(Set<Class<?>> types, ServletContext ctx) throws ServletException {
-    if (types == null)
-      return;
-    
+    // 이 메서드는 서블릿 컨테이너가 시작될 때 자동 호출될 것이다.
     System.out.println("ServletContainerInitializerImpl.onStartup()...호출됨!");
-
-    // 이 라이브러리 외부에 구현된 MyWebInitializer 구현체를 찾아 객체를 생성한다.
+    
+    // @HandlesTypes 애노테이션으로 지정한 객체를 찾아 파라미터로 넘겨준다.
     for (Class<?> clazz : types) {
-      try {
-        System.out.println(clazz.getName() + ".start() 호출함!");
-        MyWebInitializer obj = 
-            (MyWebInitializer) clazz.getConstructor().newInstance();
-        obj.start(ctx);
-        
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+      System.out.println("==> " + clazz.getName());
     }
   }
 }

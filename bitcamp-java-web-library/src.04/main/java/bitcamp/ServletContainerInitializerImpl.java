@@ -18,11 +18,10 @@ public class ServletContainerInitializerImpl
 
   @Override
   public void onStartup(Set<Class<?>> types, ServletContext ctx) throws ServletException {
+    System.out.println("ServletContainerInitializerImpl.onStartup()...호출됨!");
     if (types == null)
       return;
     
-    System.out.println("ServletContainerInitializerImpl.onStartup()...호출됨!");
-
     // 이 라이브러리 외부에 구현된 MyWebInitializer 구현체를 찾아 객체를 생성한다.
     for (Class<?> clazz : types) {
       try {

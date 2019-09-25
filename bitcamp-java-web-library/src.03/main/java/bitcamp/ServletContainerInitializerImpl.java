@@ -4,7 +4,7 @@ import java.util.Set;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.HandlesTypes;
+import javax.servlet.ServletRegistration.Dynamic;
 
 // 서블릿 컨테이너가 시작될 때 보고를 받고 싶으면,
 // => SerlvetContainerIntializer 규칙에 따라 작성해야 한다.
@@ -12,29 +12,19 @@ import javax.servlet.annotation.HandlesTypes;
 //       /META-INF/services/javax.servlet.ServletContainerInitializer 파일
 // 
 
-@HandlesTypes(MyWebInitializer.class)
 public class ServletContainerInitializerImpl 
   implements ServletContainerInitializer{
 
   @Override
   public void onStartup(Set<Class<?>> types, ServletContext ctx) throws ServletException {
-    if (types == null)
-      return;
-    
     System.out.println("ServletContainerInitializerImpl.onStartup()...호출됨!");
-
-    // 이 라이브러리 외부에 구현된 MyWebInitializer 구현체를 찾아 객체를 생성한다.
-    for (Class<?> clazz : types) {
-      try {
-        System.out.println(clazz.getName() + ".start() 호출함!");
-        MyWebInitializer obj = 
-            (MyWebInitializer) clazz.getConstructor().newInstance();
-        obj.start(ctx);
-        
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
+    
+    // 프로그램 코드로 서블릿 배치하기
+    // => 서블릿 객체를 등록한다.
+    Dynamic register = ctx.addServlet("hi", new HiServlet());
+    
+    // => 서블릿에 URL을 붙인다.
+    register.addMapping("/hi");
   }
 }
 
