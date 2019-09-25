@@ -1,4 +1,4 @@
-package bitcamp.web;
+package bitcamp.web.admin;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class BoardController {
   
   @RequestMapping(path = "/board/list", produces = "text/plain;charset=UTF-8")
   @ResponseBody
-  public String hello() throws Exception {
+  public String list() throws Exception {
     List<Board> boards = boardDao.findAll();
     
     StringBuffer sb = new StringBuffer();

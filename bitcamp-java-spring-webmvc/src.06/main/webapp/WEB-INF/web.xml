@@ -11,26 +11,43 @@
 
   <display-name>java-spring-webmvc</display-name>
 
+  <!-- 글로벌 Spring IoC 컨테이너 준비 -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>  
+  
+  <!-- ContextLoaderListener가 사용할 IoC 컨테이너 설정 파일 정보 -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/config/app-context.xml</param-value>
+  </context-param>
+  
   <!-- Spring WebMVC의 프론트 컨트롤러 역할을 수행할 서블릿 지정 -->
   <servlet>
     <servlet-name>app</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <!-- Java Config로 IoC 컨테이너를 지정할 때는 기본 IoC 컨테이너를 교체해야 한다. 
-         다음과 같이 초기화 파라미터를 통해 DispatcherServlet이 사용할 
-         IoC 컨테이너 클래스와 Java Config 클래스를 설정한다.-->
-    <init-param>
-      <param-name>contextClass</param-name>
-      <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-    </init-param>
+    <!-- 다음 설정은 생략해도 된다. 왜? 설정 파일의 이름을 규칙에 따라 작성했기 때문이다. -->
+    <!--  
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>bitcamp.AppConfig</param-value>
+      <param-value>/WEB-INF/app-servlet.xml</param-value>
     </init-param>
+    -->
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>app</servlet-name>
     <url-pattern>/app/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>admin</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>admin</servlet-name>
+    <url-pattern>/admin/*</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>

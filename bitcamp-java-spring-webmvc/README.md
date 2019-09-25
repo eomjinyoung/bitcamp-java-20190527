@@ -36,19 +36,22 @@
   - ContextLoaderListener가 사용할 contextConfigLocation 파라미터 설정
   - DispatcherServlet에 contextConfigLocation 초기화 파라미터 추가. 값은 빈채로 된다.
 
-## src.06 : ContextLoaderListener와 DispatcherServlet의 IoC 컨테이너 II
+## src.06 : ContextLoaderListener와 DispatcherServlet의 관계
 
 - ContextLoaderListener의 IoC 컨테이너
   - 모든 프론트 컨트롤러 및 페이지 컨트롤러가 공유할 객체를 보관한다.
 - DispatcherServlet의 IoC 컨테이너
   - 페이지 컨트롤러, 인터셉터 등 웹 관련 객체를 보관한다.
+- /WEB-INF/config/app-context.xml 변경
+- /WEB-INF/app-servlet.xml 변경
+- /WEB-INF/admin-servlet.xml 추가
+- /WEB-INF/web.xml 변경
 
-## src02 : Spring Web MVC 설정하기 - XML 설정
+## src.07 : Java Config로 DispatcherServlet의 IoC 컨테이너 설정하기
 
-- /WEB-INF/web.xml에 DispatcherServlet 클래스 적용
-    - 이 클래스는 프론트 컨트롤러 역할을 수행한다.
-- DispatcherServlet 이 사용할 IoC 컨테이너를 설정한다.
-    - XML 설정 파일을 지정하는 방법
+- bitcamp.AppConfig 클래스 생성
+- /WEB-INF/web.xml 변경
+
 
 ## src03 : Spring Web MVC 설정하기 - Java config 설정
 
