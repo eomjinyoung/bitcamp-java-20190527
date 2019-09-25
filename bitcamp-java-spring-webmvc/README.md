@@ -56,7 +56,12 @@
 
 - Spring WebMVC의 WebApplicationInitializer를 이해하기 위한 기반 기술 소개.
 - bitcamp-java-web-library 프로젝트 준비
-- 자세한 것은 해당 프로젝트의 README.md 파일을 읽어 볼 것.
+  - 자세한 것은 해당 프로젝트의 README.md 파일을 읽어 볼 것.
+- bitcamp-java-spring-webmvc/lib 폴더 생성
+  - bitcamp-java-web-library.jar 파일 넣기
+- build.gradle 에 lib 폴더에 있는 .jar 파일을 의존 라이브러리에 추가하기
+- MyWebInitializerImpl 클래스 생성 
+  - 이 클래스에서 DispatcherServlet 서블릿 등록하기 
 
 ## src.09 : web.xml 대신 WebApplicationInitializer 구현체에서 DispatcherServlet 등록하기
 
