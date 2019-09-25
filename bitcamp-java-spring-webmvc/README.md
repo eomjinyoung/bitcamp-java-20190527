@@ -14,6 +14,18 @@
 - /WEB-INF/web.xml 파일 준비
   - 프론트 컨트롤러 역할을 수행할 스프링 webmvc 에서 제공하는 서블릿을 배치한다.
 
+## src.03 : IoC 설정 파일의 위치 
+
+- /config/app-context.xml 로 위치 이동
+- /WEB-INF/web.xml 변경
+
+## src.04 : IoC 설정 파일의 위치 
+
+- /WEB-INF/app-servlet.xml 로 위치 이동 및 이름 변경
+- /WEB-INF/web.xml 변경
+  - contextConfigLocation 초기화 파라미터 삭제
+
+
 ## src02 : Spring Web MVC 설정하기 - XML 설정
 
 - /WEB-INF/web.xml에 DispatcherServlet 클래스 적용
