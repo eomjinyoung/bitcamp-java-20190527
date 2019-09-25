@@ -52,6 +52,17 @@
 - bitcamp.AppConfig 클래스 생성
 - /WEB-INF/web.xml 변경
 
+## src.08 : SerlvetContainerInitializer 구현체의 활용 
+
+- Spring WebMVC의 WebApplicationInitializer를 이해하기 위한 기반 기술 소개.
+- bitcamp-java-web-library 프로젝트 준비
+- 자세한 것은 해당 프로젝트의 README.md 파일을 읽어 볼 것.
+
+## src.09 : web.xml 대신 WebApplicationInitializer 구현체에서 DispatcherServlet 등록하기
+
+- WebApplicationInitializerImpl 생성
+- web.xml 변경
+  - DispatcherServlet 배치 정보 삭제
 
 ## src03 : Spring Web MVC 설정하기 - Java config 설정
 
