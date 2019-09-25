@@ -1,9 +1,18 @@
 # Spring Web MVC 예제
 
-## src01 : 웹 프로젝트 준비 
+## src.01 : 웹 프로젝트 준비 
+
+- HelloServlet 생성
+- 서블릿 컨테이너에 배치 및 실행 테스트
+
+## src.02 : 스프링 WebMVC 적용
 
 - Spring Web MVC 라이브러리 추가
+- HelloController 생성
+- /WEB-INF/app-context.xml 파일 생성
+  - Spring IoC 컨테이너 설정 파일
 - /WEB-INF/web.xml 파일 준비
+  - 프론트 컨트롤러 역할을 수행할 스프링 webmvc 에서 제공하는 서블릿을 배치한다.
 
 ## src02 : Spring Web MVC 설정하기 - XML 설정
 
