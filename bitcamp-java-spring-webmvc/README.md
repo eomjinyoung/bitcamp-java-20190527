@@ -25,6 +25,23 @@
 - /WEB-INF/web.xml 변경
   - contextConfigLocation 초기화 파라미터 삭제
 
+## src.05 : ContextLoaderListener와 DispatcherServlet의 IoC 컨테이너
+
+- /WEB-INF/config/app-context.xml 로 위치 이동 및 이름 변경
+  - <mvc:annotation-driven/> 태그 추가 
+  - ContextLoaderListener는 WebMVC 관련 애노테이션을 처리할 객체가 없기 때문에
+    <mvc:annotation-driven/> 태그를 사용하여 별도로 등록해야 한다.
+- /WEB-INF/web.xml 변경
+  - ContextLoaderListener 추가
+  - ContextLoaderListener가 사용할 contextConfigLocation 파라미터 설정
+  - DispatcherServlet에 contextConfigLocation 초기화 파라미터 추가. 값은 빈채로 된다.
+
+## src.06 : ContextLoaderListener와 DispatcherServlet의 IoC 컨테이너 II
+
+- ContextLoaderListener의 IoC 컨테이너
+  - 모든 프론트 컨트롤러 및 페이지 컨트롤러가 공유할 객체를 보관한다.
+- DispatcherServlet의 IoC 컨테이너
+  - 페이지 컨트롤러, 인터셉터 등 웹 관련 객체를 보관한다.
 
 ## src02 : Spring Web MVC 설정하기 - XML 설정
 

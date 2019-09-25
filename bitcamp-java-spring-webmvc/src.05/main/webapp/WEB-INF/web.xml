@@ -22,17 +22,18 @@
     <param-value>/WEB-INF/config/app-context.xml</param-value>
   </context-param>
   
-  <!-- Spring WebMVC의 프론트 컨트롤러 역할을 수행할 서블릿 지정 -->
+  <!-- => DispatcherServlet의 IoC 컨테이너를 사용하고 싶지 않다면,
+          contextConfigLocation 초기화 파라미터의 값을 빈 채로 두면 된다.
+          초기화 파라미터 변수가 없으면 안된다.
+          왜? 없으면 /WEB-INF/서블릿이름-servlet.xml 파일을 자동으로 찾기 때문이다.
+  --> 
   <servlet>
     <servlet-name>app</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <!-- 다음 설정은 생략해도 된다. 왜? 설정 파일의 이름을 규칙에 따라 작성했기 때문이다. -->
-    <!--  
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>/WEB-INF/app-servlet.xml</param-value>
+      <param-value></param-value>
     </init-param>
-    -->
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
