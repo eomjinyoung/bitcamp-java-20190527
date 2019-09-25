@@ -19,10 +19,10 @@ dependencies {
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 
     // Spring WebMVC 프레임워크 라이브러리
-    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.1.6.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.1.9.RELEASE'
 
     // AOP 관련 라이브러리
-    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.2'
+    //compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.2'
 
     // log4j 2.x 라이브러리
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
