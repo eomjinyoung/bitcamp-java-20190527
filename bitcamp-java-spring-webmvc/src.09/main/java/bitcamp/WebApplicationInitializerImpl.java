@@ -7,6 +7,9 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+// web.xml 이나 애노테이션이 아닌 다른 방법으로 서블릿을 등록하기
+// => Servlet API의 표준 기술 활용!
+
 // 서블릿 컨테이너가 시작될 때 보고 받는 객체 
 // 구동 순서:
 // 1) 서블릿 컨테이너를 시작한다.
@@ -30,29 +33,35 @@ import org.springframework.web.servlet.DispatcherServlet;
 //    WebApplicationInitializer 구현체의 인스턴스를 만들고,
 //    onStartup()을 호출한다.
 //
-public class WebApplicationInitializerImpl1 
+public class WebApplicationInitializerImpl 
   implements WebApplicationInitializer {
   
   @Override
   public void onStartup(ServletContext servletContext) throws ServletException {
-    System.out.println("WebApplicationInitializerImpl1.onStartup()...호출됨!");
+    System.out.println("WebApplicationInitializerImpl.onStartup()...호출됨!");
     
     // DispatcherServlet 에서 사용할 스프링 IoC 컨테이너를 준비한다.
     AnnotationConfigWebApplicationContext ac = new AnnotationConfigWebApplicationContext();
-    ac.register(AppConfig.class);
+    
+    // => IoC 컨테이너의 설정 정보를 갖고 있는 Java Config 클래스를 직접 지정하기
+    //ac.register(AppConfig.class);
+    
+    // => Java Config 클래스가 있는 패키지를 지정하기
+    ac.scan("bitcamp");
+    
     ac.refresh();
     
     // DispatcherServlet 인스턴스를 생성한다.
     DispatcherServlet servlet = new DispatcherServlet(ac);
     
     // 웹 애플리케이션에 DispatcherServlet을 등록한다.
-    Dynamic registration = servletContext.addServlet("app6", servlet);
+    Dynamic registration = servletContext.addServlet("app", servlet);
     
     // 웹 애플리케이션에 등록된 DispatcherServlet을 설정한다.
     registration.setLoadOnStartup(1);
     
     // DispatcherServlet에 URL 패턴을 지정한다.
-    registration.addMapping("/app6/*");
+    registration.addMapping("/app/*");
   }
 
 }
