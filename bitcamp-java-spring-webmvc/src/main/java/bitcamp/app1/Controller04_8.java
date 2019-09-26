@@ -23,7 +23,13 @@ public class Controller04_8 {
   
   // 클라이언트가 멀티파트 형식으로 전송한 데이터를 꺼내기
   // => MultipartFile 타입의 아규먼트를 선언하면 된다.
-  
+  // 
+  // 주의!
+  // => DispatcherServlet을 web.xml을 통해 배치했다면,
+  //      <multipart-config/> 태그를 추가해야 한다.
+  // => WebApplicationInitializer를 통해 DispatcherServlet을 배치했다면,
+  //      App1WebApplicationInitializer 클래스를 참고하라!
+  // 
   // 테스트:
   //    http://.../html/app1/c04_8.html
   @PostMapping(value="h1", produces="text/html;charset=UTF-8") 

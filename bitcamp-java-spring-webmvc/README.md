@@ -78,14 +78,15 @@
 
 - WebApplicationInitializerImpl 변경
   - 직접 인터페이스를 구현하는 대신에 추상 클래스를 상속 받아 적절한 메서드를 오버라이딩 한다.
+  - AbstractAnnotationConfigDispatcherServletInitializer 클래스 상속 받기
 
-## src03 : Spring Web MVC 설정하기 - Java config 설정
+## src.11 : WebApplicationInitializer 구현체를 통해 DispatcherServlet 등록하기 III
 
-- DispatcherServlet 이 사용할 IoC 컨테이너를 설정한다.
-    - 자바 클래스로 설정하는 방법
-    - WebApplicationInitializer 구현체를 이용하여 설정하는 방법
+- WebApplicationInitializerImpl 변경
+  - 직접 인터페이스를 구현하는 대신에 추상 클래스를 상속 받아 적절한 메서드를 오버라이딩 한다.
+  - AbstractDispatcherServletInitializer 클래스를 상속 받기
 
-## src04 : Request Handler 정의하는 방법
+## src.12 : Request Handler 정의하는 방법
 
 - @Controller를 사용하여 페이지 컨트롤러 표시하기
 - Request Handler의 아규먼트

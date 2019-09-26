@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/c03_4")
 public class Controller03_4 {
 
+  // Content-Type 요청 헤더
+  // => HTTP 클라이언트가 보내는 데이터의 콘텐트 타입이다.
+  // => 프론트 컨트롤러는 보내는 데이터의 타입에 따라 처리를 분리할 수 있다.
+  
   // 테스트 방법:
   // => http://localhost:8080/java-spring-webmvc/html/app1/c03_4.html
   // => 클라이언트가 POST 요청으로 데이터를 보낼 때 기본 형식은 다음과 같다. 

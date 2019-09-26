@@ -52,6 +52,8 @@ public class Controller04_1 {
     out.printf("HttpSession: %b\n", session != null);
     out.printf("Map: %b\n", map != null);
     out.printf("Model: %b\n", model != null);
+    out.printf("ServletRequest == HttpServletRequest : %b\n", request == request2);
+    out.printf("ServletResponse == HttpServletResponse : %b\n", response == response2);
   }
 }
 
