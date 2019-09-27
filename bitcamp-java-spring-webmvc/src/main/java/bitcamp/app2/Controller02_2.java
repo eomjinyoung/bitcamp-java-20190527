@@ -40,7 +40,10 @@ public class Controller02_2 {
     
     // @MatrixVariable 애노테이션을 사용하려면 
     // IoC 컨테이너에서 이 애노테이션을 활성화시키는 설정을 추가해야 한다.
-    // => <mvc:annotation-driven enable-matrix-variables="true"/>
+    // 1) XML 설정
+    //    => <mvc:annotation-driven enable-matrix-variables="true"/>
+    // 2) Java Config 설정
+    //    => 
     
     // 테스트1
     //   http://.../app2/c02_2/name=kim;age=20

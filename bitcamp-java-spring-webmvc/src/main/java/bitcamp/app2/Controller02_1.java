@@ -39,12 +39,14 @@ public class Controller02_1 {
       @PathVariable String name,
       @PathVariable int age
       ) {
-    // URL에 값을 포함하여 전달할 수 있고, 그 값을 아규먼트로 받을 수 있다.
-    // URL에 포함된 값을 받으려면 request handler의 URL을 설정할 때 
+    // URL path에 값을 포함하여 전달할 수 있고, 그 값을 아규먼트로 받을 수 있다.
+    // URL path에 포함된 값을 받으려면 request handler의 URL을 설정할 때 
     // 다음의 문법으로 선언해야 한다.
     // => .../{변수명}/{변수명}
     // 이렇게 선언된 변수 값을 받으려면 다음과 같이 아규먼트를 선언해야 한다.
     // => @PathVariable(변수명) String 아규먼트
+    // 변수명과 아규먼트의 이름이 같다면, 다음과 같이 변수명을 생략할 수 있다.
+    // => @PathVariable String 아규먼트
     //
     return String.format("name=%s, age=%d", name, age);
   }
@@ -54,8 +56,8 @@ public class Controller02_1 {
   @GetMapping("{name}_{age}")
   @ResponseBody
   public String handler3(
-      @PathVariable("name") String name,
-      @PathVariable("age") int age
+      @PathVariable String name,
+      @PathVariable int age
       ) {
     return String.format("name=%s, age=%d", name, age);
   }
