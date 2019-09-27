@@ -3,15 +3,10 @@ package bitcamp.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.util.UrlPathHelper;
 
 @ComponentScan("bitcamp.app2")
-@EnableWebMvc
-public class App2Config implements WebMvcConfigurer {
+public class App2Config {
   
   // DispatcherServlet의 기본 ViewResolver를 교체하기
   // 1) XML 설정
@@ -29,17 +24,6 @@ public class App2Config implements WebMvcConfigurer {
     return vr;
   }
   
-  @Override
-  public void configurePathMatch(PathMatchConfigurer configurer) {
-      configurer
-          .setUrlPathHelper(urlPathHelper());
-  }
-  
-  private UrlPathHelper urlPathHelper() {
-    UrlPathHelper helper = new UrlPathHelper();
-    helper.setRemoveSemicolonContent(false);
-    return helper;
-  }
 }
 
 
