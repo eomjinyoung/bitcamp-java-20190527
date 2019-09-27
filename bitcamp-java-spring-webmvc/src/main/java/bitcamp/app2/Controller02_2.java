@@ -43,17 +43,19 @@ public class Controller02_2 {
     // 1) XML 설정
     //    => <mvc:annotation-driven enable-matrix-variables="true"/>
     // 2) Java Config 설정
-    //    => 
+    //    => @EnableWebMvc 애노테이션을 활성화시킨다.
+    //    => WebMvcConfigurer 구현체를 정의한다.
+    //    => UrlPathHelper 객체의 removeSemicolonContent 프로퍼티 값을 false로 설정한다.
     
     // 테스트1
     //   http://.../app2/c02_2/name=kim;age=20
-    // => @PathVariable("value") : name=kim
+    // => @PathVariable("value") : name=kim  <== 첫 번째 세미콜론의 값만 가져온다.
     // => @MatrixVariable("name") : kim
     // => @MatrixVariable("age") : 20
     //
     // 테스트2
     //   http://.../app2/c02_2/user;name=kim;age=20
-    // => @PathVariable("value") : user
+    // => @PathVariable("value") : user  <== 첫 번째 세미콜론의 값만 가져온다.
     // => @MatrixVariable("name") : kim
     // => @MatrixVariable("age") : 20
     return String.format("value:%s \n name:%s, age:%d", value, name, age);

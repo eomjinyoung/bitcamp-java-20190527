@@ -66,8 +66,9 @@ public class Controller03_2 {
       @ModelAttribute("age2") String age2,
       
       // @ModelAttribute 에 지정된 이름이 @SessionAttributes에 없는 경우 
-      // => 세션에 값이 있으나 없으나 아규먼트에 빈 문자열을 넣어 준다.
-      // => 만약에 요청 파라미터에 tel2 값이 있다면 그 값을 넣어준다.
+      // => 요청 파라미터에 tel2 값이 있다면 그 값을 넣어준다.
+      // => 요청 파라미터에 값이 없으면 아규먼트에 빈 문자열을 넣어 준다.
+      // => @SessionAttributes에 등록한 이름이 아니기 때문에 세션에서 값을 꺼내지 않는다.
       @ModelAttribute("tel2") String tel2) {
     
     return String.format("name2=%s, age2=%s, tel2=%s", 

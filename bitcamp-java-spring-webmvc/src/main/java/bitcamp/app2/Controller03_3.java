@@ -36,7 +36,10 @@ public class Controller03_3 {
   public String handler2(HttpSession session) {
     // 세션을 완전히 무효화시키기 
     session.invalidate();
-    
+    // 용도:
+    // => 페이지 컨트롤러에 상관없이 모든 세션 값을 삭제할 때 사용하라.
+    //    세션 자체를 무효화시켜 다음에 요청이 들어 왔을 때 새로 세션을 만들게 한다.
+    //
     return "session.invalidate()";
   }
   
@@ -47,7 +50,10 @@ public class Controller03_3 {
   public String handler3(SessionStatus status) {
     // 현재 페이지 컨트롤러의 @SessionAttributes 에 지정된 값만 무효화시키기
     status.setComplete();
-    
+    // 용도:
+    // => 현재 페이지 컨트롤러가 작업하면서 세션에 데이터를 보관했고, 
+    //    현제 페이지 컨트롤러가 보관한 데이터만 삭제하고 싶다면 이 방식으로 처리하라.
+    //
     return "status.setComplete()";
   }
 
