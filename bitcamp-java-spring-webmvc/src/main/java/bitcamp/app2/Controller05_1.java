@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.google.gson.Gson;
 
 @Controller 
 @RequestMapping("/c05_1")
@@ -47,11 +46,13 @@ public class Controller05_1 {
   // => 이클립스에서 프로젝트를 리프래시 한다.
   // 테스트:
   //   http://.../app2/c05_1/h2
+  /*
   @GetMapping(value="h2", produces="text/plain;charset=UTF-8")
   @ResponseBody
   public String handler2() {
     return new Gson().toJson(this.list);
   }
+  */
   
   
   // 3) Google Gson 라이브러리를 사용하여 JSON 형식의 콘텐트 출력하기 II

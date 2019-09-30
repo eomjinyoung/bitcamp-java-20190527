@@ -2,7 +2,7 @@ package bitcamp.app2;
 
 import java.util.Date;
 
-public class Board {
+public class Board { 
   protected int no;
   protected String title;
   protected String content;
