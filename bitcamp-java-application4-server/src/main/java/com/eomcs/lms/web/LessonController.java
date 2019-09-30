@@ -1,32 +1,34 @@
 package com.eomcs.lms.web;
 
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.lms.dao.LessonDao;
 import com.eomcs.lms.domain.Lesson;
 
 @Controller
+@RequestMapping("/lesson")
 public class LessonController {
 
   @Resource
   private LessonDao lessonDao;
 
-  @RequestMapping("/lesson/form")
-  public String form() {
-    return "/jsp/lesson/form.jsp";
+  @GetMapping("form")
+  public void form() {
   }
   
-  @RequestMapping("/lesson/add")
+  @PostMapping("add")
   public String add(Lesson lesson) 
       throws Exception {
     lessonDao.insert(lesson);
     return "redirect:list";
   }
   
-  @RequestMapping("/lesson/delete")
+  @GetMapping("delete")
   public String delete(int no) 
       throws Exception {
     if (lessonDao.delete(no) == 0) {
@@ -35,8 +37,8 @@ public class LessonController {
     return "redirect:list";
   }
   
-  @RequestMapping("/lesson/detail")
-  public String detail(Map<String,Object> model, int no) 
+  @GetMapping("detail")
+  public void detail(Model model, int no) 
       throws Exception {
 
     Lesson lesson = lessonDao.findBy(no);
@@ -44,19 +46,17 @@ public class LessonController {
       throw new Exception("해당 번호의 데이터가 없습니다!");
     }
 
-    model.put("lesson", lesson);
-    return "/jsp/lesson/detail.jsp";
+    model.addAttribute("lesson", lesson);
   }
   
-  @RequestMapping("/lesson/list")
-  public String list(Map<String,Object> model) 
+  @GetMapping("list")
+  public void list(Model model) 
       throws Exception {
     List<Lesson> lessons = lessonDao.findAll();
-    model.put("lessons", lessons);
-    return "/jsp/lesson/list.jsp";
+    model.addAttribute("lessons", lessons);
   }
   
-  @RequestMapping("/lesson/update")
+  @PostMapping("update")
   public String update(Lesson lesson) 
       throws Exception {
     lessonDao.update(lesson);
