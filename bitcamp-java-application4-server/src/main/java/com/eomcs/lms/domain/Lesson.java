@@ -2,17 +2,26 @@ package com.eomcs.lms.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 // 수업 데이터를 저장할 설계도를 작성한다.
 public class Lesson implements Serializable {
   private static final long serialVersionUID = 1L;
   
   private int no;
+  
   private String title;
+  
   private String contents;
+  
+  @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd")
   private Date startDate;
+  
+  @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd")
   private Date endDate;
+  
   private int totalHours;
+  
   private int dayHours;
   
   public int getNo() {

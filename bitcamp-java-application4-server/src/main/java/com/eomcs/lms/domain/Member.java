@@ -2,16 +2,24 @@ package com.eomcs.lms.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Member implements Serializable {
   private static final long serialVersionUID = 1L;
   
   private int no;
+  
   private String name;
+  
   private String email;
+  
   private String password;
+  
   private String tel;
+  
   private String photo;
+  
+  @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd")
   private Date registeredDate;
   
   public int getNo() {
