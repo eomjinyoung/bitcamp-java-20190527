@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.domain.Board;
+import com.eomcs.lms.service.BoardService;
 
 // @RestController
 // => request handler의 리턴 값이 응답 데이터임을 선언한다.
@@ -18,13 +18,13 @@ import com.eomcs.lms.domain.Board;
 public class BoardController {
 
   @Resource
-  private BoardDao boardDao;
+  private BoardService boardService;
 
   @PostMapping("add")
   public JsonResult add(Board board) 
       throws Exception {
     try {
-      boardDao.insert(board);
+      boardService.insert(board);
       return new JsonResult().setState(JsonResult.SUCCESS);
       
     } catch (Exception e) {
@@ -38,9 +38,7 @@ public class BoardController {
   public JsonResult delete(int no) 
       throws Exception {
     try {
-      if (boardDao.delete(no) == 0) {
-        throw new Exception("해당 데이터가 없습니다.");
-      }
+      boardService.delete(no);
       return new JsonResult().setState(JsonResult.SUCCESS);
       
     } catch (Exception e) {
@@ -53,14 +51,8 @@ public class BoardController {
   @GetMapping("detail")
   public JsonResult detail(int no) 
       throws Exception {
-
     try {
-      Board board = boardDao.findBy(no);
-      if (board == null) {
-        throw new Exception("해당 번호의 데이터가 없습니다!");
-      } 
-      boardDao.increaseViewCount(no);
-  
+      Board board = boardService.get(no);
       return new JsonResult()
           .setState(JsonResult.SUCCESS)
           .setResult(board);
@@ -75,9 +67,8 @@ public class BoardController {
   @GetMapping("list")
   public JsonResult list() 
       throws Exception {
-    
     try {
-      List<Board> boards = boardDao.findAll();
+      List<Board> boards = boardService.list();
       return new JsonResult()
           .setState(JsonResult.SUCCESS)
           .setResult(boards);
@@ -92,9 +83,8 @@ public class BoardController {
   @PostMapping("update")
   public JsonResult update(Board board) 
       throws Exception {
-    
     try {
-      boardDao.update(board);
+      boardService.update(board);
       return new JsonResult().setState(JsonResult.SUCCESS);
       
     } catch (Exception e) {
