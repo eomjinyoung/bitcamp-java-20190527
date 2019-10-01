@@ -1,5 +1,6 @@
 package com.eomcs.lms.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,18 @@ public class DefaultMemberService implements MemberService {
   @Override
   public Member get(int no) throws Exception {
     Member member = memberDao.findBy(no);
+    if (member == null) {
+      throw new Exception("해당 번호의 데이터가 없습니다!");
+    } 
+    return member;
+  }
+  
+  @Override
+  public Member get(String email, String password) throws Exception {
+    HashMap<String,Object> params = new HashMap<>();
+    params.put("email", email);
+    params.put("password", password);
+    Member member = memberDao.findByEmailPassword(params);
     if (member == null) {
       throw new Exception("해당 번호의 데이터가 없습니다!");
     } 
