@@ -28,16 +28,16 @@ dependencies {
     compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.3'
     
     // Spring IoC 컨테이너 - spring-webmvc 를 추가하면 이 라이브러리는 자동으로 포함된다.
-    //compile group: 'org.springframework', name: 'spring-context', version: '5.1.9.RELEASE'
+    //compile group: 'org.springframework', name: 'spring-context', version: '5.2.0.RELEASE'
     
     // Spring JDBC
-    compile group: 'org.springframework', name: 'spring-jdbc', version: '5.1.9.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '5.2.0.RELEASE'
     
     // Mybatis-Spring
     compile group: 'org.mybatis', name: 'mybatis-spring', version: '2.0.2'
     
     // Spring WebMVC
-    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.1.9.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.2.0.RELEASE'
     
     // Log4j2
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.1'
