@@ -21,11 +21,19 @@
     #아이디명 {...}
    */
 
-  #d2 #d3 {
+  div {
+    border: 1px solid black;
+    margin: 10px;
+  }
+
+
+  /* specificity = 100 + 1 + 100 = 201 */
+  #d2 div#d3 {
     background-color: red;
     color: white;
   }
 
+  /* specificity = 100 + 100 = 200 */
   #d1 #d3 {
     background-color: blue;
   }

@@ -18,37 +18,47 @@
        인라인스타일   : 1000
    */
 
-  * { /* = 0 */
+/* = 0 */
+  * { 
     border: 1px solid black;
     background-color: gray;
   }
 
-  div { /* = 1 */
+/* = 1 */
+  div { 
     width: 100px;
     height: 100px;
     margin: 10px;
   }
 
-  div { /* = 1 */
+
+/* = 1 */
+  div { 
+    width: 200px; /* 같은 점수일 때 나중에 지정된 스타일이 기존 스타일을 덮어쓴다 */
     background-color: green;
   }
 
-  div { /* = 1 */
+/* = 1 */
+  div { 
     background-color: navy;
   }
 
-
-  .c1 { /* = 10 */
+/* = 10 */
+  .c1 { 
     background-color: blue;
   }
 
-  #d2, #d3 { /* = 100 */
+/* = 100 */
+  #d2, #d3 { 
     background-color: red;
   }
 
-  div#d2 { /* = 1 + 100 = 101 */
+
+/* = 1 + 100 = 101 */
+  div#d2 {  
     background-color: ivory;
   }
+
 
   </style>
 </head>
@@ -56,8 +66,8 @@
 
 <div>d0</div>
 <div class="c1">d1</div>
-<div class="c1" id="d2" >d2</div>
-<div class="c1" id="d3" style="background-color: yellow;">d3</div>
+<div class="c1" id="d2" style="background-color: yellow;">d2</div>
+<div class="c1" id="d3" >d3</div>
 
 
 

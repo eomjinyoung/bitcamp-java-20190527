@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>exam</title>
+  <style>
+    div {
+      border: 1px solid red;
+      min-height: 100px;
+    }
+  </style>
+
 </head>
 <body>
   <h1>요점 정리 - 6.AJAX</h1>
@@ -14,7 +21,7 @@ var tag1 = document.getElementById("btn1");
 
 tag1.onclick = function() {
   // 서버에 요청
-  var xhr = new XMLHttpRequest;
+  var xhr = new XMLHttpRequest();
   xhr.open("GET", "exam06.jsp", false);
   xhr.send();
   

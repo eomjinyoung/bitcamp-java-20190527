@@ -13,15 +13,18 @@
         대상자:상태명 {...}
         대상자[속성명] {...}
    */
-  div:first-child {
+  div:nth-child(2) {
     border: 1px dashed blue;
   }
 
-  li:first-child { /* 자식들 중에서 첫째인 li */
+/* 자식들 중에서 첫째인 li */
+  li:first-child { 
     background-color: gray;
   }
 
-  li:hover { /* 마우스 커서가 올려져 있는 li */
+/* 마우스 커서가 올려져 있는 li */
+
+  li:hover { 
     text-decoration: underline;
   }
 
@@ -41,8 +44,16 @@
     border: 2px inset gray;
     font-size: 150%;
   }
+  
+  .b1:focus {
+    background-color: blue;
+    color: yellow;
+  }
 
-  input:focus { /* 키보드 입력을 받을 수 있는 상태 */
+
+/* 키보드 입력을 받을 수 있는 상태 */
+
+  input:focus { 
     background-color: green;
   }
 
@@ -77,6 +88,9 @@
   <a href="http://www.facebook.com/bit">페이스북</a>
   <a href="http://www.google.com/bit">구글</a>
   <a href="http://www.twitter.com/bit">트위터</a>
+  <button class="b1">버튼1</button>
+  <button class="b1">버튼2</button>
+  <button class="b1">버튼3</button>
   </div>
 
   <div id="content">

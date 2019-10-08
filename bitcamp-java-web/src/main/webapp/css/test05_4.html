@@ -14,6 +14,7 @@
   */
   body {
     border: solid 1px black;
+    padding: 20px;
   }
   div {
     border: 10px solid red;
@@ -25,11 +26,21 @@
     width: 200px;
     height: 100px;
   }
-
+  
+  #menu {
+    padding-right: 10px;
+  }
+  
   #content {
     background-color: gray;
     /* border-box 라고 설정하면 width, height는 
        콘텐트 크기가 아니라 박스 크기가 된다. */
+    box-sizing: border-box;
+  }
+  
+  #footer {
+    background-color: yellow;
+    border-width: 1px;
     box-sizing: border-box;
   }
 
@@ -38,7 +49,7 @@
 <body>
   <div id="menu">menu</div>
   <div id="content">content</div>
-
+  <div id="footer">content</div>
 </body>
 </html>
 
