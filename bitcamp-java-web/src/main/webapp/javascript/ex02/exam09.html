@@ -22,6 +22,12 @@ console.log(window.v1);
 console.log(window["v1"]);
 console.log(window['v1']);
 
+window.v2 = "임꺽정";
+console.log(v2);
+console.log(window.v2);
+console.log(window["v2"]);
+console.log(window['v2']);
+
 // 대괄호를 사용하면 공백이나 특수문자를 포함하는 변수를 만들 수 있다.
 window["오호라 ^^"] = 100;
 console.log(window["오호라 ^^"]);
@@ -29,7 +35,7 @@ console.log(window['오호라 ^^']);
 
 // 변수 이름에 공백이나 특수문자가 들어갔을 경우,
 // 점(.)을 이용한 일반적인 방법으로는 변수를 사용할 수 없다. 
-console.log(window.오호라 ^^); // 실행 오류!
+//console.log(window.오호라 ^^); // 실행 오류!
 </script>
 </body>
 </html>
