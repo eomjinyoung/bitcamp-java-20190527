@@ -9,24 +9,52 @@
 <p>form의 submit 버튼을 클릭하면 서버에 요청을 한다.</p>
 
 <form>
-  <button>전송</button>
+  <input type="text" name="title">
+  <button>전송1</button>
 </form>
 
+<form>
+  <input type="text" name="title">
+  <button type="submit">전송2</button>
+</form>
+
+<form>
+  <input type="text" name="title">
+  <input type="submit" value="전송3">
+</form>
+
+<hr>
+
 <form onsubmit="return false">
+  <input type="text" name="title">
   <button>전송 막기1</button>
 </form>
 
 <form id="form2">
+  <input type="text" name="title">
   <button>전송 막기2</button>
 </form>
 
 <form id="form3">
+  <input type="text" name="title">
   <button>전송 막기3</button>
 </form>
 
 <form id="form4">
+  <input type="text" name="title">
+  <button>전송 막기4</button>
+</form>
+
+<form id="form5">
+  <input type="text" name="title">
+  <button>전송 막기5</button>
+</form>
+
+<form id="form6">
+  <input type="text" name="title">
   <!-- 일반 버튼은 서버에 전송을 수행하지 않는다. -->
-  <button type="button">전송 막기4</button>
+  <button type="button">전송 막기6</button>
+  <input type="button" value="전송 막기6">
 </form>
 
 <script>
@@ -39,6 +67,17 @@ document.querySelector("#form2").onsubmit = () => {
 document.querySelector("#form3").onsubmit = (e) => {
   e.preventDefault();
 }
+
+document.querySelector("#form4").addEventListener("submit", (e) => {
+  e.preventDefault();
+});
+
+document.querySelector("#form5").addEventListener("submit", (e) => {
+  return false; // addEventListener()로 이벤트 핸들러를 등록할 때는 
+  // return false 가 의미없다. 동작되지 않는다.
+  // 반드시 e.preventDefault()를 호출하라!
+});
+
 
 </script>
 </body>

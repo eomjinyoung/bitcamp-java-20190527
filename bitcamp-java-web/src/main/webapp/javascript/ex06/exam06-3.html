@@ -18,6 +18,12 @@
   <button id="btn2" type="button">전송</button>
 </form>
 
+<hr>
+
+<form id="form3">
+이름(*): <input type="text" id="name3"><br>
+  <button id="btn3">전송</button>
+</form>
 
 <script>
 "use strict"
@@ -41,7 +47,7 @@ document.querySelector("#btn2").onclick = () => {
   var name = document.querySelector("#name2");
   if (name.value == "") {
     alert("필수 입력 항목이 비어 있습니다.");
-    return;
+    return; // submit 버튼이 아니라 일반 버튼이기 때문에 false를 리턴할 필요가 없다.
   }
   
   // 일반 버튼을 클릭했을 때 입력 폼의 값을 서버에 제출하려면 
@@ -49,6 +55,17 @@ document.querySelector("#btn2").onclick = () => {
   //
   document.querySelector("#form2").submit();
 }
+
+document.querySelector("#form3").addEventListener("submit", (e) => {
+  console.log("okok!");
+  var name = document.querySelector("#name3");
+  if (name.value.length < 2) {
+    alert("2자 이상을 입력하세요.");
+    //return false; // addEventListener()로 등록한 경우 return false는 안 먹힌다.
+    e.preventDefault();
+    return;
+  }
+});
 
 </script>
 </body>

@@ -12,9 +12,30 @@
 function f1(a) { 
 	console.log("a =", a);
 	console.log("----------------");
-    for (var value of arguments) {
-    	console.log(value);
-    }
+  for (var value of arguments) {
+    console.log(value);
+  }
+  console.log("----------------");
+  for (var i in arguments) {
+    console.log(arguments[i]);
+  }
+  console.log("----------------");
+  for (var i = 0; i < arguments.length; i++) {
+    console.log(arguments[i]);
+  }
+  console.log("----------------");
+  // arguments는 배열처럼 사용할 수 있지만 진짜 배열 타입은 아니다.
+  // forEach()와 배열 메서드를 사용하고 싶다면 배열로 바꾼후 사용해야 한다.
+  var arr = Array.from(arguments);
+  arr.forEach(function(value) {
+    console.log(value);
+  });
+  console.log("----------------");
+  arr.reduce(function(sum, value) {
+    // 합계 등을 계산할 때 유용하다.
+    console.log(sum, value)
+    return sum + value;
+  });
 }
 
 //f1();

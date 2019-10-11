@@ -24,6 +24,8 @@ button {padding: 30px;}
 
 // addEventListener(이벤트타입, 리스너, 캡쳐여부)에서
 // 세 번째 파라미터의 값을 true로 설정하라. 기본은 false이다.
+// => true : target 또는 capture 단계에서 호출된다.
+// => false(기본) : target 또는 bubble 단계에서 호출된다. 
 document.getElementById("btn1").addEventListener("click", function(e) {
 	console.log("버튼1...");
 }, true);

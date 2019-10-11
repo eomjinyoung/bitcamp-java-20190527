@@ -18,7 +18,7 @@
 // => 각 태그 별로 발생하는 이벤트가 정해져 있다.
 // => 물론 개발자가 임의의 이벤트를 발생시킬 수 있다.
 //
-// 리스너(listener)
+// 리스너(listener) = 이벤트 핸들러(event handler)
 // => 이벤트가 발생할 때 호출되는 메서드이다.
 // => HTML 태그나 자바스크립트 코드에서 이벤트에 대해 함수를 등록해야 한다.
 //
@@ -62,17 +62,17 @@ var btn3 = document.querySelector("#btn3");
 btn3.addEventListener("click", () => {
     console.log(this); // arrow function 문법으로 정의한 리스너의 소속은 window 객체이다.
     var str = "Hi1!!";
-    //window.alert(str);
+    window.alert(str); 
 });
 btn3.addEventListener("click", () => {
     console.log(this);
     var str = "Hi2!!";
-    //window.alert(str);
+    window.alert(str);
 });
 btn3.addEventListener("click", function() {
   console.log(this); // 일반 함수 문법으로 정의한 리스너의 소속은 태그 객체이다.
-    var str = "Hi!!";
-    //window.alert(str);
+    var str = "Hi3!!";
+    window.alert(str);
 });
 
 </script>

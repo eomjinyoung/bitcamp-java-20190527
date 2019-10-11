@@ -15,9 +15,9 @@
 function interestCalculator(type) {
     switch (type) {
     case "보통예금":
-    	return function(money, month) {return money + (money * 0.0015 * month);};
+    	return function(money, month) {return money + (money * 0.0011 * month);};
     case "정기예금":
-    	return function(money, month) {return money + (money * 0.0025 * month);};
+    	return function(money, month) {return money + (money * 0.0014 * month);};
     default:
     	return function(money, month) {return money;};
     }
