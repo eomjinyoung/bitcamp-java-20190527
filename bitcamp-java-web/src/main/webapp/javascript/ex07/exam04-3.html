@@ -13,14 +13,14 @@
 <tbody>
 </tbody>
 </table>
-
+<button id="btn1">데이터 가져오기!</button>
 <script>
 "use strict"
 // 웹페이지를 만들 때 AJAX를 이용하여 여러 조각을 붙여서 만들 수 있다.
 //       
 var tbody = document.querySelector("tbody");
 
-(function() { // 서버에서 테이블에 출력할 데이터를 가져오기
+document.querySelector("#btn1").onclick = () => {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
         if (xhr.readyState == 4) {
@@ -47,7 +47,7 @@ var tbody = document.querySelector("tbody");
     };
     xhr.open("GET", "test6.jsp", true);
     xhr.send();
-})();
+};
 
 </script>
 </body>

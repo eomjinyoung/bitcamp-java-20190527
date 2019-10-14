@@ -3,11 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <title>ex07</title>
+<style>
+div {
+  min-height: 50px;
+  border: 1px solid red;
+}
+</style>
 </head>
 <body>
 <div id="header"></div>
 
 <h1>AJAX - 응용 I : HTML 일부분 가져오기</h1>
+<button id="btn1">상단, 하단의 내용을 가져와라!</button>
 
 <div id="footer"></div>
 <script>
@@ -17,8 +24,10 @@
 var header = document.querySelector("#header"),
     footer = document.querySelector("#footer");
 
-prepareHeader();
-prepareFooter();
+document.getElementById("btn1").onclick = () => {
+  prepareHeader();
+  prepareFooter();
+};
 
 function prepareHeader() {
     var xhr = new XMLHttpRequest();
