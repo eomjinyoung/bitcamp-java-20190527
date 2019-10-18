@@ -4,6 +4,11 @@ package com.eomcs.lms;
 // 작업:
 // => /webapp/html/board/list.html 생성
 //
+// 추가 작업:
+// => com.eomcs.lms.config.AppWebApplicationInitializer 변경
+//    - CharacterEncodingFilter 등록
+// => web.xml 변경
+//    - 필터 설정 제거
 //
 // dummy 클래스!
 // => 기존 버전에서 계속 존재했던 클래스라서 그대로 둠.
