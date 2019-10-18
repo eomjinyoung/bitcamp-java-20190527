@@ -1,5 +1,7 @@
 package com.eomcs.lms.config;
 
+import javax.servlet.Filter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class AppWebApplicationInitializer 
@@ -24,6 +26,13 @@ public class AppWebApplicationInitializer
   @Override
   protected String getServletName() {
     return "app";
+  }
+  
+  @Override
+  protected Filter[] getServletFilters() {
+    return new Filter[] {
+        new CharacterEncodingFilter("UTF-8")
+        /*, new AuthFilter()*/ };
   }
 }
 
