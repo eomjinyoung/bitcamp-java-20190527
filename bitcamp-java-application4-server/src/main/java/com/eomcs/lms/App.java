@@ -22,9 +22,15 @@ package com.eomcs.lms;
 //    - package.json 파일에 등록된 라이브러리를 모두 자동으로 다운로드 하고 싶다면,
 //      다음과 같이 패키지 이름을 지정하지 않고 실행하라.
 //      'npm install' 
-//      
 // => /webapp/html/board-2/list.html 변경
 //    - css, javascript 파일 경로를 npm 폴더 경로로 변경한다.
+// => 'npm install sweetalert' 실행
+//    - 자바스클립트에서 제공하는 alert() 대신 사용할 라이브러리를 추가한다.
+// => /webapp/html/board-2/form.html 변경
+//    - css, javascript 파일 경로를 npm 폴더 경로로 변경한다.
+//    - alert() 대신 swal() 함수를 사용한다.
+//    
+//
 // 
 // 추가 작업:
 // => com.eomcs.lms.config.AppWebApplicationInitializer 변경
