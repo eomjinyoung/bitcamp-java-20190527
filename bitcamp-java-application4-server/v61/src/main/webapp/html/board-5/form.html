@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"> 
+  <title>게시물 보기</title>
+  <link rel='stylesheet' href='/node_modules/bootstrap/dist/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='/css/common.css'>
+</head>
+<body>
+
+
+
+<nav id='header' class='navbar navbar-expand-lg navbar-light bg-light'>
+  <a class='navbar-brand' href='#'>
+    <img src='/images/logo.png' class='d-inline-block align-top'>
+    수업관리시스템
+  </a>
+  <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'> 
+    <span class='navbar-toggler-icon'></span> 
+  </button>
+  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
+    <ul class='navbar-nav'>
+      <li class='nav-item active'>
+        <a class='nav-link' href='/app/board/list'>게시판</a>
+      </li>
+      <li class='nav-item active'>
+        <a class='nav-link' href='/app/lesson/list'>수업관리</a>
+      </li>
+      <li class='nav-item active'>
+        <a class='nav-link' href='/app/member/list'>회원관리</a>
+      </li>
+      <li class='nav-item active'>
+        <a class='nav-link' href='/app/photoboard/list'>사진게시판</a>
+      </li>
+    </ul>
+  </div>
+    
+  <div>
+
+  <a href='/app/auth/form' class='btn btn-outline-dark btn-sm'>로그인</a>
+
+
+  </div>
+</nav>
+
+    
+<div id='content'>
+<h1>게시물</h1>
+<form>
+<div class="form-group row my-view-group">
+  <label for="fiNo" class="col-sm-2 col-form-label">번호</label>
+  <div class="col-sm-10">
+    <input type="text" readonly class="form-control-plaintext" 
+      id="fiNo">
+  </div>
+</div>
+<div class="form-group row">
+  <label for="fiContents" class="col-sm-2 col-form-label">내용</label>
+  <div class="col-sm-10">
+    <textarea class="form-control" 
+      id="fiContents" rows="5"></textarea>
+  </div>
+</div>
+<div class="form-group row my-view-group">
+  <label for="staticCreatedDate" class="col-sm-2 col-form-label">등록일</label>
+  <div class="col-sm-10">
+    <input type="text" readonly class="form-control-plaintext" 
+      id="staticCreatedDate">
+  </div>
+</div>
+<div class="form-group row my-view-group">
+  <label for="staticViewCount" class="col-sm-2 col-form-label">조회수</label>
+  <div class="col-sm-10">
+    <input type="text" readonly class="form-control-plaintext" 
+      id="staticViewCount">
+  </div>
+</div>
+<div class="form-group row">
+  <div class="col-sm-10">
+    <button id="btnAdd" type="button" class="btn btn-primary my-add-group">등록</button>
+    <button id="btnUpdate" type="button" class="btn btn-primary my-view-group">변경</button>
+    <button id="btnDelete" type="button" class="btn btn-danger my-view-group">삭제</button>
+    <button id="btnList" type="button" class="btn btn-secondary">목록</button>
+  </div>
+</div>
+</form>
+</div>
+
+
+<div id='footer'>
+  &copy; 2019
+  <span>비트캠프, 자바130기</span>
+</div>
+
+
+<script src="/node_modules/sweetalert/dist/sweetalert.min.js"></script>
+<script src="../js/bitcamp.min.js"></script>
+<script src="form.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
