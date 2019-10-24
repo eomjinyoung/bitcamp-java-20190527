@@ -45,6 +45,11 @@ public class BoardController {
       throws Exception {
     List<Board> boards = boardService.list();
     model.addAttribute("boards", boards);
+    
+    // 뷰 URL을 리턴하지 않으면, 프론트 컨트롤러는 
+    // 요청 핸들러의 URL을 뷰 URL로 사용한다.
+    // 즉 list() 메서드는 다음의 URL을 리턴한 것과 같다.
+    // return "board/list";
   }
   
   @PostMapping("update")
