@@ -1,13 +1,13 @@
 "use strict";
 
-var fiNo = document.querySelector('#fiNo'),
-    fiContents = document.querySelector('#fiContents'),
-    staticCreatedDate = document.querySelector('#staticCreatedDate'),
-    staticViewCount = document.querySelector('#staticViewCount'),
-    btnAdd = document.querySelector('#btnAdd'),
-    btnUpdate = document.querySelector('#btnUpdate'),
-    btnDelete = document.querySelector('#btnDelete'),
-    btnList = document.querySelector('#btnList');
+var fiNo = $('#fiNo'),
+    fiContents = $('#fiContents'),
+    staticCreatedDate = $('#staticCreatedDate'),
+    staticViewCount = $('#staticViewCount'),
+    btnAdd = $('#btnAdd'),
+    btnUpdate = $('#btnUpdate'),
+    btnDelete = $('#btnDelete'),
+    btnList = $('#btnList');
 
 var i = location.href.indexOf('?'); 
 if (i != -1) {
@@ -20,126 +20,77 @@ if (i != -1) {
   }
 }
 
-btnList.onclick = () => {
+btnList.click(() => {
   location.href = 'list.html';
-};
+});
 
 if (no == undefined) {
-  var el = document.querySelectorAll('.my-view-group')
-  for (var e of el) {
-    e.style['display'] = 'none';
-  }
-  
-  btnAdd.onclick = () => {
+  var el = $('.my-view-group')
+  el.css('display', 'none');
+  btnAdd.click(() => {
     doAdd();
-  };
+  });
   
 } else {
-  var el = document.querySelectorAll('.my-add-group')
-  for (var e of el) {
-    e.style['display'] = 'none';
-  }
+  var el = $('.my-add-group')
+  el.css('display', 'none');
+  
   doDetail();
   
-  btnUpdate.onclick = () => {
+  btnUpdate.click(() => {
     doUpdate();
-  };
+  });
   
-  btnDelete.onclick = () => {
+  btnDelete.click(() => {
     doDelete();
-  };
-  
+  });
 }
 
 function doAdd() {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState < 4)
-      return;
-    
-    if (xhr.status != 200) {
-      alert("서버 요청 중 오류 발생!");
-      return;
+  $.ajax("/app/json/board/add", {
+    method: 'POST',
+    data: {
+      contents: encodeURIComponent(fiContents.val())
+    },
+    success: function(data) {
+      console.log(data.state);
+      location.href = "list.html";
     }
-    
-    var data = JSON.parse(xhr.responseText);
-    console.log(data.state);
-    
-    location.href = "list.html";
-  };
-  
-  xhr.open("POST", "/app/json/board/add", true);
-  xhr.setRequestHeader(
-          "Content-Type", 
-          "application/x-www-form-urlencoded");
-  xhr.send(
-      "contents=" + encodeURIComponent(fiContents.value));
+  });
 }
 
 function doDetail() {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState < 4)
-      return;
-    
-    if (xhr.status != 200) {
-      alert("서버 요청 중 오류 발생!");
-      return;
-    }
-    
-    var data = JSON.parse(xhr.responseText);
-    fiNo.value = data.result.no; 
-    fiContents.value = data.result.contents;
-    staticCreatedDate.value = data.result.createdDate;
-    staticViewCount.value = data.result.viewCount;
-    
-  };
-  xhr.open("GET", "/app/json/board/detail?no=" + no, true);
-  xhr.send();
+  $.get("/app/json/board/detail?no=" + no, function(data) {
+    fiNo.val(data.result.no); 
+    fiContents.val(data.result.contents);
+    staticCreatedDate.val(data.result.createdDate);
+    staticViewCount.val(data.result.viewCount);
+  });
 }
 
 function doUpdate() {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState < 4)
-      return;
-    
-    if (xhr.status != 200) {
-      alert("서버 요청 중 오류 발생!");
-      return;
+  $.ajax("/app/json/board/update", {
+    method: 'POST',
+    data: {
+      no: no,
+      contents: encodeURIComponent(fiContents.val())
+    },
+    success: function(data) {
+      console.log(data.state);
+      location.href = "list.html";
     }
-    
-    var data = JSON.parse(xhr.responseText);
-    console.log(data.state);
-    
-    location.href = "list.html";
-  };
-  
-  xhr.open("POST", "/app/json/board/update", true);
-  xhr.setRequestHeader(
-          "Content-Type", 
-          "application/x-www-form-urlencoded");
-  xhr.send(
-      "no=" + fiNo.value +
-      "&contents=" + encodeURIComponent(fiContents.value));
+  });
 }
 
 function doDelete() {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState < 4)
-      return;
-    
-    if (xhr.status != 200) {
-      alert("서버 요청 중 오류 발생!");
-      return;
-    }
-    
-    var data = JSON.parse(xhr.responseText);
+  $.get("/app/json/board/delete?no=" + no, function(data) {
     console.log(data.state);
-    
     location.href = "list.html";
-  };
-  xhr.open("GET", "/app/json/board/delete?no=" + no, true);
-  xhr.send();
+  });
 }
+
+
+
+
+
+
