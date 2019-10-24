@@ -33,13 +33,24 @@ package com.eomcs.lms;
 // 작업3: HTML과 자바스크립트 코드 분리하기
 // => /webapp/html/board-3/list.js 생성
 //    - list.html 에서 javascript 코드를 분리한다.
-// => /webapp/html/board-2/list.html 변경
+// => /webapp/html/board-3/list.html 변경
 //    - list.js를 가져온다.
 // => form.html 에서 javascript 코드를 분리하여 form.js를 만든다.
 //
 // 작업4: 미니 jQuery 만들기
-// => DOM API와 AJAX를 보다 쉽게 다루는 함수를 만든다.
+// => /webapp/html/js/bitcamp.js 생성
+//    - DOM API와 AJAX를 보다 쉽게 다루는 함수를 만든다.
+// => /webapp/html/board-4/list.html, form.html 변경
 // 
+// 작업5: 미니 jQuery 자바스크립트 파일 압축하기
+// => /webapp/html/js/bitcamp.min.js 생성
+//    - 자바스클립트 코드의 크기를 줄이기 위해 압축한다.
+// => /webapp/html/../list.html, form.html 변경
+//    - bitcamp.min.js 를 사용하도록 변경한다.
+//
+// 작업6: 진짜 jQuery 사용하기
+// 
+//
 // 추가 작업:
 // => com.eomcs.lms.config.AppWebApplicationInitializer 변경
 //    - CharacterEncodingFilter 등록
