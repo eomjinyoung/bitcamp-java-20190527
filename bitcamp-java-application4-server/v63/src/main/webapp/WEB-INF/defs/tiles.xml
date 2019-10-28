@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+  <!-- 레이아웃을 정의하는 기본 템플릿을 설정한다. -->
+  <definition name="base" template="/WEB-INF/tiles/template.jsp">
+    <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
+  </definition>
+  
+  <!-- 페이지 컨트롤러의 요청 핸들러가 리턴한 뷰 URL이 */* 형식일 때, 
+       다음의 템플릿 설정을 사용하여 JSP를 실행한다. -->
+  <definition name="*/*" extends="base">
+    <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp"/>
+  </definition>
+  
+</tiles-definitions>
