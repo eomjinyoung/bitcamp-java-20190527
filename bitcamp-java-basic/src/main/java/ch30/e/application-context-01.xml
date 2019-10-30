@@ -38,7 +38,8 @@
       <aop:after pointcut-ref="pointcut1" method="doAfter" />
       
       <!-- 메서드 값 리턴 후 : 리턴한 값 받기 
-           => 메서드의 리턴 값을 받을 advice의 파라미터 이름을 지정한다. -->
+           => 메서드의 리턴 값을 받을 advice의 파라미터 이름을 지정한다. 
+           advice 메서드: doAfterReturning(Object rv)-->
       <aop:after-returning pointcut-ref="pointcut1"
           returning="rv" 
           method="doAfterReturning" />
