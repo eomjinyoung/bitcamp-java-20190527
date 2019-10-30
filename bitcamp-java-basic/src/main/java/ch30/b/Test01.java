@@ -1,4 +1,4 @@
-// AOP 사용 전 - X.m1()에 기능 추가하기
+// AOP 사용 전 - X.m1()의 실행 시간 측정하기
 package ch30.b;
 
 import org.springframework.context.ApplicationContext;

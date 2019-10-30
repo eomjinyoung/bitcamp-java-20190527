@@ -25,7 +25,7 @@
     <aop:aspect id="aspect1" ref="myAdvice">
       
       <!-- 작업을 끼워 넣을 위치를 지정한다. -->
-      <aop:pointcut id="pointcut1" expression="execution(* ch30.c.X.m1(..))"/>
+      <aop:pointcut id="pointcut1" expression="execution(* ch30.c.*.m1(..))"/>
       
       <!-- 메서드 호출 전에 넣을 것인 후에 넣을 것인지 지정한다. -->
       <aop:before pointcut-ref="pointcut1" method="advice1" />
