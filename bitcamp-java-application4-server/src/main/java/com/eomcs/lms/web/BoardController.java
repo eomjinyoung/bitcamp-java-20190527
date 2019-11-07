@@ -70,6 +70,8 @@ public class BoardController {
     model.addAttribute("pageSize", pageSize);
     model.addAttribute("totalPage", totalPage);
     model.addAttribute("size", size);
+    model.addAttribute("beginPage", (pageNo - 2) > 0 ? (pageNo - 2) : 1);
+    model.addAttribute("endPage", (pageNo + 2) < totalPage ? (pageNo + 2) : totalPage);
     
     // 뷰 URL을 리턴하지 않으면, 프론트 컨트롤러는 
     // 요청 핸들러의 URL을 뷰 URL로 사용한다.

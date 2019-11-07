@@ -1,10 +1,12 @@
 package com.eomcs.lms.web.json;
 
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.eomcs.lms.domain.Board;
 import com.eomcs.lms.service.BoardService;
@@ -65,13 +67,42 @@ public class BoardController {
   }
   
   @GetMapping("list")
-  public JsonResult list() 
+  public JsonResult list(
+      @RequestParam(defaultValue = "1") int pageNo, 
+      @RequestParam(defaultValue = "3") int pageSize) 
       throws Exception {
+    
+    // 총 페이지 개수 알아내기
+    if (pageSize < 3 || pageSize > 20) {
+      pageSize = 3;
+    }
+    int size = boardService.size();
+    int totalPage = size / pageSize; // 13 / 3 = 4.x
+    if (size % pageSize > 0) {
+      totalPage++;
+    }
+    
+    // 요청하는 페이지 번호가 유효하지 않을 때는 기본 값으로 1페이지로 지정한다.
+    if (pageNo < 1 || pageNo > totalPage) {
+      pageNo = 1;
+    }
+      
     try {
-      List<Board> boards = boardService.list();
+      List<Board> boards = boardService.list(pageNo, pageSize);
+      
+      HashMap<String,Object> result = new HashMap<>();
+      result.put("boards", boards);
+      result.put("pageNo", pageNo);
+      result.put("pageSize", pageSize);
+      result.put("totalPage", totalPage);
+      result.put("size", size);
+      result.put("beginPage", (pageNo - 2) > 0 ? (pageNo - 2) : 1);
+      result.put("endPage", (pageNo + 2) < totalPage ? (pageNo + 2) : totalPage);
+      
+      
       return new JsonResult()
           .setState(JsonResult.SUCCESS)
-          .setResult(boards);
+          .setResult(result);
       
     } catch (Exception e) {
       return new JsonResult()

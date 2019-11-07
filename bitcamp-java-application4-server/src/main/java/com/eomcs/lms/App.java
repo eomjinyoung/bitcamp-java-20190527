@@ -18,6 +18,10 @@ package com.eomcs.lms;
 // => /WEB-INF/views/board/list.jsp 변경
 //    - <select id="pageSize"/> 태그 추가
 //    - [이전][다음] 태그 추가
+// = *.json.BoardController 변경
+//    - list() 변경
+// => /html/board/list.html 변경
+//    - Handlebars 템플릿 HTML 변경 
 //
 // dummy 클래스!
 // => 기존 버전에서 계속 존재했던 클래스라서 그대로 둠.
