@@ -21,11 +21,12 @@
     from lms_board 
   </sql>
 
-  <select id="findAll" resultMap="BoardMap">
+  <select id="findAll" resultMap="BoardMap" parameterType="map">
     <include refid="sql1"/>
     order by board_id desc
+    limit #{offset}, #{pageSize}
   </select>
-  
+    
   <select id="findBy" parameterType="int" resultMap="BoardMap">
     <include refid="sql1"/>
     where board_id=#{haha} 
@@ -53,4 +54,15 @@
     where board_id=#{value}
   </delete>
   
+  <select id="countAll" resultType="int">
+    select count(*) from lms_board
+  </select>
 </mapper>
+
+
+
+
+
+
+
+

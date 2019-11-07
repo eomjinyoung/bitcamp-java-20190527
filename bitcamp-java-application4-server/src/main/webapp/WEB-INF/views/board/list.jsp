@@ -2,7 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <h1>게시물 목록</h1>
-<a href='form'>새 글</a><br>
+<a href='form'>새 글</a>
+<select id="pageSize">
+  <option value="3">3</option>
+  <option value="8">8</option>
+  <option value="10">10</option>
+  <option value="20">20</option>
+</select>
 <table class='table table-hover'>
 <tr>
   <th>번호</th>
@@ -19,3 +25,23 @@
   </tr>
 </c:forEach>  
 </table>
+
+<script>
+(function() {
+  $('#pageSize').val('${pageSize}')
+})();
+
+
+$('#pageSize').change((e) => {
+  location.href = "list?pageSize=" + $(e.target).val();
+});
+
+</script>
+
+
+
+
+
+
+
+
