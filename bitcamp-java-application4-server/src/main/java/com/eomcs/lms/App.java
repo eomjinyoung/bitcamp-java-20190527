@@ -15,6 +15,9 @@ package com.eomcs.lms;
 // => BoardMapper.xml 변경
 //    - <select id="countAll"/> 태그 추가
 //    - <select id="findAll"/> 태그 변경
+// => /WEB-INF/views/board/list.jsp 변경
+//    - <select id="pageSize"/> 태그 추가
+//    - [이전][다음] 태그 추가
 //
 // dummy 클래스!
 // => 기존 버전에서 계속 존재했던 클래스라서 그대로 둠.
