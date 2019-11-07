@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>게시물 목록</title>
+  <link rel='stylesheet' href='/node_modules/bootstrap/dist/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='/css/common.css'>
+</head>
+<body>
+
+<nav id='header' class='navbar navbar-expand-lg navbar-light bg-light'>
+  <a class='navbar-brand' href='#'>
+    <img src='/images/logo.png' class='d-inline-block align-top'>
+    수업관리시스템
+  </a>
+  <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'> 
+    <span class='navbar-toggler-icon'></span> 
+  </button>
+  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
+    <ul class='navbar-nav'>
+      <li class='nav-item active'>
+        <a class='nav-link' href='/app/board/list'>게시판</a>
+      </li>
+      <li class='nav-item active'>
+        <a class='nav-link' href='/app/lesson/list'>수업관리</a>
+      </li>
+      <li class='nav-item active'>
+        <a class='nav-link' href='/app/member/list'>회원관리</a>
+      </li>
+      <li class='nav-item active'>
+        <a class='nav-link' href='/app/photoboard/list'>사진게시판</a>
+      </li>
+    </ul>
+  </div>
+    
+  <div>
+
+  <a href='/app/auth/form' class='btn btn-outline-dark btn-sm'>로그인</a>
+
+
+  </div>
+</nav>
+
+
+<div id='content'>
+<h1>게시물 목록</h1>
+<a href='form.html'>새 글</a><br>
+<table id="list-table" class='table table-hover'>
+<thead>
+<tr>
+  <th>번호</th>
+  <th>내용</th>
+  <th>등록일</th>
+  <th>조회수</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+
+<div id='footer'>
+  &copy; 2019
+  <span>비트캠프, 자바130기</span>
+</div>
+
+<script>
+
+var tbody = document.querySelector("#list-table > tbody");
+
+loadData();
+
+function loadData() {
+  //console.log("서버에서 데이터 가져오기!");
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState < 4)
+      return;
+    
+    if (xhr.status != 200) {
+      alert("서버 요청 중 오류 발생!");
+      return;
+    }
+    
+    var data = JSON.parse(xhr.responseText);
+    //console.log(data);
+    
+    for (var b of data.result) {
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + b.no + "</td>" + 
+         "<td><a href='form.html?no=" + b.no + "'>" + b.contents + "</a></td>" + 
+         "<td>" + b.createdDate + "</td>" +
+         "<td>" + b.viewCount + "</td>";
+      tbody.appendChild(tr);
+    }
+    
+  };
+  xhr.open("GET", "/app/json/board/list", true);
+  xhr.send();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"> 
+  <title>게시물 보기</title>
+  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
+  <link rel='stylesheet' href='/css/common.css'>
+</head>
+<body>
+
+
+
+<nav id='header' class='navbar navbar-expand-lg navbar-light bg-light'>
+  <a class='navbar-brand' href='#'>
+    <img src='/images/logo.png' class='d-inline-block align-top'>
+    수업관리시스템
+  </a>
+  <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'> 
+    <span class='navbar-toggler-icon'></span> 
+  </button>
+  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
+    <ul class='navbar-nav'>
+      <li class='nav-item active'>
+        <a class='nav-link' href='/app/board/list'>게시판</a>
+      </li>
+      <li class='nav-item active'>
+        <a class='nav-link' href='/app/lesson/list'>수업관리</a>
+      </li>
+      <li class='nav-item active'>
+        <a class='nav-link' href='/app/member/list'>회원관리</a>
+      </li>
+      <li class='nav-item active'>
+        <a class='nav-link' href='/app/photoboard/list'>사진게시판</a>
+      </li>
+    </ul>
+  </div>
+    
+  <div>
+
+  <a href='/app/auth/form' class='btn btn-outline-dark btn-sm'>로그인</a>
+
+
+  </div>
+</nav>
+
+    
+<div id='content'>
+<h1>게시물</h1>
+<form>
+<div class="form-group row my-view-group">
+  <label for="fiNo" class="col-sm-2 col-form-label">번호</label>
+  <div class="col-sm-10">
+    <input type="text" readonly class="form-control-plaintext" 
+      id="fiNo">
+  </div>
+</div>
+<div class="form-group row">
+  <label for="fiContents" class="col-sm-2 col-form-label">내용</label>
+  <div class="col-sm-10">
+    <textarea class="form-control" 
+      id="fiContents" rows="5"></textarea>
+  </div>
+</div>
+<div class="form-group row my-view-group">
+  <label for="staticCreatedDate" class="col-sm-2 col-form-label">등록일</label>
+  <div class="col-sm-10">
+    <input type="text" readonly class="form-control-plaintext" 
+      id="staticCreatedDate">
+  </div>
+</div>
+<div class="form-group row my-view-group">
+  <label for="staticViewCount" class="col-sm-2 col-form-label">조회수</label>
+  <div class="col-sm-10">
+    <input type="text" readonly class="form-control-plaintext" 
+      id="staticViewCount">
+  </div>
+</div>
+<div class="form-group row">
+  <div class="col-sm-10">
+    <button id="btnAdd" type="button" class="btn btn-primary my-add-group">등록</button>
+    <button id="btnUpdate" type="button" class="btn btn-primary my-view-group">변경</button>
+    <button id="btnDelete" type="button" class="btn btn-danger my-view-group">삭제</button>
+    <button id="btnList" type="button" class="btn btn-secondary my-view-group">목록</button>
+  </div>
+</div>
+</form>
+</div>
+
+
+<div id='footer'>
+  &copy; 2019
+  <span>비트캠프, 자바130기</span>
+</div>
+
+<script>
+"use strict";
+
+var fiNo = document.querySelector('#fiNo'),
+    fiContents = document.querySelector('#fiContents'),
+    staticCreatedDate = document.querySelector('#staticCreatedDate'),
+    staticViewCount = document.querySelector('#staticViewCount'),
+    btnAdd = document.querySelector('#btnAdd'),
+    btnUpdate = document.querySelector('#btnUpdate'),
+    btnDelete = document.querySelector('#btnDelete'),
+    btnList = document.querySelector('#btnList');
+
+var i = location.href.indexOf('?'); 
+if (i != -1) {
+  var str = location.href.substring(i + 1).split('=');
+  if (str[0] == 'no') {
+    if (!isNaN(parseInt(str[1])))
+      var no = parseInt(str[1]);
+  }
+}
+
+btnList.onclick = () => {
+  location.href = 'list.html';
+};
+
+if (no == undefined) {
+  var el = document.querySelectorAll('.my-view-group')
+  for (var e of el) {
+    e.style['display'] = 'none';
+  }
+  
+  btnAdd.onclick = () => {
+    doAdd();
+  };
+  
+} else {
+  var el = document.querySelectorAll('.my-add-group')
+  for (var e of el) {
+    e.style['display'] = 'none';
+  }
+  doDetail();
+  
+  btnUpdate.onclick = () => {
+    doUpdate();
+  };
+  
+  btnDelete.onclick = () => {
+    doDelete();
+  };
+  
+}
+
+function doAdd() {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState < 4)
+      return;
+    
+    if (xhr.status != 200) {
+      alert("서버 요청 중 오류 발생!");
+      return;
+    }
+    
+    var data = JSON.parse(xhr.responseText);
+    console.log(data.state);
+    
+    location.href = "list.html";
+  };
+  
+  xhr.open("POST", "/app/json/board/add", true);
+  xhr.setRequestHeader(
+          "Content-Type", 
+          "application/x-www-form-urlencoded");
+  xhr.send(
+      "contents=" + encodeURIComponent(fiContents.value));
+}
+
+function doDetail() {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState < 4)
+      return;
+    
+    if (xhr.status != 200) {
+      alert("서버 요청 중 오류 발생!");
+      return;
+    }
+    
+    var data = JSON.parse(xhr.responseText);
+    fiNo.value = data.result.no; 
+    fiContents.value = data.result.contents;
+    staticCreatedDate.value = data.result.createdDate;
+    staticViewCount.value = data.result.viewCount;
+    
+  };
+  xhr.open("GET", "/app/json/board/detail?no=" + no, true);
+  xhr.send();
+}
+
+function doUpdate() {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState < 4)
+      return;
+    
+    if (xhr.status != 200) {
+      alert("서버 요청 중 오류 발생!");
+      return;
+    }
+    
+    var data = JSON.parse(xhr.responseText);
+    console.log(data.state);
+    
+    location.href = "list.html";
+  };
+  
+  xhr.open("POST", "/app/json/board/update", true);
+  xhr.setRequestHeader(
+          "Content-Type", 
+          "application/x-www-form-urlencoded");
+  xhr.send(
+      "no=" + fiNo.value +
+      "&contents=" + encodeURIComponent(fiContents.value));
+}
+
+function doDelete() {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState < 4)
+      return;
+    
+    if (xhr.status != 200) {
+      alert("서버 요청 중 오류 발생!");
+      return;
+    }
+    
+    var data = JSON.parse(xhr.responseText);
+    console.log(data.state);
+    
+    location.href = "list.html";
+  };
+  xhr.open("GET", "/app/json/board/delete?no=" + no, true);
+  xhr.send();
+}
+</script>
+
+</body>
+</html>

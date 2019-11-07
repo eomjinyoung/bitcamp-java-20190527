@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eomcs.lms.dao.MemberDao">
+
+  <resultMap type="Member" id="MemberMap">
+    <id column="member_id" property="no"/>
+    <!--  
+    <result column="name" property="name"/>
+    <result column="email" property="email"/>
+    <result column="tel" property="tel"/>
+    -->
+    <result column="cdt" property="registeredDate"/>
+  </resultMap>
+
+  <sql id="basicColumn">
+    select 
+      member_id,
+      name,
+      email,
+      tel,
+      cdt
+  </sql>
+
+  <sql id="where1">
+    where member_id=#{no}
+  </sql>
+  
+  <select id="findAll" resultMap="MemberMap">
+    <include refid="basicColumn"/>
+    from lms_member
+    order by name asc
+  </select>
+  
+  <select id="findBy" parameterType="int" resultMap="MemberMap">
+    <include refid="basicColumn"/>,
+      photo
+    from lms_member
+    <include refid="where1"/>
+  </select>
+
+  <select id="findByKeyword"
+          parameterType="string"
+          resultMap="MemberMap">
+    <bind name="pattern" value="'%' + _parameter + '%'"/>
+    <include refid="basicColumn"/>
+    from lms_member
+    where name like #{pattern}
+      or email like #{pattern}
+      or tel like #{pattern}
+    order by name asc
+  </select>
+  
+  <insert id="insert" parameterType="Member">
+    insert into lms_member(name,email,pwd,cdt,tel,photo)
+    values(#{name},#{email},password(#{password}),now(),#{tel},#{photo})
+  </insert>
+  
+  <update id="update" parameterType="Member">
+    update lms_member
+    <set>
+      <if test="name != null">name=#{name},</if>
+      <if test="email != null">email=#{email},</if> 
+      <if test="password != null">pwd=password(#{password}), </if>
+      <if test="tel != null">tel=#{tel},</if>
+      <if test="photo != null">photo=#{photo}</if>
+    </set>
+    <include refid="where1"/>
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from lms_member 
+    <include refid="where1"/>
+  </delete>
+
+  <select id="findByEmailPassword" parameterType="map" resultMap="MemberMap">
+    <include refid="basicColumn"/>
+    from lms_member
+    where email=#{email} and pwd=password(#{password})
+  </select>
+</mapper>
