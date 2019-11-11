@@ -168,6 +168,7 @@
     <url-pattern>/lib/hello</url-pattern>
   </servlet-mapping>
   
+-->  
   <servlet>
     <servlet-name>upload.jsp</servlet-name>
     <jsp-file>/fileupload/upload.jsp</jsp-file>
@@ -179,7 +180,6 @@
     <servlet-name>upload.jsp</servlet-name>
     <url-pattern>/fileupload/upload.jsp</url-pattern>
   </servlet-mapping>
--->  
   
   <!--  
   <session-config>

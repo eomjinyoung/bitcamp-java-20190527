@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "alertifyjs": "^1.11.2",
-    "blueimp-file-upload": "^9.30.0",
+    "blueimp-file-upload": "^10.3.0",
     "bootstrap": "^4.3.1",
     "handlebars": "^4.4.5",
     "jquery": "^3.4.1",
